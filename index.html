@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karis Adeyemi — Brand & Visual Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Akira';
+      src: url('AkiraExpanded-SuperBold.woff2') format('woff2'),
+           url('AkiraExpanded-SuperBold.woff') format('woff'),
+           url('AkiraExpanded-SuperBold.otf') format('opentype');
+      font-weight: 800;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+<style>
+  @font-face {
+    font-family: 'Revolve Sans';
+    src: url('RevolveSans-Bold.woff2') format('woff2'),
+         url('RevolveSans-Bold.woff') format('woff'),
+         url('RevolveSans-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --black:   #080807;
+    --black-2: #111110;
+    --black-3: #1a1a18;
+    --orange:  #FF5C00;
+    --teal:    #00C48C;
+    --coral:   #E8472A;
+    --warm-white: #F0EDE6;
+    --gray:    #888880;
+    --border:  rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.14);
+    --font-display: 'Revolve Sans', 'DM Sans', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(8,8,7,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display); font-size: 22px;
+    letter-spacing: 0.06em; color: var(--warm-white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--warm-white); }
+  .nav-links a.active { color: var(--orange); }
+  .nav-avail {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--teal); letter-spacing: 0.08em;
+  }
+  .avail-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+  /* ── BIO STATEMENT ── */
+  .bio-statement {
+    padding: 72px 48px 56px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: justify;
+    text-align-last: center;
+    animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) 0.1s both;
+  }
+  .bio-statement p {
+    font-family: 'Akira', var(--font-display);
+    font-size: clamp(16px, 2.2vw, 26px);
+    font-weight: 800;
+    font-style: normal;
+    line-height: 1.55;
+    color: var(--warm-white);
+    letter-spacing: 0.04em;
+  }
+  .bio-statement p strong {
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .bio-statement p a {
+    color: var(--warm-white);
+    text-decoration: underline;
+    text-decoration-color: var(--orange);
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+  .bio-statement p a:hover { color: var(--orange); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── WORK AREA ── */
+  .work-area {
+    padding: 0 48px 80px;
+    animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) 0.22s both;
+  }
+
+  /* ── MASONRY ── */
+  .masonry { columns: 2; column-gap: 12px; }
+  .masonry-item {
+    break-inside: avoid; margin-bottom: 12px;
+    position: relative; overflow: hidden; cursor: pointer; display: block;
+  }
+  .masonry-item img {
+    width: 100%; display: block;
+    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .masonry-item .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,7,0.9) 0%, rgba(8,8,7,0.1) 50%, transparent 100%);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+  }
+  .masonry-item:hover .overlay { opacity: 1; }
+  .masonry-item:hover img { transform: scale(1.03); }
+  .masonry-item::after {
+    content: ''; position: absolute; inset: 0;
+    border: 2px solid var(--orange); opacity: 0;
+    transition: opacity 0.2s; pointer-events: none;
+  }
+  .masonry-item:hover::after { opacity: 1; }
+  .overlay-tag {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 5px;
+  }
+  .overlay-title {
+    font-family: var(--font-display); font-size: 20px;
+    letter-spacing: 0.04em; color: var(--warm-white);
+  }
+  .overlay-desc { font-size: 12px; color: rgba(240,237,230,0.65); margin-top: 3px; }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center; padding: 100px 0;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--gray); letter-spacing: 0.08em; line-height: 2.2;
+  }
+  .empty-state a { color: var(--orange); text-decoration: none; }
+  .empty-state a:hover { text-decoration: underline; }
+
+  /* ── WORK WITH ME STRIP ── */
+  .wwm-strip {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    margin-top: 52px; padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+  }
+  .wwm-strip-eyebrow {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 5px;
+  }
+  .wwm-strip-text { font-size: 14px; font-weight: 300; color: var(--gray); }
+  .wwm-strip-cta {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--black); background: var(--orange);
+    padding: 12px 24px; text-decoration: none; flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .wwm-strip-cta:hover { background: var(--warm-white); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 24px 48px;
+    border-top: 0.5px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--gray); letter-spacing: 0.08em;
+  }
+
+  /* ── LIGHTBOX ── */
+  #lightbox {
+    display: none; position: fixed; inset: 0; z-index: 250;
+    background: rgba(8,8,7,0.96);
+    align-items: center; justify-content: center; cursor: pointer;
+  }
+  #lightbox.open { display: flex; }
+  .lightbox-inner { max-width: 80vw; max-height: 80vh; text-align: center; cursor: default; }
+  .lightbox-inner img { max-width: 100%; max-height: 60vh; object-fit: contain; }
+  .lightbox-title {
+    font-family: var(--font-display); font-size: 26px;
+    letter-spacing: 0.06em; color: var(--warm-white); margin-top: 20px;
+  }
+  .lightbox-tag {
+    font-family: var(--font-mono); font-size: 11px; color: var(--orange);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px;
+  }
+  .lightbox-desc { font-size: 13px; color: var(--gray); margin-top: 8px; max-width: 500px; margin-inline: auto; }
+  .lightbox-close {
+    position: fixed; top: 24px; right: 32px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gray); cursor: pointer;
+    background: none; border: none; transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: var(--warm-white); }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 32px; right: 32px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
+    padding: 12px 24px; background: var(--teal); color: var(--black);
+    font-weight: 500; z-index: 999;
+    transform: translateY(100px); opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 900px) {
+    nav, footer { padding-left: 24px; padding-right: 24px; }
+    .bio-statement { padding: 48px 24px 36px; }
+    .work-area { padding: 0 24px 60px; }
+  }
+  @media (max-width: 580px) {
+    .masonry { columns: 1; }
+    .bio-statement p { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">K<span>.</span>ARIS</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Work</a>
+    <a href="about.html">About</a>
+    <a href="work-with-me.html">Work With Me</a>
+    <a href="mailto:hello@karisadeyemi.com">Contact</a>
+    <div class="nav-avail">
+      <div class="avail-dot"></div>
+      <span id="nav-avail-text">Available for work</span>
+    </div>
+  </div>
+</nav>
+
+<!-- BIO STATEMENT -->
+<div class="bio-statement">
+  <p>
+    Karis Adeyemi is a <strong>brand and visual designer</strong> based in Lagos.
+    She crafts identities, editorial systems, and <a href="work-with-me.html">packaging</a>
+    that make people look twice — and remember forever.
+  </p>
+</div>
+
+<!-- WORK GRID -->
+<div class="work-area">
+
+  <div class="masonry" id="masonry-grid"></div>
+
+  <div id="empty-state" class="empty-state" style="display:none;">
+    No projects yet.<br>
+    <a href="admin.html">Upload your first project →</a>
+  </div>
+
+  <div class="wwm-strip">
+    <div>
+      <div class="wwm-strip-eyebrow">Ready to collaborate?</div>
+      <div class="wwm-strip-text">See packages, pricing, and how we can work together.</div>
+    </div>
+    <a href="work-with-me.html" class="wwm-strip-cta">Work With Me →</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Karis Adeyemi</span>
+  <span>Lagos, NG</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕ Close</button>
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <img id="lb-img" src="" alt="">
+    <div class="lightbox-title" id="lb-title"></div>
+    <div class="lightbox-tag" id="lb-tag"></div>
+    <div class="lightbox-desc" id="lb-desc"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  let projects = JSON.parse(localStorage.getItem('portfolio_projects') || '[]');
+  const settings = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+  let currentFilter = 'all';
+
+  function init() {
+    if (settings.avail === 'booked') {
+      document.getElementById('nav-avail-text').textContent = 'Fully booked';
+      document.querySelector('.avail-dot').style.background = '#E8472A';
+    } else if (settings.avail === 'limited') {
+      document.getElementById('nav-avail-text').textContent = 'Limited availability';
+      document.querySelector('.avail-dot').style.background = '#EF9F27';
+    }
+    renderGallery();
+  }
+
+  function renderGallery() {
+    const grid = document.getElementById('masonry-grid');
+    const empty = document.getElementById('empty-state');
+    Array.from(grid.querySelectorAll('.masonry-item')).forEach(el => el.remove());
+
+    const filtered = currentFilter === 'all'
+      ? projects
+      : projects.filter(p => p.category === currentFilter);
+
+    if (filtered.length === 0) {
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      filtered.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'masonry-item';
+        item.innerHTML = `
+          <img src="${p.image}" alt="${p.title}" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-tag">${p.category}</div>
+            <div class="overlay-title">${p.title}</div>
+            <div class="overlay-desc">${p.desc || ''}</div>
+          </div>`;
+        item.addEventListener('click', () => openLightbox(p));
+        grid.appendChild(item);
+      });
+    }
+  }
+
+  document.getElementById('filter-bar').addEventListener('click', e => {
+    if (!e.target.classList.contains('filter-btn')) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter = e.target.dataset.filter;
+    renderGallery();
+  });
+
+  function openLightbox(p) {
+    document.getElementById('lb-img').src = p.image;
+    document.getElementById('lb-title').textContent = p.title;
+    document.getElementById('lb-tag').textContent = p.category;
+    document.getElementById('lb-desc').textContent = p.desc || '';
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  init();
+</script>
+</body>
+</html>
