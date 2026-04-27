@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Karis Adeyemi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Revolve Sans';
+    src: url('RevolveSans-Bold.woff2') format('woff2'),
+         url('RevolveSans-Bold.woff') format('woff'),
+         url('RevolveSans-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --black:   #080807;
+    --black-2: #111110;
+    --black-3: #1a1a18;
+    --orange:  #FF5C00;
+    --teal:    #00C48C;
+    --coral:   #E8472A;
+    --warm-white: #F0EDE6;
+    --gray:    #888880;
+    --gray-2:  #444440;
+    --border:  rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.13);
+    --font-display: 'Revolve Sans', 'DM Sans', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(8,8,7,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display); font-size: 22px;
+    letter-spacing: 0.06em; color: var(--warm-white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--warm-white); }
+  .nav-links a.active { color: var(--orange); }
+  .nav-avail {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--teal); letter-spacing: 0.08em;
+  }
+  .avail-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 48px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── TWO-COL LAYOUT ── */
+  .about-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* ── PHOTO ── */
+  .about-photo-wrap {
+    position: relative;
+  }
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+    background: var(--black-3);
+  }
+  /* Placeholder when no photo uploaded */
+  .about-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: var(--black-3);
+    border: 0.5px solid var(--border-bright);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+  }
+  .about-photo-placeholder span {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray);
+  }
+  .photo-label {
+    position: absolute; bottom: -1px; left: 0;
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--black); background: var(--orange);
+    padding: 5px 14px;
+  }
+
+  /* ── TEXT SIDE ── */
+  .about-text { padding-top: 8px; }
+
+  .about-headline {
+    font-family: var(--font-body);
+    font-size: clamp(26px, 3.5vw, 42px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--warm-white);
+    line-height: 1.2;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .about-headline strong {
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .about-body-text { display: flex; flex-direction: column; gap: 16px; }
+  .about-body-text p {
+    font-size: 14px; font-weight: 300;
+    color: var(--gray); line-height: 1.8;
+  }
+  .about-body-text p strong { color: var(--warm-white); font-weight: 400; }
+  .about-body-text a {
+    color: var(--warm-white); text-decoration: underline;
+    text-decoration-color: var(--orange);
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+  .about-body-text a:hover { color: var(--orange); }
+
+  /* ── FOOTER / BOTTOM ROW ── */
+  footer {
+    margin-top: auto;
+    padding: 56px 48px 40px;
+    max-width: 1200px;
+    margin-left: auto; margin-right: auto;
+    width: 100%;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 48px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border-bright);
+  }
+  .footer-col-title {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 20px;
+  }
+  .footer-services {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .footer-services a {
+    font-size: 13px; color: var(--gray);
+    text-decoration: none; transition: color 0.2s;
+    font-weight: 300;
+  }
+  .footer-services a:hover { color: var(--warm-white); }
+
+  .footer-clients {
+    font-size: 13px; font-weight: 300;
+    color: var(--gray); line-height: 1.8;
+  }
+  .footer-features {
+    font-size: 13px; font-weight: 300;
+    color: var(--gray); line-height: 1.8;
+  }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 32px; padding-top: 20px;
+    border-top: 0.5px solid var(--border);
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--gray-2); letter-spacing: 0.08em;
+    max-width: 1200px; margin-left: auto; margin-right: auto; width: 100%;
+    padding-left: 48px; padding-right: 48px;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(28px);
+    animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) forwards;
+  }
+  .fade-up.d1 { animation-delay: 0.1s; }
+  .fade-up.d2 { animation-delay: 0.25s; }
+  .fade-up.d3 { animation-delay: 0.4s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav, main, footer { padding-left: 24px; padding-right: 24px; }
+    .about-split { grid-template-columns: 1fr; gap: 40px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { padding-left: 24px; padding-right: 24px; }
+    main { padding-top: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">K<span>.</span>ARIS</a>
+  <div class="nav-links">
+    <a href="index.html#work">Work</a>
+    <a href="about.html" class="active">About</a>
+    <a href="work-with-me.html">Work With Me</a>
+    <a href="index.html#contact">Contact</a>
+    <div class="nav-avail">
+      <div class="avail-dot"></div>
+      <span>Available for work</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <div class="about-split">
+
+    <!-- LEFT — Photo -->
+    <div class="about-photo-wrap fade-up d1">
+      <!--
+        TO ADD YOUR PHOTO:
+        Replace the placeholder div below with:
+        <img class="about-photo" src="your-photo.jpg" alt="Karis Adeyemi">
+      -->
+      <div class="about-photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="15" r="7" stroke="#FF5C00" stroke-width="1.2" fill="none"/>
+          <path d="M6 36 C6 28 34 28 34 36" stroke="#FF5C00" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span>Add your photo</span>
+        <span style="font-size:9px;color:#444440;">Replace placeholder in HTML</span>
+      </div>
+      <div class="photo-label">Karis Adeyemi · Lagos</div>
+    </div>
+
+    <!-- RIGHT — Text -->
+    <div class="about-text fade-up d2">
+      <h1 class="about-headline">
+        If you're reading this,<br>you can call me <strong>Karis.</strong>
+      </h1>
+
+      <div class="about-body-text">
+        <p>
+          You've gotten this far and now I consider us friends. It's nice to meet you. I'm a brand and visual designer based in <strong>Lagos, Nigeria</strong>, obsessed with the space where strategy meets craft. I work with founders, studios, and cultural brands to build visual identities that carry weight — the kind that age well.
+        </p>
+        <p>
+          My practice spans <strong>brand identity systems</strong>, print and editorial design, and packaging that commands shelf presence. I believe every design decision is an argument — and mine are always made on purpose.
+        </p>
+        <p>
+          I come from a multidisciplinary background. My specialties lie within graphic design, brand design, and making work feel like play. I've gotten the chance to work with brands across consumer goods, culture, and commerce — and I'm extremely grateful for that.
+        </p>
+        <p>
+          During my free time, you can find me obsessing over type specimens, hunting for rare print, filming things, or eating whatever Lagos has on offer.
+        </p>
+        <p>
+          Check my <a href="#">Instagram</a> for my latest work. I also share thoughts on brand and design on <a href="#">LinkedIn</a>. Thanks for stopping by — if you liked what you saw, <a href="work-with-me.html">let's work together</a>.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid fade-up d3">
+
+    <!-- Services -->
+    <div>
+      <div class="footer-col-title">Services</div>
+      <div class="footer-services">
+        <a href="work-with-me.html">Branding</a>
+        <a href="work-with-me.html">Packaging Design</a>
+        <a href="work-with-me.html">Print & Editorial</a>
+        <a href="work-with-me.html">Campaign Design</a>
+        <a href="work-with-me.html">Creative Direction</a>
+      </div>
+    </div>
+
+    <!-- Clients -->
+    <div>
+      <div class="footer-col-title">Some Brands I've Worked With</div>
+      <p class="footer-clients">
+        Add your client names here — brands, studios, and founders you've collaborated with across identity, packaging, print, and beyond.
+      </p>
+    </div>
+
+    <!-- Features -->
+    <div>
+      <div class="footer-col-title">Features</div>
+      <p class="footer-features">
+        Add any press features, publications, or platforms that have featured your work here.
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<div class="footer-bottom">
+  <span>© 2026 Karis Adeyemi</span>
+  <span>Lagos, NG</span>
+</div>
+
+</body>
+</html>
