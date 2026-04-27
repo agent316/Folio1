@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work With Me — Karis Adeyemi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Revolve Sans';
+    src: url('RevolveSans-Bold.woff2') format('woff2'),
+         url('RevolveSans-Bold.woff') format('woff'),
+         url('RevolveSans-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --black:   #080807;
+    --black-2: #111110;
+    --black-3: #1a1a18;
+    --black-4: #222220;
+    --orange:  #FF5C00;
+    --orange-dim: rgba(255,92,0,0.12);
+    --teal:    #00C48C;
+    --coral:   #E8472A;
+    --warm-white: #F0EDE6;
+    --gray:    #888880;
+    --gray-2:  #555550;
+    --border:  rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.13);
+    --font-display: 'Revolve Sans', 'DM Sans', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding-bottom: 100px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    border-bottom: 0.5px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,8,7,0.92);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; letter-spacing: 0.06em; color: var(--warm-white); text-decoration: none; }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--warm-white); }
+  .nav-links a.active { color: var(--orange); }
+
+  /* ── HERO ── */
+  .page-hero {
+    text-align: center;
+    padding: 80px 48px 56px;
+  }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 120px);
+    letter-spacing: 0.04em;
+    line-height: 0.92;
+    color: var(--warm-white);
+    margin-bottom: 24px;
+  }
+  .page-hero h1 em { font-style: italic; color: var(--orange); font-family: var(--font-body); font-weight: 300; letter-spacing: -0.01em; }
+  .page-hero p { font-size: 15px; font-weight: 300; color: var(--gray); max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
+
+  /* ── MODE TABS (Packages / Build Your Own) ── */
+  .mode-tabs { display: flex; gap: 4px; justify-content: center; margin-bottom: 32px; }
+  .mode-btn {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 10px 24px; border: 0.5px solid var(--border-bright);
+    background: transparent; color: var(--gray); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mode-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .mode-btn:hover:not(.active) { color: var(--warm-white); border-color: var(--gray); }
+
+  /* ── CURRENCY TOGGLE ── */
+  .currency-row { display: flex; gap: 4px; justify-content: center; margin-bottom: 48px; }
+  .cur-btn {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 6px 16px;
+    border: 0.5px solid var(--border); background: transparent; color: var(--gray-2);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .cur-btn.active { border-color: var(--orange); color: var(--orange); }
+  .cur-btn:hover:not(.active) { color: var(--gray); }
+
+  /* ── CONTENT AREA ── */
+  .content { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── SERVICE CATEGORY BLOCK ── */
+  .category-block {
+    border: 0.5px solid var(--border-bright);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .category-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px; cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .category-header:hover { background: rgba(255,255,255,0.03); }
+  .category-left { display: flex; flex-direction: column; gap: 4px; }
+  .category-name {
+    font-family: var(--font-display); font-size: 18px;
+    letter-spacing: 0.06em; color: var(--warm-white);
+  }
+  .category-desc { font-family: var(--font-mono); font-size: 10px; color: var(--gray); letter-spacing: 0.08em; text-transform: uppercase; }
+  .category-toggle {
+    width: 28px; height: 28px;
+    border: 0.5px solid var(--border-bright);
+    background: transparent; color: var(--gray);
+    font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .category-block.open .category-toggle { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .category-toggle::after { content: '+'; line-height: 1; }
+  .category-block.open .category-toggle::after { content: '×'; }
+
+  .category-body {
+    display: none;
+    padding: 0 24px 28px;
+    border-top: 0.5px solid var(--border);
+  }
+  .category-block.open .category-body { display: block; }
+
+  /* ── PRICING CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .cards-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .cards-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .price-card {
+    border: 0.5px solid var(--border-bright);
+    padding: 24px;
+    background: var(--black-2);
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .price-card:hover { border-color: var(--gray-2); }
+  .price-card.featured {
+    border-color: var(--orange);
+    background: var(--black-3);
+  }
+  .price-card.selected {
+    border-color: var(--orange);
+    background: rgba(255,92,0,0.06);
+  }
+  .price-card.selected::after {
+    content: '✓';
+    position: absolute; top: 14px; right: 14px;
+    width: 22px; height: 22px;
+    background: var(--orange); color: var(--black);
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 0;
+  }
+
+  .featured-badge {
+    display: inline-block;
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--orange); color: var(--black);
+    padding: 3px 10px; margin-bottom: 12px;
+  }
+
+  .card-tier {
+    font-family: var(--font-display); font-size: 17px;
+    letter-spacing: 0.06em; color: var(--warm-white);
+    margin-bottom: 2px;
+  }
+  .card-timeline {
+    font-family: var(--font-mono); font-size: 9px;
+    color: var(--gray); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .card-price {
+    font-family: var(--font-display); font-size: 30px;
+    letter-spacing: 0.02em; color: var(--orange);
+    line-height: 1; margin-bottom: 14px;
+  }
+  .card-price .currency { font-size: 18px; }
+  .card-body-text {
+    font-size: 12px; font-weight: 300; color: var(--gray);
+    line-height: 1.65; margin-bottom: 16px;
+  }
+  .card-includes-label {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 8px;
+  }
+  .card-includes li {
+    font-size: 11px; color: var(--gray);
+    list-style: none; padding: 3px 0;
+    display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+  }
+  .card-includes li::before { content: '—'; color: var(--orange); flex-shrink: 0; font-size: 10px; margin-top: 1px; }
+  .card-cta {
+    display: block; width: 100%; margin-top: 20px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 10px 0; text-align: center;
+    border: 0.5px solid var(--border-bright); background: transparent;
+    color: var(--gray); cursor: pointer; transition: all 0.2s;
+    text-decoration: none;
+  }
+  .price-card:hover .card-cta,
+  .price-card.featured .card-cta { border-color: var(--orange); color: var(--orange); }
+  .price-card.selected .card-cta { background: var(--orange); color: var(--black); border-color: var(--orange); }
+
+  /* ── ADD-ONS (Build Your Own) ── */
+  .byo-section { display: none; }
+  .byo-section.active { display: block; }
+  .packages-section.inactive { display: none; }
+
+  .addon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .addon-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    border: 0.5px solid var(--border);
+    background: var(--black-2);
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 12px;
+  }
+  .addon-item:hover { border-color: var(--gray-2); }
+  .addon-item.selected { border-color: var(--orange); background: rgba(255,92,0,0.06); }
+  .addon-name { font-size: 13px; font-weight: 400; color: var(--warm-white); }
+  .addon-price { font-family: var(--font-mono); font-size: 12px; color: var(--orange); white-space: nowrap; }
+  .addon-check {
+    width: 18px; height: 18px; border: 0.5px solid var(--border-bright);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: transparent; transition: all 0.15s;
+  }
+  .addon-item.selected .addon-check { background: var(--orange); border-color: var(--orange); color: var(--black); }
+
+  /* ── STICKY BOTTOM BAR ── */
+  #sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: var(--black-2);
+    border-top: 0.5px solid var(--border-bright);
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.22,0.68,0,1);
+  }
+  #sticky-bar.visible { transform: translateY(0); }
+  .bar-left { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+  .bar-total { font-family: var(--font-display); font-size: 22px; color: var(--orange); letter-spacing: 0.04em; }
+  .bar-selection { font-family: var(--font-mono); font-size: 10px; color: var(--gray-2); letter-spacing: 0.06em; max-width: 400px; }
+  .bar-cta {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 12px 28px;
+    background: var(--orange); color: var(--black);
+    border: none; cursor: pointer; font-weight: 500;
+    transition: background 0.2s;
+    text-decoration: none; display: inline-block;
+    white-space: nowrap;
+  }
+  .bar-cta:hover { background: var(--warm-white); }
+
+  @media (max-width: 700px) {
+    nav { padding: 0 20px; }
+    .page-hero { padding: 60px 20px 40px; }
+    .content { padding: 0 16px; }
+    .cards-grid.cols-3, .cards-grid.cols-2 { grid-template-columns: 1fr; }
+    .addon-grid { grid-template-columns: 1fr; }
+    #sticky-bar { padding: 0 20px; height: 72px; flex-wrap: wrap; }
+    .bar-selection { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">K<span>.</span>ARIS</a>
+  <div class="nav-links">
+    <a href="index.html#work">Work</a>
+    <a href="about.html">About</a>
+    <a href="work-with-me.html" class="active">Work With Me</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>WORK <em>with</em> ME</h1>
+  <p>Choose a package tailored to your needs or build a custom project from scratch. Select, review, and let's bring your vision to life.</p>
+
+  <div class="mode-tabs">
+    <button class="mode-btn active" id="btn-packages" onclick="setMode('packages')">Packages</button>
+    <button class="mode-btn" id="btn-byo" onclick="setMode('byo')">Build Your Own</button>
+  </div>
+
+  <div class="currency-row">
+    <button class="cur-btn active" data-cur="USD" onclick="setCurrency('USD', this)">$ USD</button>
+    <button class="cur-btn" data-cur="NGN" onclick="setCurrency('NGN', this)">₦ NGN</button>
+    <button class="cur-btn" data-cur="GBP" onclick="setCurrency('GBP', this)">£ GBP</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ══ PACKAGES MODE ══ -->
+  <div id="packages-section">
+
+    <!-- BRANDING -->
+    <div class="category-block open" id="cat-branding">
+      <div class="category-header" onclick="toggleCategory('cat-branding')">
+        <div class="category-left">
+          <div class="category-name">BRANDING</div>
+          <div class="category-desc">Logo systems · strategy · and comprehensive brand identity</div>
+        </div>
+        <div class="category-toggle"></div>
+      </div>
+      <div class="category-body">
+        <div class="cards-grid cols-3">
+
+          <!-- Essential -->
+          <div class="price-card" onclick="selectCard(this, 'branding', 'Essential', 815, 1300)">
+            <div class="card-tier">Essential</div>
+            <div class="card-timeline">From one week</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="815" data-usd-high="1300"></span></div>
+            <p class="card-body-text">Your entry-level brand foundation — no deep strategy, just the essentials done right with clear vision and minimal revisions.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Logo Design</li>
+              <li>Basic Colour & Typography System</li>
+              <li>2 Social Media Assets</li>
+              <li>Logo Animation</li>
+              <li>2 Revision Rounds</li>
+              <li>Final Files (All formats)</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+          <!-- Professional (featured) -->
+          <div class="price-card featured" onclick="selectCard(this, 'branding', 'Professional', 2170, 3800)">
+            <div class="featured-badge">Most Popular</div>
+            <div class="card-tier">Professional</div>
+            <div class="card-timeline">Single Brand Deliverables (2–3 wks)</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="2170" data-usd-high="3800"></span></div>
+            <p class="card-body-text">This positions you as strategy, not just visual. Most serious clients should land here. Strategy + identity = assets that work together.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Brand Strategy Session (1.5 hrs + summary)</li>
+              <li>Logo Suite (Primary + Variations)</li>
+              <li>Packaging</li>
+              <li>Brand Guidelines Document</li>
+              <li>10 Social Media Campaign Assets</li>
+              <li>Pitch Deck Design (10 slides)</li>
+              <li>Logo Animation</li>
+              <li>2 Revision Rounds</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="price-card" onclick="selectCard(this, 'branding', 'Enterprise', 4340, 5430)">
+            <div class="card-tier">Enterprise</div>
+            <div class="card-timeline">Starting from 1 mo.</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="4340" data-usd-high="5430"></span></div>
+            <p class="card-body-text">You're not just getting design — you're getting a creative partner. Full discovery, naming, collateral, and multi-brand visual systems.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Full Brand Discovery & Strategy</li>
+              <li>Identity System</li>
+              <li>Detailed Brand Guidelines</li>
+              <li>Brand Naming (with rationale)</li>
+              <li>Social Media Design Retainer</li>
+              <li>Brand Visual System</li>
+              <li>Logo Animation</li>
+              <li>Unlimited Revisions (annual)</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINT & EDITORIAL -->
+    <div class="category-block" id="cat-print">
+      <div class="category-header" onclick="toggleCategory('cat-print')">
+        <div class="category-left">
+          <div class="category-name">PRINT & EDITORIAL</div>
+          <div class="category-desc">Lookbooks · magazines · annual reports · poster systems</div>
+        </div>
+        <div class="category-toggle"></div>
+      </div>
+      <div class="category-body">
+        <div class="cards-grid cols-2">
+
+          <div class="price-card" onclick="selectCard(this, 'print', 'Single Publication', 800, 1600)">
+            <div class="card-tier">Single Publication</div>
+            <div class="card-timeline">1–2 weeks</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="800" data-usd-high="1600"></span></div>
+            <p class="card-body-text">A single editorial piece designed end-to-end — lookbook, zine, programme, or magazine issue.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Up to 24 pages</li>
+              <li>Typography system</li>
+              <li>Print-ready files</li>
+              <li>2 revision rounds</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+          <div class="price-card featured" onclick="selectCard(this, 'print', 'Editorial System', 2400, 4800)">
+            <div class="featured-badge">Most Popular</div>
+            <div class="card-tier">Editorial System</div>
+            <div class="card-timeline">3–5 weeks</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="2400" data-usd-high="4800"></span></div>
+            <p class="card-body-text">A full editorial design system — templates, grids, typographic hierarchy — that scales across multiple publications or issues.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Up to 60 pages</li>
+              <li>Master template + style library</li>
+              <li>Cover system (3 variants)</li>
+              <li>InDesign/Figma handoff</li>
+              <li>Print & digital versions</li>
+              <li>3 revision rounds</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PACKAGING -->
+    <div class="category-block" id="cat-packaging">
+      <div class="category-header" onclick="toggleCategory('cat-packaging')">
+        <div class="category-left">
+          <div class="category-name">PACKAGING</div>
+          <div class="category-desc">Product labels · structural design · shelf-ready packaging systems</div>
+        </div>
+        <div class="category-toggle"></div>
+      </div>
+      <div class="category-body">
+        <div class="cards-grid cols-3">
+
+          <div class="price-card" onclick="selectCard(this, 'packaging', 'Single SKU', 650, 1100)">
+            <div class="card-tier">Single SKU</div>
+            <div class="card-timeline">1 week</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="650" data-usd-high="1100"></span></div>
+            <p class="card-body-text">One product. One label or box. Done beautifully and printer-ready.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Single product design</li>
+              <li>Dieline layout</li>
+              <li>Print-ready files</li>
+              <li>2 revision rounds</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+          <div class="price-card featured" onclick="selectCard(this, 'packaging', 'Product Range', 1800, 3200)">
+            <div class="featured-badge">Most Popular</div>
+            <div class="card-tier">Product Range</div>
+            <div class="card-timeline">2–3 weeks</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="1800" data-usd-high="3200"></span></div>
+            <p class="card-body-text">A unified packaging system across 3–6 SKUs. Consistent family feel with differentiated variants.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>3–6 product variants</li>
+              <li>Packaging system + rules</li>
+              <li>Dielines for all formats</li>
+              <li>Mockup presentation deck</li>
+              <li>3 revision rounds</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+          <div class="price-card" onclick="selectCard(this, 'packaging', 'Full Packaging Identity', 4000, 6500)">
+            <div class="card-tier">Full Packaging Identity</div>
+            <div class="card-timeline">4–6 weeks</div>
+            <div class="card-price"><span class="currency" data-sym="$"></span><span class="price-val" data-usd-low="4000" data-usd-high="6500"></span></div>
+            <p class="card-body-text">Complete packaging identity — from structural concept through to retail-ready artwork for an entire product line.</p>
+            <div class="card-includes-label">What's Included</div>
+            <ul class="card-includes">
+              <li>Unlimited SKUs</li>
+              <li>Structural concept exploration</li>
+              <li>Full brand integration</li>
+              <li>Retailer-ready specifications</li>
+              <li>Unlimited revisions</li>
+            </ul>
+            <a href="index.html#contact" class="card-cta">Inquire →</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /packages-section -->
+
+  <!-- ══ BUILD YOUR OWN MODE ══ -->
+  <div id="byo-section" style="display:none;">
+    <div style="margin-bottom:24px;">
+      <div class="card-tier" style="font-size:22px;margin-bottom:8px;font-family:var(--font-display);letter-spacing:0.06em;">SELECT YOUR DELIVERABLES</div>
+      <p style="font-size:13px;color:var(--gray);font-family:var(--font-mono);letter-spacing:0.06em;">Pick exactly what you need. Total updates as you select.</p>
+    </div>
+
+    <div class="category-block open" id="byocat-brand">
+      <div class="category-header" onclick="toggleCategory('byocat-brand')">
+        <div class="category-left"><div class="category-name">BRAND</div></div>
+        <div class="category-toggle"></div>
+      </div>
+      <div class="category-body">
+        <div class="addon-grid">
+          <div class="addon-item" onclick="toggleAddon(this, 'Logo Design', 400, 700)">
+            <div><div class="addon-name">Logo Design</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="400" data-usd-high="700">$400–700</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Brand Strategy Session', 300, 500)">
+            <div><div class="addon-name">Brand Strategy Session</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="300" data-usd-high="500">$300–500</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Brand Guidelines Document', 500, 900)">
+            <div><div class="addon-name">Brand Guidelines Document</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="500" data-usd-high="900">$500–900</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Logo Animation', 250, 400)">
+            <div><div class="addon-name">Logo Animation</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="250" data-usd-high="400">$250–400</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Colour & Typography System', 200, 350)">
+            <div><div class="addon-name">Colour & Typography System</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="200" data-usd-high="350">$200–350</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Brand Naming', 600, 1200)">
+            <div><div class="addon-name">Brand Naming</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="600" data-usd-high="1200">$600–1200</span><span class="addon-check">✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-block" id="byocat-print">
+      <div class="category-header" onclick="toggleCategory('byocat-print')">
+        <div class="category-left"><div class="category-name">PRINT & EDITORIAL</div></div>
+        <div class="category-toggle"></div>
+      </div>
+      <div class="category-body">
+        <div class="addon-grid">
+          <div class="addon-item" onclick="toggleAddon(this, 'Lookbook / Catalogue', 700, 1400)">
+            <div><div class="addon-name">Lookbook / Catalogue</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="700" data-usd-high="1400">$700–1400</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Poster Design', 180, 320)">
+            <div><div class="addon-name">Poster Design</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="180" data-usd-high="320">$180–320</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Annual Report', 1200, 2400)">
+            <div><div class="addon-name">Annual Report</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="1200" data-usd-high="2400">$1200–2400</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Pitch Deck', 600, 1100)">
+            <div><div class="addon-name">Pitch Deck</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="600" data-usd-high="1100">$600–1100</span><span class="addon-check">✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-block" id="byocat-packaging">
+      <div class="category-header" onclick="toggleCategory('byocat-packaging')">
+        <div class="category-left"><div class="category-name">PACKAGING</div></div>
+        <div class="category-toggle"></div>
+      </div>
+      <div class="category-body">
+        <div class="addon-grid">
+          <div class="addon-item" onclick="toggleAddon(this, 'Product Label (single)', 300, 550)">
+            <div><div class="addon-name">Product Label (single)</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="300" data-usd-high="550">$300–550</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Box / Carton Design', 450, 800)">
+            <div><div class="addon-name">Box / Carton Design</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="450" data-usd-high="800">$450–800</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Dieline Layout', 200, 350)">
+            <div><div class="addon-name">Dieline Layout</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="200" data-usd-high="350">$200–350</span><span class="addon-check">✓</span></div>
+          </div>
+          <div class="addon-item" onclick="toggleAddon(this, 'Mockup Presentation', 250, 400)">
+            <div><div class="addon-name">Mockup Presentation</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span class="addon-price" data-usd-low="250" data-usd-high="400">$250–400</span><span class="addon-check">✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /byo-section -->
+
+</div><!-- /content -->
+
+<!-- STICKY BAR -->
+<div id="sticky-bar">
+  <div>
+    <div class="bar-left" id="bar-date">Selected · <span id="bar-date-text"></span></div>
+    <div class="bar-total" id="bar-total">$0</div>
+  </div>
+  <div class="bar-selection" id="bar-selection"></div>
+  <a href="index.html#contact" class="bar-cta">Proceed →</a>
+</div>
+
+<script>
+  // ── CURRENCY ──
+  const rates = { USD: 1, NGN: 1600, GBP: 0.79 };
+  const syms  = { USD: '$', NGN: '₦', GBP: '£' };
+  let currentCurrency = 'USD';
+
+  function setCurrency(cur, btn) {
+    currentCurrency = cur;
+    document.querySelectorAll('.cur-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateAllPrices();
+  }
+
+  function formatPrice(usdLow, usdHigh) {
+    const rate = rates[currentCurrency];
+    const sym  = syms[currentCurrency];
+    const lo = Math.round(usdLow * rate).toLocaleString();
+    const hi = Math.round(usdHigh * rate).toLocaleString();
+    return { sym, range: `${lo}–${hi}` };
+  }
+
+  function updateAllPrices() {
+    // Cards
+    document.querySelectorAll('.price-val').forEach(el => {
+      const lo = +el.dataset.usdLow, hi = +el.dataset.usdHigh;
+      const { range } = formatPrice(lo, hi);
+      el.textContent = range;
+    });
+    document.querySelectorAll('[data-sym]').forEach(el => {
+      el.textContent = syms[currentCurrency];
+    });
+    // Addons
+    document.querySelectorAll('.addon-price').forEach(el => {
+      const lo = +el.dataset.usdLow, hi = +el.dataset.usdHigh;
+      const { sym, range } = formatPrice(lo, hi);
+      el.textContent = sym + range;
+    });
+    updateBar();
+  }
+
+  // ── INIT PRICES ──
+  document.querySelectorAll('.price-val').forEach(el => {
+    const lo = +el.dataset.usdLow, hi = +el.dataset.usdHigh;
+    el.textContent = `${lo.toLocaleString()}–${hi.toLocaleString()}`;
+  });
+
+  // ── SELECTED STATE ──
+  let selected = {}; // { category: { name, usdLow, usdHigh } }
+  let addons   = {}; // { name: { usdLow, usdHigh } }
+
+  function selectCard(card, category, name, usdLow, usdHigh) {
+    // Deselect all in same category
+    const group = card.closest('.cards-grid');
+    group.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selected[category] = { name, usdLow, usdHigh };
+    updateBar();
+  }
+
+  function toggleAddon(item, name, usdLow, usdHigh) {
+    if (item.classList.contains('selected')) {
+      item.classList.remove('selected');
+      delete addons[name];
+    } else {
+      item.classList.add('selected');
+      addons[name] = { usdLow, usdHigh };
+    }
+    updateBar();
+  }
+
+  function updateBar() {
+    const bar = document.getElementById('sticky-bar');
+    const rate = rates[currentCurrency];
+    const sym  = syms[currentCurrency];
+
+    let totalLow = 0, totalHigh = 0;
+    const parts = [];
+
+    if (currentMode === 'packages') {
+      Object.values(selected).forEach(s => {
+        totalLow  += s.usdLow;
+        totalHigh += s.usdHigh;
+        parts.push(s.name);
+      });
+    } else {
+      Object.entries(addons).forEach(([name, s]) => {
+        totalLow  += s.usdLow;
+        totalHigh += s.usdHigh;
+        parts.push(name);
+      });
+    }
+
+    if (totalLow === 0) {
+      bar.classList.remove('visible');
+      return;
+    }
+
+    bar.classList.add('visible');
+    const lo = Math.round(totalLow * rate).toLocaleString();
+    const hi = Math.round(totalHigh * rate).toLocaleString();
+    document.getElementById('bar-total').textContent = `${sym}${lo}–${hi}`;
+    document.getElementById('bar-selection').textContent = parts.join(' · ');
+    document.getElementById('bar-date-text').textContent = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  }
+
+  // ── MODE TOGGLE ──
+  let currentMode = 'packages';
+
+  function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('btn-packages').classList.toggle('active', mode === 'packages');
+    document.getElementById('btn-byo').classList.toggle('active', mode === 'byo');
+    document.getElementById('packages-section').style.display = mode === 'packages' ? 'block' : 'none';
+    document.getElementById('byo-section').style.display = mode === 'byo' ? 'block' : 'none';
+    // Reset bar
+    selected = {}; addons = {};
+    document.getElementById('sticky-bar').classList.remove('visible');
+    document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.addon-item').forEach(a => a.classList.remove('selected'));
+  }
+
+  // ── CATEGORY TOGGLE ──
+  function toggleCategory(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>
