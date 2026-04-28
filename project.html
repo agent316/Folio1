@@ -32,9 +32,34 @@
   nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(8,8,7,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);}
   .nav-logo{font-family:var(--font-display);font-size:22px;letter-spacing:0.06em;color:var(--warm-white);text-decoration:none;}
   .nav-logo span{color:var(--orange);}
-  .nav-back{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;}
-  .nav-back:hover{color:var(--warm-white);}
-  .nav-back::before{content:'←';}
+  .nav-links{display:flex;gap:36px;align-items:center;}
+  .nav-links a{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--warm-white);}
+  .nav-links a.active{color:var(--orange);}
+  .nav-avail{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--teal);letter-spacing:0.08em;}
+  .avail-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  /* Hamburger */
+  .nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-right:-8px;-webkit-tap-highlight-color:transparent;}
+  .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--warm-white);transition:all 0.3s;}
+  .nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+  .nav-drawer{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--black);z-index:99;flex-direction:column;padding:32px 24px;border-top:0.5px solid var(--border);overflow-y:auto;}
+  .nav-drawer.open{display:flex;}
+  .nav-drawer a{font-family:var(--font-mono);font-size:14px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);text-decoration:none;padding:20px 0;border-bottom:0.5px solid var(--border);transition:color 0.2s;}
+  .nav-drawer a:hover,.nav-drawer a.active{color:var(--orange);}
+  .nav-drawer .drawer-avail{display:flex;align-items:center;gap:10px;padding:28px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--teal);letter-spacing:0.08em;}
+  @media(max-width:900px){
+    nav{padding:0 24px;height:60px;}
+    .nav-links{display:none;}
+    .nav-hamburger{display:flex;}
+    .nav-drawer{top:60px;}
+  }
+  @media(max-width:480px){
+    nav{height:56px;padding:0 20px;}
+    .nav-drawer{top:56px;padding:24px 20px;}
+  }
 
   /* HERO */
   .project-hero{width:100%;max-height:80vh;overflow:hidden;display:block;}
@@ -123,8 +148,32 @@
 
 <nav>
   <a href="index.html" class="nav-logo">P<span>.</span>RAISE</a>
-  <a href="index.html" class="nav-back">All Work</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Work</a>
+    <a href="about.html">About</a>
+    <a href="work-with-me.html">Work With Me</a>
+    <a href="mailto:hello@karisadeyemi.com">Contact</a>
+    <div class="nav-avail">
+      <div class="avail-dot"></div>
+      <span id="nav-avail-text">Available for work</span>
+    </div>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html" class="active" onclick="closeMenu()">Work</a>
+  <a href="about.html" onclick="closeMenu()">About</a>
+  <a href="work-with-me.html" onclick="closeMenu()">Work With Me</a>
+  <a href="mailto:hello@karisadeyemi.com" onclick="closeMenu()">Contact</a>
+  <div class="drawer-avail">
+    <div style="width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;"></div>
+    <span>Available for work</span>
+  </div>
+</div>
 
 <div id="page-content"></div>
 
@@ -219,6 +268,28 @@
         ${nextHtml}
         <span class="footer-copy">© 2026 Praise</span>
       </div>`;
+  }
+  // ── NAV ──
+  const settings = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+  if (settings.avail === 'booked') {
+    document.getElementById('nav-avail-text').textContent = 'Fully booked';
+    document.querySelector('.avail-dot').style.background = '#E8472A';
+  } else if (settings.avail === 'limited') {
+    document.getElementById('nav-avail-text').textContent = 'Limited availability';
+    document.querySelector('.avail-dot').style.background = '#EF9F27';
+  }
+
+  function toggleMenu() {
+    const h = document.getElementById('hamburger');
+    const d = document.getElementById('nav-drawer');
+    h.classList.toggle('open');
+    d.classList.toggle('open');
+    document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('nav-drawer').classList.remove('open');
+    document.body.style.overflow = '';
   }
 </script>
 </body>
