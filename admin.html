@@ -358,18 +358,50 @@
     if (name === 'manage') renderManageList();
   }
 
-  // ── FILE UPLOAD ──
+  // ── FILE UPLOAD + COMPRESSION ──
+  function compressImage(file, callback) {
+    const MAX_W = 1400;
+    const MAX_H = 1400;
+    const QUALITY = 0.82;
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width;
+        let h = img.height;
+
+        // Scale down if needed
+        if (w > MAX_W || h > MAX_H) {
+          const ratio = Math.min(MAX_W / w, MAX_H / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width  = w;
+        canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+
+        const compressed = canvas.toDataURL('image/jpeg', QUALITY);
+        callback(compressed);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   function handleFileSelect(e) {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      selectedImageData = ev.target.result;
-      document.getElementById('preview-img').src = selectedImageData;
+    showToast('Compressing image…');
+    compressImage(file, compressed => {
+      selectedImageData = compressed;
+      document.getElementById('preview-img').src = compressed;
       document.getElementById('upload-preview').style.display = 'block';
       document.getElementById('upload-zone').style.borderColor = 'var(--orange)';
-    };
-    reader.readAsDataURL(file);
+      showToast('Image ready');
+    });
   }
 
   const zone = document.getElementById('upload-zone');
@@ -379,29 +411,31 @@
     e.preventDefault(); zone.style.background = '';
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        selectedImageData = ev.target.result;
-        document.getElementById('preview-img').src = selectedImageData;
+      showToast('Compressing image…');
+      compressImage(file, compressed => {
+        selectedImageData = compressed;
+        document.getElementById('preview-img').src = compressed;
         document.getElementById('upload-preview').style.display = 'block';
         zone.style.borderColor = 'var(--orange)';
-      };
-      reader.readAsDataURL(file);
+        showToast('Image ready');
+      });
     }
   });
 
   // ── ADD PROJECT ──
   function addProject() {
-    const title = document.getElementById('proj-title').value.trim();
+    const title    = document.getElementById('proj-title').value.trim();
     const category = document.getElementById('proj-category').value;
-    const desc = document.getElementById('proj-desc').value.trim();
-    const link = document.getElementById('proj-link').value.trim();
+    const desc     = document.getElementById('proj-desc').value.trim();
+    const link     = document.getElementById('proj-link').value.trim();
 
     if (!title) { showToast('Please enter a project title', true); return; }
     if (!selectedImageData) { showToast('Please select an image', true); return; }
 
     projects.unshift({ id: Date.now(), title, category, desc, link, image: selectedImageData });
-    saveProjects();
+
+    const saved = saveProjects();
+    if (!saved) return; // saveProjects handles error toast
 
     document.getElementById('proj-title').value = '';
     document.getElementById('proj-desc').value = '';
@@ -458,7 +492,15 @@
   }
 
   function saveProjects() {
-    localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+    try {
+      localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+      return true;
+    } catch (e) {
+      // Storage full — remove the project we just added and warn
+      projects.shift();
+      showToast('Storage full. Delete older projects to make space.', true);
+      return false;
+    }
   }
 
   // ── SETTINGS ──
