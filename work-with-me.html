@@ -63,6 +63,13 @@
   .nav-links a { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover, .nav-links a.active { color: var(--warm-white); }
   .nav-links a.active { color: var(--orange); }
+  .nav-avail {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--teal); letter-spacing: 0.08em;
+  }
+  .avail-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
   /* ── HERO ── */
   .page-hero {
@@ -282,14 +289,98 @@
   }
   .bar-cta:hover { background: var(--warm-white); }
 
-  @media (max-width: 700px) {
-    nav { padding: 0 20px; }
-    .page-hero { padding: 60px 20px 40px; }
-    .content { padding: 0 16px; }
-    .cards-grid.cols-3, .cards-grid.cols-2 { grid-template-columns: 1fr; }
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer;
+    padding: 8px; margin-right: -8px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--warm-white); transition: all 0.3s; }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav-drawer {
+    display: none; position: fixed;
+    top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--black); z-index: 99;
+    flex-direction: column; padding: 32px 24px;
+    border-top: 0.5px solid var(--border); overflow-y: auto;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    font-family: var(--font-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none;
+    padding: 20px 0; border-bottom: 0.5px solid var(--border); transition: color 0.2s;
+  }
+  .nav-drawer a:hover, .nav-drawer a.active { color: var(--orange); }
+  .nav-drawer .drawer-avail {
+    display: flex; align-items: center; gap: 10px; padding: 28px 0 0;
+    font-family: var(--font-mono); font-size: 11px; color: var(--teal); letter-spacing: 0.08em;
+  }
+
+  /* Large desktop 1400px+ */
+  @media (min-width: 1400px) {
+    nav { padding-left: 64px; padding-right: 64px; }
+    .content { max-width: 1060px; }
+    .cards-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Tablet landscape 901–1200px */
+  @media (max-width: 1200px) {
+    nav { padding-left: 40px; padding-right: 40px; }
+    .page-hero { padding: 64px 40px 48px; }
+    .content { padding: 0 40px; }
+  }
+
+  /* Tablet portrait 601–900px */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; height: 60px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .nav-drawer { top: 60px; }
+    .page-hero { padding: 52px 24px 36px; }
+    .content { padding: 0 24px; }
+    .cards-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    .cards-grid.cols-2 { grid-template-columns: 1fr; }
     .addon-grid { grid-template-columns: 1fr; }
-    #sticky-bar { padding: 0 20px; height: 72px; flex-wrap: wrap; }
+    #sticky-bar { padding: 0 24px; height: 68px; }
     .bar-selection { display: none; }
+    .category-header { padding: 16px 20px; }
+    .category-body { padding: 0 20px 24px; }
+  }
+
+  /* Mobile large 481–600px */
+  @media (max-width: 600px) {
+    .cards-grid.cols-3, .cards-grid.cols-2 { grid-template-columns: 1fr; }
+    .page-hero h1 { font-size: clamp(40px, 12vw, 72px); }
+    .mode-tabs { flex-wrap: wrap; justify-content: center; }
+    .currency-row { flex-wrap: wrap; justify-content: center; }
+  }
+
+  /* Mobile small up to 480px */
+  @media (max-width: 480px) {
+    nav { height: 56px; padding: 0 20px; }
+    .nav-drawer { top: 56px; padding: 24px 20px; }
+    .page-hero { padding: 36px 20px 28px; }
+    .page-hero h1 { font-size: clamp(36px, 11vw, 56px); margin-bottom: 16px; }
+    .page-hero p { font-size: 13px; margin-bottom: 24px; }
+    .content { padding: 0 20px; }
+    .category-name { font-size: 15px; }
+    .card-price { font-size: 22px; }
+    .card-tier { font-size: 14px; }
+    #sticky-bar { padding: 0 20px; height: 60px; }
+    .bar-total { font-size: 18px; }
+    .bar-cta { padding: 10px 20px; font-size: 10px; }
+    .mode-btn { padding: 9px 18px; font-size: 10px; }
+  }
+
+  /* Very small 360px */
+  @media (max-width: 360px) {
+    .nav-logo { font-size: 18px; }
+    .page-hero h1 { font-size: 34px; }
+    .category-body { padding: 0 16px 20px; }
   }
 </style>
 </head>
@@ -297,14 +388,33 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">K<span>.</span>ARIS</a>
+  <a href="index.html" class="nav-logo">P<span>.</span>RAISE</a>
   <div class="nav-links">
-    <a href="index.html#work">Work</a>
+    <a href="index.html">Work</a>
     <a href="about.html">About</a>
     <a href="work-with-me.html" class="active">Work With Me</a>
-    <a href="index.html#contact">Contact</a>
+    <a href="mailto:hello@karisadeyemi.com">Contact</a>
+    <div class="nav-avail">
+      <div class="avail-dot"></div>
+      <span>Available for work</span>
+    </div>
   </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html" onclick="closeMenu()">Work</a>
+  <a href="about.html" onclick="closeMenu()">About</a>
+  <a href="work-with-me.html" class="active" onclick="closeMenu()">Work With Me</a>
+  <a href="mailto:hello@karisadeyemi.com" onclick="closeMenu()">Contact</a>
+  <div class="drawer-avail">
+    <div style="width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;"></div>
+    <span>Available for work</span>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="page-hero">
@@ -753,6 +863,20 @@
   // ── CATEGORY TOGGLE ──
   function toggleCategory(id) {
     document.getElementById(id).classList.toggle('open');
+  }
+
+  // ── MOBILE MENU ──
+  function toggleMenu() {
+    const h = document.getElementById('hamburger');
+    const d = document.getElementById('nav-drawer');
+    h.classList.toggle('open');
+    d.classList.toggle('open');
+    document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('nav-drawer').classList.remove('open');
+    document.body.style.overflow = '';
   }
 </script>
 </body>
