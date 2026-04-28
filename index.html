@@ -3,20 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karis Adeyemi — Brand & Visual Designer</title>
+<title>Praise — Brand & Visual Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    @font-face {
-      font-family: 'Akira';
-      src: url('AkiraExpanded-SuperBold.woff2') format('woff2'),
-           url('AkiraExpanded-SuperBold.woff') format('woff'),
-           url('AkiraExpanded-SuperBold.otf') format('opentype');
-      font-weight: 800;
-      font-style: normal;
-      font-display: swap;
-    }
-  </style>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   @font-face {
     font-family: 'Revolve Sans';
@@ -91,20 +80,22 @@
   /* ── BIO STATEMENT ── */
   .bio-statement {
     padding: 72px 48px 56px;
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
     text-align: justify;
     text-align-last: center;
     animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) 0.1s both;
   }
   .bio-statement p {
-    font-family: 'Akira', var(--font-display);
-    font-size: clamp(16px, 2.2vw, 26px);
+    font-family: 'Barlow Condensed', var(--font-display);
+    font-size: clamp(22px, 3.2vw, 44px);
     font-weight: 800;
     font-style: normal;
-    line-height: 1.55;
+    font-stretch: expanded;
+    line-height: 1.4;
     color: var(--warm-white);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   .bio-statement p strong {
     font-weight: 800;
@@ -114,7 +105,7 @@
     color: var(--warm-white);
     text-decoration: underline;
     text-decoration-color: var(--orange);
-    text-underline-offset: 4px;
+    text-underline-offset: 5px;
     transition: color 0.2s;
   }
   .bio-statement p a:hover { color: var(--orange); }
@@ -242,14 +233,109 @@
   }
   #toast.show { transform: translateY(0); opacity: 1; }
 
-  @media (max-width: 900px) {
-    nav, footer { padding-left: 24px; padding-right: 24px; }
-    .bio-statement { padding: 48px 24px 36px; }
-    .work-area { padding: 0 24px 60px; }
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer;
+    padding: 8px; margin-right: -8px;
+    -webkit-tap-highlight-color: transparent;
   }
-  @media (max-width: 580px) {
+  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--warm-white); transition: all 0.3s; }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile nav drawer */
+  .nav-drawer {
+    display: none; position: fixed;
+    top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--black); z-index: 99;
+    flex-direction: column; padding: 32px 24px;
+    border-top: 0.5px solid var(--border); overflow-y: auto;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    font-family: var(--font-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none;
+    padding: 20px 0; border-bottom: 0.5px solid var(--border); transition: color 0.2s;
+  }
+  .nav-drawer a:hover, .nav-drawer a.active { color: var(--orange); }
+  .nav-drawer .drawer-avail {
+    display: flex; align-items: center; gap: 10px; padding: 28px 0 0;
+    font-family: var(--font-mono); font-size: 11px; color: var(--teal); letter-spacing: 0.08em;
+  }
+
+  /* Touch: always show overlay */
+  @media (hover: none) {
+    .masonry-item .overlay { opacity: 1; background: linear-gradient(to top, rgba(8,8,7,0.88) 0%, transparent 60%); }
+    .masonry-item img { transform: none !important; }
+    .masonry-item::after { display: none; }
+  }
+
+  /* Large desktop 1400px+ */
+  @media (min-width: 1400px) {
+    nav, footer { padding-left: 64px; padding-right: 64px; }
+    .bio-statement { max-width: 1200px; padding-left: 64px; padding-right: 64px; }
+    .work-area { padding-left: 64px; padding-right: 64px; }
+    .masonry { columns: 3; }
+  }
+
+  /* Small desktop / tablet landscape 901–1200px */
+  @media (max-width: 1200px) {
+    nav, footer { padding-left: 40px; padding-right: 40px; }
+    .bio-statement { padding: 60px 40px 48px; }
+    .work-area { padding-left: 40px; padding-right: 40px; }
+  }
+
+  /* Tablet portrait 601–900px */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; height: 60px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .bio-statement { padding: 48px 24px 40px; }
+    .bio-statement p { font-size: clamp(16px, 4.2vw, 26px); }
+    .work-area { padding: 0 24px 56px; }
+    footer { padding: 20px 24px; }
+    .masonry { columns: 2; column-gap: 10px; }
+    .masonry-item { margin-bottom: 10px; }
+    .wwm-strip { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .wwm-strip-cta { width: 100%; text-align: center; padding: 16px; display: block; }
+    .lightbox-inner { max-width: 92vw; }
+    .lightbox-inner img { max-height: 52vh; }
+    .lightbox-title { font-size: 22px; }
+  }
+
+  /* Mobile large 481–600px */
+  @media (max-width: 600px) {
     .masonry { columns: 1; }
-    .bio-statement p { font-size: 20px; }
+    .bio-statement p { font-size: clamp(15px, 5vw, 20px); letter-spacing: 0.03em; }
+    .overlay-title { font-size: 16px; }
+  }
+
+  /* Mobile small up to 480px */
+  @media (max-width: 480px) {
+    nav { height: 56px; padding: 0 20px; }
+    .nav-drawer { top: 56px; padding: 24px 20px; }
+    .bio-statement { padding: 28px 20px 24px; text-align: left; text-align-last: left; }
+    .bio-statement p { font-size: 16px; letter-spacing: 0.02em; line-height: 1.5; }
+    .work-area { padding: 0 20px 44px; }
+    footer { padding: 16px 20px; flex-direction: column; gap: 4px; text-align: center; }
+    .wwm-strip { margin-top: 28px; padding-top: 20px; gap: 12px; }
+    .wwm-strip-text { font-size: 13px; }
+    .lightbox-inner { max-width: 96vw; }
+    .lightbox-close { top: 14px; right: 14px; }
+    .lightbox-title { font-size: 18px; margin-top: 12px; }
+    .lightbox-desc { font-size: 12px; }
+    #toast { bottom: 16px; right: 16px; left: 16px; text-align: center; }
+    .empty-state { padding: 56px 0; }
+  }
+
+  /* Very small 360px and below */
+  @media (max-width: 360px) {
+    .bio-statement p { font-size: 14px; }
+    .nav-logo { font-size: 18px; }
+    .masonry { column-gap: 8px; }
   }
 </style>
 </head>
@@ -257,7 +343,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">K<span>.</span>ARIS</a>
+  <a href="index.html" class="nav-logo">P<span>.</span>RAISE</a>
   <div class="nav-links">
     <a href="index.html" class="active">Work</a>
     <a href="about.html">About</a>
@@ -268,13 +354,28 @@
       <span id="nav-avail-text">Available for work</span>
     </div>
   </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html" class="active" onclick="closeMenu()">Work</a>
+  <a href="about.html" onclick="closeMenu()">About</a>
+  <a href="work-with-me.html" onclick="closeMenu()">Work With Me</a>
+  <a href="mailto:hello@karisadeyemi.com" onclick="closeMenu()">Contact</a>
+  <div class="drawer-avail">
+    <div class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;"></div>
+    <span id="drawer-avail-text">Available for work</span>
+  </div>
+</div>
 
 <!-- BIO STATEMENT -->
 <div class="bio-statement">
   <p>
-    Karis Adeyemi is a <strong>brand and visual designer</strong> based in Lagos.
-    She crafts identities, editorial systems, and <a href="work-with-me.html">packaging</a>
+    Praise is a <strong>brand and visual designer</strong> based in Lagos.
+    He crafts identities, editorial systems, and <a href="work-with-me.html">packaging</a>
     that make people look twice — and remember forever.
   </p>
 </div>
@@ -301,7 +402,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>© 2026 Karis Adeyemi</span>
+  <span>© 2026 Praise</span>
   <span>Lagos, NG</span>
 </footer>
 
@@ -319,9 +420,21 @@
 <div id="toast"></div>
 
 <script>
+  function toggleMenu() {
+    const h = document.getElementById('hamburger');
+    const d = document.getElementById('nav-drawer');
+    h.classList.toggle('open');
+    d.classList.toggle('open');
+    document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('nav-drawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   let projects = JSON.parse(localStorage.getItem('portfolio_projects') || '[]');
   const settings = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
-  let currentFilter = 'all';
 
   function init() {
     if (settings.avail === 'booked') {
@@ -339,15 +452,11 @@
     const empty = document.getElementById('empty-state');
     Array.from(grid.querySelectorAll('.masonry-item')).forEach(el => el.remove());
 
-    const filtered = currentFilter === 'all'
-      ? projects
-      : projects.filter(p => p.category === currentFilter);
-
-    if (filtered.length === 0) {
+    if (projects.length === 0) {
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      filtered.forEach(p => {
+      projects.forEach(p => {
         const item = document.createElement('div');
         item.className = 'masonry-item';
         item.innerHTML = `
@@ -362,14 +471,6 @@
       });
     }
   }
-
-  document.getElementById('filter-bar').addEventListener('click', e => {
-    if (!e.target.classList.contains('filter-btn')) return;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
-    currentFilter = e.target.dataset.filter;
-    renderGallery();
-  });
 
   function openLightbox(p) {
     document.getElementById('lb-img').src = p.image;
