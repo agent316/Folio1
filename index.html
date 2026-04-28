@@ -98,7 +98,6 @@
     text-transform: uppercase;
   }
   .bio-statement p strong {
-    font-weight: 800;
     color: var(--orange);
   }
   .bio-statement p a {
@@ -331,15 +330,112 @@
     .empty-state { padding: 56px 0; }
   }
 
-  /* Very small 360px and below */
-  @media (max-width: 360px) {
-    .bio-statement p { font-size: 14px; }
-    .nav-logo { font-size: 18px; }
-    .masonry { column-gap: 8px; }
+  /* ── INTRO ANIMATION ── */
+  #intro {
+    position: fixed; inset: 0; z-index: 1000;
+    background: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: all;
+    overflow: hidden;
+  }
+  #intro.hidden { display: none; }
+
+  .intro-word {
+    font-family: 'Archivo Black', var(--font-display);
+    font-size: clamp(64px, 14vw, 160px);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* transitions driven by JS class changes */
+    transition:
+      letter-spacing 0.55s cubic-bezier(0.4,0,0.2,1),
+      font-size 0.7s cubic-bezier(0.22,0.68,0,1),
+      opacity 0.6s ease;
+    will-change: letter-spacing, font-size, opacity;
+  }
+
+  /* Phase 1: letters invisible at start */
+  .intro-word.phase-hidden {
+    opacity: 0;
+  }
+
+  /* Phase 2: fade in, normal tracking */
+  .intro-word.phase-in {
+    opacity: 1;
+    letter-spacing: 0.12em;
+    font-size: clamp(64px, 14vw, 160px);
+    font-weight: 900;
+    transition: opacity 0.7s ease;
+  }
+
+  /* Phase 3: tracking tightens, strokes thin (simulate with font-weight + color lightening) */
+  .intro-word.phase-tight {
+    opacity: 1;
+    letter-spacing: -0.04em;
+    font-size: clamp(60px, 13vw, 148px);
+    font-weight: 900;
+    color: rgba(240,237,230,0.55);
+    transition:
+      letter-spacing 0.6s cubic-bezier(0.4,0,0.2,1),
+      font-size 0.6s cubic-bezier(0.4,0,0.2,1),
+      color 0.6s ease;
+  }
+
+  /* Phase 4: shake — applied as animation class */
+  .intro-word.phase-shake {
+    animation: introShake 0.38s cubic-bezier(0.36,0.07,0.19,0.97) both;
+  }
+  @keyframes introShake {
+    0%,100% { transform: translateX(0); }
+    15%      { transform: translateX(-6px) rotate(-0.4deg); }
+    30%      { transform: translateX(5px) rotate(0.4deg); }
+    45%      { transform: translateX(-4px) rotate(-0.2deg); }
+    60%      { transform: translateX(4px) rotate(0.3deg); }
+    75%      { transform: translateX(-2px); }
+    90%      { transform: translateX(2px); }
+  }
+
+  /* Phase 5: tracking widens, strokes fatten, letters grow and fade out */
+  .intro-word.phase-out {
+    opacity: 0;
+    letter-spacing: 0.55em;
+    font-size: clamp(90px, 20vw, 240px);
+    color: var(--warm-white);
+    transition:
+      letter-spacing 0.75s cubic-bezier(0.22,0.68,0,1),
+      font-size 0.75s cubic-bezier(0.22,0.68,0,1),
+      opacity 0.65s ease 0.05s,
+      color 0.2s ease;
+  }
+
+  /* Overlay wipes upward */
+  #intro.exiting {
+    animation: introWipe 0.6s cubic-bezier(0.76,0,0.24,1) forwards;
+    transform-origin: top;
+  }
+  @keyframes introWipe {
+    0%   { transform: scaleY(1); transform-origin: top; }
+    100% { transform: scaleY(0); transform-origin: top; }
+  }
+
+  @media (max-width: 480px) {
+    .intro-word { font-size: clamp(48px, 18vw, 80px); }
+    .intro-word.phase-in { font-size: clamp(48px, 18vw, 80px); }
+    .intro-word.phase-tight { font-size: clamp(44px, 16vw, 72px); }
+    .intro-word.phase-out { font-size: clamp(68px, 24vw, 120px); }
   }
 </style>
 </head>
 <body>
+
+<!-- INTRO ANIMATION -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-word phase-hidden" id="intro-word">PGEE</div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -485,6 +581,58 @@
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
   }
+
+  // ── INTRO ANIMATION ──
+  (function () {
+    const intro  = document.getElementById('intro');
+    const word   = document.getElementById('intro-word');
+
+    // Only skip if navigating within the same session (not on refresh)
+    if (sessionStorage.getItem('intro_played')) {
+      intro.classList.add('hidden');
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    function setPhase(phase) {
+      word.className = 'intro-word ' + phase;
+    }
+
+    // ── TIMELINE ──
+    // t=0      hidden (start)
+    // t=300    fade in — phase-in
+    // t=1150   tracking tightens, strokes thin — phase-tight
+    // t=1850   shake — phase-shake (add on top of phase-tight)
+    // t=2250   tracks wide, grows, fades out — phase-out
+    // t=3100   overlay wipes up
+    // t=3700   done
+
+    // Phase 2: fade in
+    setTimeout(() => setPhase('phase-in'), 300);
+
+    // Phase 3: tighten + thin
+    setTimeout(() => setPhase('phase-tight'), 1150);
+
+    // Phase 4: shake (add shake class without removing tight)
+    setTimeout(() => {
+      word.classList.add('phase-shake');
+    }, 1850);
+
+    // Phase 5: widen + fatten + grow + fade out
+    setTimeout(() => setPhase('phase-out'), 2280);
+
+    // Exit: wipe overlay upward
+    setTimeout(() => {
+      intro.classList.add('exiting');
+      setTimeout(() => {
+        intro.classList.add('hidden');
+        document.body.style.overflow = '';
+        sessionStorage.setItem('intro_played', '1');
+      }, 620);
+    }, 3080);
+
+  })();
 
   init();
 </script>
