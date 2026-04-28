@@ -552,7 +552,8 @@
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      projects.forEach(p => {
+      const filtered = projects;
+      filtered.forEach(p => {
         const item = document.createElement('div');
         item.className = 'masonry-item';
         item.innerHTML = `
@@ -562,7 +563,7 @@
             <div class="overlay-title">${p.title}</div>
             <div class="overlay-desc">${p.desc || ''}</div>
           </div>`;
-        item.addEventListener('click', () => openLightbox(p));
+        item.addEventListener('click', () => window.location.href = `project.html?id=${p.id}`);
         grid.appendChild(item);
       });
     }
