@@ -302,6 +302,9 @@
       <button class="add-block-btn" onclick="openBlockEditor('text')">
         <span style="font-size:14px;line-height:1;">¶</span> Text Section
       </button>
+      <button class="add-block-btn" onclick="openBlockEditor('brief')">
+        <span style="font-size:14px;line-height:1;">◧</span> Brief + Services
+      </button>
       <button class="add-block-btn" onclick="openBlockEditor('image')">
         <span style="font-size:14px;line-height:1;">⬜</span> Image(s)
       </button>
@@ -310,6 +313,12 @@
       </button>
       <button class="add-block-btn" onclick="openBlockEditor('quote')">
         <span style="font-size:14px;line-height:1;">"</span> Pull Quote
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('credits')">
+        <span style="font-size:14px;line-height:1;">≡</span> Credits
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('spacer')">
+        <span style="font-size:14px;line-height:1;">↕</span> Spacer
       </button>
     </div>
 
@@ -388,6 +397,50 @@
       </div>
       <button class="btn-primary btn-sm" onclick="commitBlock('quote')">Add Block →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('quote')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- BRIEF + SERVICES editor -->
+    <div class="block-editor" id="editor-brief">
+      <div class="block-editor-title">Brief + Services</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Left column: project description. Right column: short label list (services, deliverables, etc.)</div>
+      <div class="form-group">
+        <label class="form-label">Brief / Description (left column)</label>
+        <textarea class="form-textarea" id="brief-body" style="min-height:120px;" placeholder="Write a description of the project, the challenge, or the context..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Services / Labels (right column — one per line)</label>
+        <textarea class="form-textarea" id="brief-services" style="min-height:80px;" placeholder="Brand Identity&#10;Packaging&#10;Print"></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('brief')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('brief')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- CREDITS editor -->
+    <div class="block-editor" id="editor-credits">
+      <div class="block-editor-title">Credits</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Appears as "Credits" label on the left, attributed text on the right.</div>
+      <div class="form-group">
+        <label class="form-label">Credits Text</label>
+        <textarea class="form-textarea" id="credits-text" style="min-height:120px;" placeholder="Photographer: John Doe&#10;Art Direction: Praise&#10;Models: Jane Smith, Ada Obi&#10;Copywriting: Tunde Bello"></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('credits')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('credits')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- SPACER editor -->
+    <div class="block-editor" id="editor-spacer">
+      <div class="block-editor-title">Spacer</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Adds breathing room between blocks — useful for controlling rhythm.</div>
+      <div class="form-group">
+        <label class="form-label">Size</label>
+        <select class="form-select" id="spacer-size">
+          <option value="sm">Small (32px)</option>
+          <option value="md" selected>Medium (72px)</option>
+          <option value="lg">Large (140px)</option>
+        </select>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('spacer')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('spacer')" style="margin-left:8px;">Cancel</button>
     </div>
 
   </div>
@@ -665,6 +718,16 @@
         </div>`;
       } else if (block.type === 'quote') {
         preview = `<div style="font-size:14px;font-style:italic;color:var(--warm-white);margin-top:6px;">"${(block.text||'').substring(0,100)}${(block.text||'').length>100?'…':''}"</div>`;
+      } else if (block.type === 'brief') {
+        preview = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:8px;">
+          <div class="cs-block-text-preview">${(block.body||'').substring(0,100)}…</div>
+          <div style="font-size:11px;color:var(--orange);font-family:var(--font-mono);">${(block.services||'').split('\n').slice(0,4).join(' · ')}</div>
+        </div>`;
+      } else if (block.type === 'credits') {
+        preview = `<div style="font-size:12px;color:var(--gray);margin-top:6px;line-height:1.8;">${(block.text||'').substring(0,140)}…</div>`;
+      } else if (block.type === 'spacer') {
+        const sizes = { sm:'Small', md:'Medium', lg:'Large' };
+        preview = `<div style="font-family:var(--font-mono);font-size:10px;color:var(--gray-2);margin-top:4px;">↕ ${sizes[block.size]||'Medium'} spacing</div>`;
       }
 
       el.innerHTML = `
@@ -700,11 +763,13 @@
 
   function openBlockEditor(type) {
     closeAllBlockEditors();
-    // Reset editors
     if (type === 'text')       { document.getElementById('text-heading').value=''; document.getElementById('text-body').value=''; }
     if (type === 'image')      { resetImgSlots('full'); document.getElementById('img-caption').value=''; }
     if (type === 'image-text') { resetImgTextSlot(); document.getElementById('imgtext-heading').value=''; document.getElementById('imgtext-body').value=''; }
     if (type === 'quote')      { document.getElementById('quote-text').value=''; }
+    if (type === 'brief')      { document.getElementById('brief-body').value=''; document.getElementById('brief-services').value=''; }
+    if (type === 'credits')    { document.getElementById('credits-text').value=''; }
+    if (type === 'spacer')     { document.getElementById('spacer-size').value='md'; }
     document.getElementById('editor-'+type).classList.add('open');
     document.getElementById('editor-'+type).scrollIntoView({ behavior:'smooth', block:'nearest' });
   }
@@ -810,6 +875,23 @@
       const text = document.getElementById('quote-text').value.trim();
       if (!text) { showToast('Please enter a quote', true); return; }
       block.text = text;
+    }
+
+    if (type === 'brief') {
+      const body = document.getElementById('brief-body').value.trim();
+      if (!body) { showToast('Please write the brief text', true); return; }
+      block.body     = body;
+      block.services = document.getElementById('brief-services').value.trim();
+    }
+
+    if (type === 'credits') {
+      const text = document.getElementById('credits-text').value.trim();
+      if (!text) { showToast('Please enter credits', true); return; }
+      block.text = text;
+    }
+
+    if (type === 'spacer') {
+      block.size = document.getElementById('spacer-size').value;
     }
 
     csBlocks.push(block);
