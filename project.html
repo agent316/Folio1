@@ -254,13 +254,18 @@
   .img-grid { display: grid; gap: 10px; }
   .img-grid.cols-2 { grid-template-columns: 1fr 1fr; }
   .img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  /* Tall portrait crops — matches reference */
-  .img-grid img {
+  /* Tall portrait crops — doubled size */
+  .img-grid.cols-2 img {
     width: 100%; display: block;
     aspect-ratio: 4/5;
     object-fit: cover;
   }
-  /* Full-width single image in grid mode */
+  .img-grid.cols-3 img {
+    width: 100%; display: block;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+  }
+  /* Single image in grid mode */
   .img-grid.cols-1 img { aspect-ratio: unset; height: auto; }
   .block-caption {
     font-size: 12px; font-weight: 400;
@@ -385,7 +390,7 @@
     .meta-headline { font-size: clamp(24px, 7vw, 36px); }
     .meta-info { flex-direction: column; gap: 20px; }
     .img-grid.cols-2, .img-grid.cols-3 { grid-template-columns: 1fr; }
-    .img-grid img { aspect-ratio: 3/2; }
+    .img-grid.cols-2 img, .img-grid.cols-3 img { aspect-ratio: 3/2; }
     .credits-inner { grid-template-columns: 1fr; gap: 10px; }
     .block-quote-inner { padding-left: 20px; }
     .block-text, .block-image-full, .block-image-grid,
@@ -501,10 +506,10 @@
           </div>`;
       }
 
-      // Grid layouts: stays within text column
+      // Grid layouts: use wide container like full-width images
       const cols = layout === '2col' ? 2 : 3;
       return `
-        <div class="block-image-grid block-text-w">
+        <div class="block-image-grid block-wide-w">
           <div class="img-grid cols-${cols}">
             ${imgs.map(src => `<img src="${src}" loading="lazy" alt="">`).join('')}
           </div>
