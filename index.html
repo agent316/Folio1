@@ -3,639 +3,911 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Praise — Brand & Visual Designer</title>
+<title>Admin — Portfolio Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  @font-face {
-    font-family: 'Revolve Sans';
-    src: url('RevolveSans-Bold.woff2') format('woff2'),
-         url('RevolveSans-Bold.woff') format('woff'),
-         url('RevolveSans-Bold.otf') format('opentype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-
   :root {
-    --black:   #080807;
-    --black-2: #111110;
-    --black-3: #1a1a18;
-    --orange:  #FF5C00;
-    --teal:    #00C48C;
-    --coral:   #E8472A;
-    --warm-white: #F0EDE6;
-    --gray:    #888880;
-    --border:  rgba(255,255,255,0.07);
-    --border-bright: rgba(255,255,255,0.14);
-    --font-display: 'Revolve Sans', 'DM Sans', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --font-mono: 'DM Mono', monospace;
+    --black:#080807; --black-2:#111110; --black-3:#1a1a18; --black-4:#222220;
+    --orange:#FF5C00; --orange-glow:rgba(255,92,0,0.1);
+    --teal:#00C48C; --coral:#E8472A; --coral-dim:rgba(232,71,42,0.12);
+    --warm-white:#F0EDE6; --gray:#888880; --gray-2:#555550;
+    --border:rgba(255,255,255,0.07); --border-bright:rgba(255,255,255,0.14);
+    --font-body:'DM Sans',sans-serif; --font-mono:'DM Mono',monospace;
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--black-2);color:var(--warm-white);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--black);
-    color: var(--warm-white);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+  /* LOGIN */
+  #login-screen{position:fixed;inset:0;z-index:200;background:var(--black);display:flex;align-items:center;justify-content:center;}
+  #login-screen.hidden{display:none;}
+  .login-box{width:380px;padding:48px;border:0.5px solid var(--border-bright);}
+  .login-logo{font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);margin-bottom:32px;}
+  .login-title{font-size:32px;font-weight:500;color:var(--warm-white);margin-bottom:6px;}
+  .login-sub{font-family:var(--font-mono);font-size:11px;color:var(--gray);letter-spacing:0.08em;margin-bottom:32px;}
+  .login-error{font-family:var(--font-mono);font-size:11px;color:var(--coral);letter-spacing:0.08em;margin-top:10px;display:none;}
 
-  /* ── NAV ── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px; height: 64px;
-    background: rgba(8,8,7,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
-  }
-  .nav-logo {
-    font-family: var(--font-display); font-size: 22px;
-    letter-spacing: 0.06em; color: var(--warm-white); text-decoration: none;
-  }
-  .nav-logo span { color: var(--orange); }
-  .nav-links { display: flex; gap: 36px; align-items: center; }
-  .nav-links a {
-    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--gray); text-decoration: none; transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--warm-white); }
-  .nav-links a.active { color: var(--orange); }
-  .nav-avail {
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-size: 11px;
-    color: var(--teal); letter-spacing: 0.08em;
-  }
-  .avail-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--teal); animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+  /* APP */
+  #admin-app{display:none;min-height:100vh;}
+  #admin-app.visible{display:block;}
+  .admin-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--black-2);border-bottom:0.5px solid var(--border);}
+  .admin-nav-left{display:flex;align-items:center;gap:24px;}
+  .admin-logo{font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);text-decoration:none;}
+  .admin-nav-title{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);padding-left:24px;border-left:0.5px solid var(--border-bright);}
+  .admin-nav-right{display:flex;gap:12px;align-items:center;}
 
-  /* ── BIO STATEMENT ── */
-  .bio-statement {
-    padding: 72px 48px 56px;
-    max-width: 960px;
-    margin: 0 auto;
-    text-align: justify;
-    text-align-last: center;
-    animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) 0.1s both;
-  }
-  .bio-statement p {
-    font-family: 'Barlow Condensed', var(--font-display);
-    font-size: clamp(22px, 3.2vw, 44px);
-    font-weight: 800;
-    font-style: normal;
-    font-stretch: expanded;
-    line-height: 1.4;
-    color: var(--warm-white);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .bio-statement p strong {
-    color: var(--orange);
-  }
-  .bio-statement p a {
-    color: var(--warm-white);
-    text-decoration: underline;
-    text-decoration-color: var(--orange);
-    text-underline-offset: 5px;
-    transition: color 0.2s;
-  }
-  .bio-statement p a:hover { color: var(--orange); }
+  /* TABS */
+  .admin-tabs{display:flex;gap:2px;padding:24px 40px 0;border-bottom:0.5px solid var(--border);}
+  .tab-btn{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;background:transparent;border:none;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all 0.2s;}
+  .tab-btn:hover{color:var(--warm-white);}
+  .tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);}
+  .tab-panel{display:none;padding:48px 40px;max-width:900px;}
+  .tab-panel.active{display:block;}
+  .panel-title{font-size:26px;font-weight:500;letter-spacing:-0.01em;color:var(--warm-white);margin-bottom:6px;}
+  .panel-sub{font-family:var(--font-mono);font-size:11px;color:var(--gray);letter-spacing:0.08em;margin-bottom:36px;}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  /* FORMS */
+  .form-group{margin-bottom:20px;}
+  .form-label{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
+  .form-input,.form-textarea,.form-select{width:100%;background:var(--black-3);border:0.5px solid var(--border-bright);color:var(--warm-white);font-family:var(--font-body);font-size:15px;padding:12px 16px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
+  .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--orange);}
+  .form-textarea{resize:vertical;min-height:90px;}
+  .form-select option{background:var(--black-3);}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 
-  /* ── WORK AREA ── */
-  .work-area {
-    padding: 0 48px 80px;
-    animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) 0.22s both;
-  }
+  /* UPLOAD ZONE */
+  .upload-zone{border:1px dashed var(--border-bright);padding:40px;text-align:center;cursor:pointer;margin-bottom:24px;transition:border-color 0.2s,background 0.2s;position:relative;}
+  .upload-zone:hover{border-color:var(--orange);background:var(--orange-glow);}
+  .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .upload-icon{font-size:28px;margin-bottom:10px;color:var(--orange);}
+  .upload-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
+  .upload-preview{display:none;margin-bottom:20px;}
+  .upload-preview img{max-height:180px;max-width:100%;border:0.5px solid var(--border-bright);}
 
-  /* ── MASONRY ── */
-  .masonry { columns: 2; column-gap: 12px; }
-  .masonry-item {
-    break-inside: avoid; margin-bottom: 12px;
-    position: relative; overflow: hidden; cursor: pointer; display: block;
-  }
-  .masonry-item img {
-    width: 100%; display: block;
-    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-  }
-  .masonry-item .overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(8,8,7,0.9) 0%, rgba(8,8,7,0.1) 50%, transparent 100%);
-    opacity: 0; transition: opacity 0.3s;
-    display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
-  }
-  .masonry-item:hover .overlay { opacity: 1; }
-  .masonry-item:hover img { transform: scale(1.03); }
-  .masonry-item::after {
-    content: ''; position: absolute; inset: 0;
-    border: 2px solid var(--orange); opacity: 0;
-    transition: opacity 0.2s; pointer-events: none;
-  }
-  .masonry-item:hover::after { opacity: 1; }
-  .overlay-tag {
-    font-family: var(--font-mono); font-size: 10px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 5px;
-  }
-  .overlay-title {
-    font-family: var(--font-display); font-size: 20px;
-    letter-spacing: 0.04em; color: var(--warm-white);
-  }
-  .overlay-desc { font-size: 12px; color: rgba(240,237,230,0.65); margin-top: 3px; }
+  /* BUTTONS */
+  .btn-primary{font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;background:var(--orange);color:var(--black);border:none;padding:13px 28px;cursor:pointer;font-weight:500;transition:background 0.2s,transform 0.15s;}
+  .btn-primary:hover{background:var(--warm-white);transform:translateY(-1px);}
+  .btn-ghost{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;border:0.5px solid var(--border-bright);color:var(--gray);padding:6px 14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
+  .btn-ghost:hover{color:var(--warm-white);border-color:var(--gray);}
+  .btn-danger{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;border:0.5px solid rgba(232,71,42,0.3);color:var(--coral);padding:6px 14px;cursor:pointer;transition:all 0.2s;}
+  .btn-danger:hover{background:var(--coral-dim);border-color:var(--coral);}
+  .btn-sm{padding:5px 12px;font-size:9px;}
 
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    text-align: center; padding: 100px 0;
-    font-family: var(--font-mono); font-size: 12px;
-    color: var(--gray); letter-spacing: 0.08em; line-height: 2.2;
-  }
-  .empty-state a { color: var(--orange); text-decoration: none; }
-  .empty-state a:hover { text-decoration: underline; }
+  /* MANAGE LIST */
+  .admin-divider{height:0.5px;background:var(--border);margin:36px 0;}
+  .projects-list{display:flex;flex-direction:column;gap:2px;}
+  .project-row{display:grid;grid-template-columns:72px 1fr repeat(3,auto);gap:16px;align-items:center;padding:14px 16px;background:var(--black-3);transition:background 0.2s;}
+  .project-row:hover{background:var(--black);}
+  .project-thumb{width:72px;height:52px;object-fit:cover;border:0.5px solid var(--border);}
+  .project-name{font-size:14px;font-weight:400;color:var(--warm-white);}
+  .project-tag{font-family:var(--font-mono);font-size:10px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;}
+  .empty-state{padding:48px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--gray);letter-spacing:0.08em;background:var(--black-3);}
 
-  /* ── WORK WITH ME STRIP ── */
-  .wwm-strip {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 24px; flex-wrap: wrap;
-    margin-top: 52px; padding-top: 32px;
-    border-top: 0.5px solid var(--border);
-  }
-  .wwm-strip-eyebrow {
-    font-family: var(--font-mono); font-size: 10px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 5px;
-  }
-  .wwm-strip-text { font-size: 14px; font-weight: 300; color: var(--gray); }
-  .wwm-strip-cta {
-    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--black); background: var(--orange);
-    padding: 12px 24px; text-decoration: none; flex-shrink: 0;
-    transition: background 0.2s;
-  }
-  .wwm-strip-cta:hover { background: var(--warm-white); }
+  /* ── CASE STUDY BUILDER ── */
+  #case-study-screen{display:none;position:fixed;inset:0;z-index:100;background:var(--black-2);overflow-y:auto;}
+  #case-study-screen.open{display:block;}
+  .cs-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:var(--black-2);border-bottom:0.5px solid var(--border);}
+  .cs-nav-title{font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);}
+  .cs-body{max-width:820px;padding:40px;}
 
-  /* ── FOOTER ── */
-  footer {
-    padding: 24px 48px;
-    border-top: 0.5px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-    font-family: var(--font-mono); font-size: 10px;
-    color: var(--gray); letter-spacing: 0.08em;
-  }
+  /* Block list */
+  .block-list{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
+  .cs-block{background:var(--black-3);border:0.5px solid var(--border-bright);padding:16px 20px;}
+  .cs-block-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .cs-block-type{font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);background:rgba(255,92,0,0.1);padding:3px 10px;}
+  .cs-block-actions{margin-left:auto;display:flex;gap:6px;}
+  .cs-block-preview-img{max-width:100%;max-height:120px;object-fit:cover;display:block;margin-top:8px;border:0.5px solid var(--border);}
+  .cs-block-text-preview{font-size:13px;color:var(--gray);line-height:1.5;margin-top:6px;white-space:pre-wrap;}
 
-  /* ── LIGHTBOX ── */
-  #lightbox {
-    display: none; position: fixed; inset: 0; z-index: 250;
-    background: rgba(8,8,7,0.96);
-    align-items: center; justify-content: center; cursor: pointer;
-  }
-  #lightbox.open { display: flex; }
-  .lightbox-inner { max-width: 80vw; max-height: 80vh; text-align: center; cursor: default; }
-  .lightbox-inner img { max-width: 100%; max-height: 60vh; object-fit: contain; }
-  .lightbox-title {
-    font-family: var(--font-display); font-size: 26px;
-    letter-spacing: 0.06em; color: var(--warm-white); margin-top: 20px;
-  }
-  .lightbox-tag {
-    font-family: var(--font-mono); font-size: 11px; color: var(--orange);
-    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px;
-  }
-  .lightbox-desc { font-size: 13px; color: var(--gray); margin-top: 8px; max-width: 500px; margin-inline: auto; }
-  .lightbox-close {
-    position: fixed; top: 24px; right: 32px;
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--gray); cursor: pointer;
-    background: none; border: none; transition: color 0.2s;
-  }
-  .lightbox-close:hover { color: var(--warm-white); }
+  /* Add block panel */
+  .add-block-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+  .add-block-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;border:0.5px solid var(--border-bright);color:var(--gray);padding:9px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
+  .add-block-btn:hover{border-color:var(--orange);color:var(--orange);}
 
-  /* ── TOAST ── */
-  #toast {
-    position: fixed; bottom: 32px; right: 32px;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
-    padding: 12px 24px; background: var(--teal); color: var(--black);
-    font-weight: 500; z-index: 999;
-    transform: translateY(100px); opacity: 0;
-    transition: transform 0.3s, opacity 0.3s;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
+  /* Inline block editors */
+  .block-editor{background:var(--black-4);border:0.5px solid var(--orange);padding:20px;margin-bottom:16px;display:none;}
+  .block-editor.open{display:block;}
+  .block-editor-title{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
 
-  /* ── HAMBURGER ── */
-  .nav-hamburger {
-    display: none; flex-direction: column; gap: 5px;
-    background: none; border: none; cursor: pointer;
-    padding: 8px; margin-right: -8px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--warm-white); transition: all 0.3s; }
-  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  /* Image block grid options */
+  .img-layout-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .img-layout-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;border:0.5px solid var(--border-bright);background:transparent;color:var(--gray);padding:7px 14px;cursor:pointer;transition:all 0.2s;}
+  .img-layout-btn.active,.img-layout-btn:hover{border-color:var(--orange);color:var(--orange);}
 
-  /* Mobile nav drawer */
-  .nav-drawer {
-    display: none; position: fixed;
-    top: 64px; left: 0; right: 0; bottom: 0;
-    background: var(--black); z-index: 99;
-    flex-direction: column; padding: 32px 24px;
-    border-top: 0.5px solid var(--border); overflow-y: auto;
-  }
-  .nav-drawer.open { display: flex; }
-  .nav-drawer a {
-    font-family: var(--font-mono); font-size: 14px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--gray); text-decoration: none;
-    padding: 20px 0; border-bottom: 0.5px solid var(--border); transition: color 0.2s;
-  }
-  .nav-drawer a:hover, .nav-drawer a.active { color: var(--orange); }
-  .nav-drawer .drawer-avail {
-    display: flex; align-items: center; gap: 10px; padding: 28px 0 0;
-    font-family: var(--font-mono); font-size: 11px; color: var(--teal); letter-spacing: 0.08em;
-  }
+  /* Image multi-upload slots */
+  .img-slots{display:grid;gap:8px;margin-bottom:16px;}
+  .img-slots.cols-1{grid-template-columns:1fr;}
+  .img-slots.cols-2{grid-template-columns:1fr 1fr;}
+  .img-slots.cols-3{grid-template-columns:1fr 1fr 1fr;}
+  .img-slot{border:1px dashed var(--border-bright);padding:24px;text-align:center;cursor:pointer;position:relative;transition:border-color 0.2s;min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;}
+  .img-slot:hover{border-color:var(--orange);}
+  .img-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .img-slot img{max-width:100%;max-height:100px;object-fit:cover;display:block;}
+  .img-slot-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray);}
 
-  /* Touch: always show overlay */
-  @media (hover: none) {
-    .masonry-item .overlay { opacity: 1; background: linear-gradient(to top, rgba(8,8,7,0.88) 0%, transparent 60%); }
-    .masonry-item img { transform: none !important; }
-    .masonry-item::after { display: none; }
-  }
+  /* TOAST */
+  #toast{position:fixed;bottom:32px;right:32px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.08em;padding:12px 24px;background:var(--teal);color:var(--black);font-weight:500;z-index:999;transform:translateY(100px);opacity:0;transition:transform 0.3s,opacity 0.3s;}
+  #toast.show{transform:translateY(0);opacity:1;}
 
-  /* Large desktop 1400px+ */
-  @media (min-width: 1400px) {
-    nav, footer { padding-left: 64px; padding-right: 64px; }
-    .bio-statement { max-width: 1200px; padding-left: 64px; padding-right: 64px; }
-    .work-area { padding-left: 64px; padding-right: 64px; }
-    .masonry { columns: 3; }
-  }
-
-  /* Small desktop / tablet landscape 901–1200px */
-  @media (max-width: 1200px) {
-    nav, footer { padding-left: 40px; padding-right: 40px; }
-    .bio-statement { padding: 60px 40px 48px; }
-    .work-area { padding-left: 40px; padding-right: 40px; }
-  }
-
-  /* Tablet portrait 601–900px */
-  @media (max-width: 900px) {
-    nav { padding: 0 24px; height: 60px; }
-    .nav-links { display: none; }
-    .nav-hamburger { display: flex; }
-    .bio-statement { padding: 48px 24px 40px; }
-    .bio-statement p { font-size: clamp(16px, 4.2vw, 26px); }
-    .work-area { padding: 0 24px 56px; }
-    footer { padding: 20px 24px; }
-    .masonry { columns: 2; column-gap: 10px; }
-    .masonry-item { margin-bottom: 10px; }
-    .wwm-strip { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .wwm-strip-cta { width: 100%; text-align: center; padding: 16px; display: block; }
-    .lightbox-inner { max-width: 92vw; }
-    .lightbox-inner img { max-height: 52vh; }
-    .lightbox-title { font-size: 22px; }
-  }
-
-  /* Mobile large 481–600px */
-  @media (max-width: 600px) {
-    .masonry { columns: 1; }
-    .bio-statement p { font-size: clamp(15px, 5vw, 20px); letter-spacing: 0.03em; }
-    .overlay-title { font-size: 16px; }
-  }
-
-  /* Mobile small up to 480px */
-  @media (max-width: 480px) {
-    nav { height: 56px; padding: 0 20px; }
-    .nav-drawer { top: 56px; padding: 24px 20px; }
-    .bio-statement { padding: 28px 20px 24px; text-align: left; text-align-last: left; }
-    .bio-statement p { font-size: 16px; letter-spacing: 0.02em; line-height: 1.5; }
-    .work-area { padding: 0 20px 44px; }
-    footer { padding: 16px 20px; flex-direction: column; gap: 4px; text-align: center; }
-    .wwm-strip { margin-top: 28px; padding-top: 20px; gap: 12px; }
-    .wwm-strip-text { font-size: 13px; }
-    .lightbox-inner { max-width: 96vw; }
-    .lightbox-close { top: 14px; right: 14px; }
-    .lightbox-title { font-size: 18px; margin-top: 12px; }
-    .lightbox-desc { font-size: 12px; }
-    #toast { bottom: 16px; right: 16px; left: 16px; text-align: center; }
-    .empty-state { padding: 56px 0; }
-  }
-
-  /* ── INTRO ANIMATION ── */
-  #intro {
-    position: fixed; inset: 0; z-index: 1000;
-    background: var(--black);
-    display: flex; align-items: center; justify-content: center;
-    pointer-events: all;
-    overflow: hidden;
-  }
-  #intro.hidden { display: none; }
-
-  .intro-word {
-    font-family: 'Archivo Black', var(--font-display);
-    font-size: clamp(64px, 14vw, 160px);
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--warm-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* transitions driven by JS class changes */
-    transition:
-      letter-spacing 0.55s cubic-bezier(0.4,0,0.2,1),
-      font-size 0.7s cubic-bezier(0.22,0.68,0,1),
-      opacity 0.6s ease;
-    will-change: letter-spacing, font-size, opacity;
-  }
-
-  /* Phase 1: letters invisible at start */
-  .intro-word.phase-hidden {
-    opacity: 0;
-  }
-
-  /* Phase 2: fade in, normal tracking */
-  .intro-word.phase-in {
-    opacity: 1;
-    letter-spacing: 0.12em;
-    font-size: clamp(64px, 14vw, 160px);
-    font-weight: 900;
-    transition: opacity 0.7s ease;
-  }
-
-  /* Phase 3: tracking tightens, strokes thin (simulate with font-weight + color lightening) */
-  .intro-word.phase-tight {
-    opacity: 1;
-    letter-spacing: -0.04em;
-    font-size: clamp(60px, 13vw, 148px);
-    font-weight: 900;
-    color: rgba(240,237,230,0.55);
-    transition:
-      letter-spacing 0.6s cubic-bezier(0.4,0,0.2,1),
-      font-size 0.6s cubic-bezier(0.4,0,0.2,1),
-      color 0.6s ease;
-  }
-
-  /* Phase 4: shake — applied as animation class */
-  .intro-word.phase-shake {
-    animation: introShake 0.38s cubic-bezier(0.36,0.07,0.19,0.97) both;
-  }
-  @keyframes introShake {
-    0%,100% { transform: translateX(0); }
-    15%      { transform: translateX(-6px) rotate(-0.4deg); }
-    30%      { transform: translateX(5px) rotate(0.4deg); }
-    45%      { transform: translateX(-4px) rotate(-0.2deg); }
-    60%      { transform: translateX(4px) rotate(0.3deg); }
-    75%      { transform: translateX(-2px); }
-    90%      { transform: translateX(2px); }
-  }
-
-  /* Phase 5: tracking widens, strokes fatten, letters grow and fade out */
-  .intro-word.phase-out {
-    opacity: 0;
-    letter-spacing: 0.55em;
-    font-size: clamp(90px, 20vw, 240px);
-    color: var(--warm-white);
-    transition:
-      letter-spacing 0.75s cubic-bezier(0.22,0.68,0,1),
-      font-size 0.75s cubic-bezier(0.22,0.68,0,1),
-      opacity 0.65s ease 0.05s,
-      color 0.2s ease;
-  }
-
-  /* Overlay wipes upward */
-  #intro.exiting {
-    animation: introWipe 0.6s cubic-bezier(0.76,0,0.24,1) forwards;
-    transform-origin: top;
-  }
-  @keyframes introWipe {
-    0%   { transform: scaleY(1); transform-origin: top; }
-    100% { transform: scaleY(0); transform-origin: top; }
-  }
-
-  @media (max-width: 480px) {
-    .intro-word { font-size: clamp(48px, 18vw, 80px); }
-    .intro-word.phase-in { font-size: clamp(48px, 18vw, 80px); }
-    .intro-word.phase-tight { font-size: clamp(44px, 16vw, 72px); }
-    .intro-word.phase-out { font-size: clamp(68px, 24vw, 120px); }
+  @media (max-width:700px){
+    .admin-tabs,.tab-panel,.admin-nav,.cs-nav,.cs-body{padding-left:20px;padding-right:20px;}
+    .form-row{grid-template-columns:1fr;}
+    .project-row{grid-template-columns:56px 1fr auto;}
+    .project-row .btn-ghost.move-btn{display:none;}
+    .img-slots.cols-2,.img-slots.cols-3{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
 
-<!-- INTRO ANIMATION -->
-<div id="intro" aria-hidden="true">
-  <div class="intro-word phase-hidden" id="intro-word">PGEE</div>
-</div>
-
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo">P<span>.</span>RAISE</a>
-  <div class="nav-links">
-    <a href="index.html" class="active">Work</a>
-    <a href="about.html">About</a>
-    <a href="work-with-me.html">Work With Me</a>
-    <a href="mailto:hello@karisadeyemi.com">Contact</a>
-    <div class="nav-avail">
-      <div class="avail-dot"></div>
-      <span id="nav-avail-text">Available for work</span>
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">PGEE — Portfolio</div>
+    <div class="login-title">Admin Login</div>
+    <div class="login-sub">Enter your password to continue</div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="login-pw" placeholder="••••••••">
+      <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+    </div>
+    <button class="btn-primary" onclick="attemptLogin()" style="width:100%;margin-top:4px;">Enter →</button>
+    <div style="margin-top:16px;text-align:center;">
+      <a href="index.html" class="btn-ghost">← Back to Portfolio</a>
     </div>
   </div>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE DRAWER -->
-<div class="nav-drawer" id="nav-drawer">
-  <a href="index.html" class="active" onclick="closeMenu()">Work</a>
-  <a href="about.html" onclick="closeMenu()">About</a>
-  <a href="work-with-me.html" onclick="closeMenu()">Work With Me</a>
-  <a href="mailto:hello@karisadeyemi.com" onclick="closeMenu()">Contact</a>
-  <div class="drawer-avail">
-    <div class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;"></div>
-    <span id="drawer-avail-text">Available for work</span>
-  </div>
 </div>
 
-<!-- BIO STATEMENT -->
-<div class="bio-statement">
-  <p>
-    Praise is a <strong>brand and visual designer</strong> based in Lagos.
-    He crafts identities, editorial systems, and <a href="work-with-me.html">packaging</a>
-    that make people look twice — and remember forever.
-  </p>
-</div>
+<!-- ADMIN APP -->
+<div id="admin-app">
 
-<!-- WORK GRID -->
-<div class="work-area">
-
-  <div class="masonry" id="masonry-grid"></div>
-
-  <div id="empty-state" class="empty-state" style="display:none;">
-    No projects yet.<br>
-    <a href="admin.html">Upload your first project →</a>
-  </div>
-
-  <div class="wwm-strip">
-    <div>
-      <div class="wwm-strip-eyebrow">Ready to collaborate?</div>
-      <div class="wwm-strip-text">See packages, pricing, and how we can work together.</div>
+  <div class="admin-nav">
+    <div class="admin-nav-left">
+      <span class="admin-logo">PGEE</span>
+      <span class="admin-nav-title">Portfolio Manager</span>
     </div>
-    <a href="work-with-me.html" class="wwm-strip-cta">Work With Me →</a>
+    <div class="admin-nav-right">
+      <a href="index.html" class="btn-ghost" target="_blank">View Site ↗</a>
+      <button class="btn-ghost" onclick="logout()">Log Out</button>
+    </div>
   </div>
 
-</div>
+  <div class="admin-tabs">
+    <button class="tab-btn active" onclick="switchTab('upload',this)">Add Project</button>
+    <button class="tab-btn" onclick="switchTab('manage',this)">Manage Projects</button>
+    <button class="tab-btn" onclick="switchTab('settings',this)">Site Settings</button>
+  </div>
 
-<!-- FOOTER -->
-<footer>
-  <span>© 2026 Praise</span>
-  <span>Lagos, NG</span>
-</footer>
+  <!-- TAB: ADD PROJECT -->
+  <div class="tab-panel active" id="tab-upload">
+    <div class="panel-title">Add New Project</div>
+    <div class="panel-sub">Upload a cover image and fill in the project details. You can build the full case study after adding.</div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕ Close</button>
-  <div class="lightbox-inner" onclick="event.stopPropagation()">
-    <img id="lb-img" src="" alt="">
-    <div class="lightbox-title" id="lb-title"></div>
-    <div class="lightbox-tag" id="lb-tag"></div>
-    <div class="lightbox-desc" id="lb-desc"></div>
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="file-input" accept="image/*" onchange="handleFileSelect(event)">
+      <div class="upload-icon">+</div>
+      <div class="upload-label">Cover image — click or drag</div>
+    </div>
+    <div class="upload-preview" id="upload-preview">
+      <img id="preview-img" src="" alt="Preview">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Project Title</label>
+        <input type="text" class="form-input" id="proj-title" placeholder="e.g. Oya Botanicals">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="proj-category">
+          <option value="Brand identity">Brand Identity</option>
+          <option value="Print & editorial">Print & Editorial</option>
+          <option value="Packaging">Packaging</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Short Description <span style="color:var(--gray);font-size:9px;">(shown on hover in the grid)</span></label>
+      <textarea class="form-textarea" id="proj-desc" placeholder="One or two lines about the project"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">External Link (optional)</label>
+      <input type="url" class="form-input" id="proj-link" placeholder="https://behance.net/...">
+    </div>
+    <button class="btn-primary" onclick="addProject()">Add to Portfolio →</button>
+  </div>
+
+  <!-- TAB: MANAGE -->
+  <div class="tab-panel" id="tab-manage">
+    <div class="panel-title">Manage Projects</div>
+    <div class="panel-sub">Edit details, build case studies, reorder, or remove projects</div>
+    <div class="projects-list" id="projects-list">
+      <div class="empty-state" id="manage-empty">No projects yet. Add your first one above.</div>
+    </div>
+  </div>
+
+  <!-- TAB: SETTINGS -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="panel-title">Site Settings</div>
+    <div class="panel-sub">Update your availability and personal details</div>
+    <div class="form-group">
+      <label class="form-label">Your Name</label>
+      <input type="text" class="form-input" id="set-name" placeholder="Praise">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tagline</label>
+      <input type="text" class="form-input" id="set-tagline" placeholder="Brand & Visual Designer">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Availability Status</label>
+      <select class="form-select" id="set-avail">
+        <option value="available">Available for work</option>
+        <option value="limited">Limited availability</option>
+        <option value="booked">Fully booked</option>
+      </select>
+    </div>
+    <div class="admin-divider"></div>
+    <div class="form-group">
+      <label class="form-label">Change Password</label>
+      <input type="password" class="form-input" id="set-pw" placeholder="Enter new password">
+    </div>
+    <button class="btn-primary" onclick="saveSettings()">Save Settings →</button>
+  </div>
+
+</div><!-- /admin-app -->
+
+<!-- ── CASE STUDY BUILDER (full-screen overlay) ── -->
+<div id="case-study-screen">
+  <div class="cs-nav">
+    <div class="cs-nav-title" id="cs-nav-title">Case Study Builder</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span id="cs-save-status" style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;"></span>
+      <button class="btn-primary" onclick="saveCaseStudy()">Save Case Study</button>
+      <button class="btn-ghost" onclick="closeCaseStudy()">← Back</button>
+    </div>
+  </div>
+
+  <div class="cs-body">
+
+    <!-- Intro / tagline for case study -->
+    <div style="margin-bottom:32px;">
+      <div class="form-group">
+        <label class="form-label">Case Study Headline <span style="color:var(--gray);font-size:9px;">(shown at top of project page)</span></label>
+        <input type="text" class="form-input" id="cs-headline" placeholder="e.g. Building a brand that commands the room">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Year</label>
+          <input type="text" class="form-input" id="cs-year" placeholder="2024">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Client / Brand</label>
+          <input type="text" class="form-input" id="cs-client" placeholder="e.g. Oya Botanicals">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Services Provided</label>
+        <input type="text" class="form-input" id="cs-services" placeholder="e.g. Brand Identity · Packaging · Print">
+      </div>
+    </div>
+
+    <div class="admin-divider" style="margin:0 0 24px;"></div>
+
+    <!-- Block list -->
+    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;">Content Blocks</div>
+    <div class="block-list" id="block-list"></div>
+
+    <!-- Add block buttons -->
+    <div class="add-block-row">
+      <button class="add-block-btn" onclick="openBlockEditor('text')">
+        <span style="font-size:14px;line-height:1;">¶</span> Text Section
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('brief')">
+        <span style="font-size:14px;line-height:1;">◧</span> Brief + Services
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('image')">
+        <span style="font-size:14px;line-height:1;">⬜</span> Image(s)
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('image-text')">
+        <span style="font-size:14px;line-height:1;">◫</span> Image + Text
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('quote')">
+        <span style="font-size:14px;line-height:1;">"</span> Pull Quote
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('credits')">
+        <span style="font-size:14px;line-height:1;">≡</span> Credits
+      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('spacer')">
+        <span style="font-size:14px;line-height:1;">↕</span> Spacer
+      </button>
+    </div>
+
+    <!-- Block editors (hidden until triggered) -->
+
+    <!-- TEXT editor -->
+    <div class="block-editor" id="editor-text">
+      <div class="block-editor-title">Text Section</div>
+      <div class="form-group">
+        <label class="form-label">Heading (optional)</label>
+        <input type="text" class="form-input" id="text-heading" placeholder="e.g. The Challenge">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body Text</label>
+        <textarea class="form-textarea" id="text-body" style="min-height:120px;" placeholder="Write your story here..."></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('text')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('text')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- IMAGE editor -->
+    <div class="block-editor" id="editor-image">
+      <div class="block-editor-title">Image Block</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;color:var(--gray);margin-bottom:12px;">LAYOUT</div>
+      <div class="img-layout-row">
+        <button class="img-layout-btn active" data-layout="full" onclick="setImgLayout(this,'full')">Full Width</button>
+        <button class="img-layout-btn" data-layout="2col" onclick="setImgLayout(this,'2col')">2 Columns</button>
+        <button class="img-layout-btn" data-layout="3col" onclick="setImgLayout(this,'3col')">3 Columns</button>
+      </div>
+      <div class="img-slots cols-1" id="img-slots">
+        <div class="img-slot" id="slot-0">
+          <input type="file" accept="image/*" onchange="loadSlot(0,event)">
+          <div class="img-slot-label">+ Image</div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:8px;">
+        <label class="form-label">Caption (optional)</label>
+        <input type="text" class="form-input" id="img-caption" placeholder="Image caption">
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('image')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('image')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- IMAGE + TEXT editor -->
+    <div class="block-editor" id="editor-image-text">
+      <div class="block-editor-title">Image + Text</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;color:var(--gray);margin-bottom:12px;">IMAGE POSITION</div>
+      <div class="img-layout-row" style="margin-bottom:16px;">
+        <button class="img-layout-btn active" data-pos="left" onclick="setImgTextPos(this,'left')">Image Left</button>
+        <button class="img-layout-btn" data-pos="right" onclick="setImgTextPos(this,'right')">Image Right</button>
+      </div>
+      <div class="img-slots cols-1" id="imgtext-slot" style="margin-bottom:16px;">
+        <div class="img-slot">
+          <input type="file" accept="image/*" onchange="loadImgTextSlot(event)">
+          <div class="img-slot-label">+ Image</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Heading (optional)</label>
+        <input type="text" class="form-input" id="imgtext-heading" placeholder="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body Text</label>
+        <textarea class="form-textarea" id="imgtext-body" placeholder="Write alongside the image..."></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('image-text')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('image-text')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- QUOTE editor -->
+    <div class="block-editor" id="editor-quote">
+      <div class="block-editor-title">Pull Quote</div>
+      <div class="form-group">
+        <label class="form-label">Quote Text</label>
+        <textarea class="form-textarea" id="quote-text" placeholder="e.g. The brief was simple: make it impossible to ignore."></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('quote')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('quote')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- BRIEF + SERVICES editor -->
+    <div class="block-editor" id="editor-brief">
+      <div class="block-editor-title">Brief + Services</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Left column: project description. Right column: short label list (services, deliverables, etc.)</div>
+      <div class="form-group">
+        <label class="form-label">Brief / Description (left column)</label>
+        <textarea class="form-textarea" id="brief-body" style="min-height:120px;" placeholder="Write a description of the project, the challenge, or the context..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Services / Labels (right column — one per line)</label>
+        <textarea class="form-textarea" id="brief-services" style="min-height:80px;" placeholder="Brand Identity&#10;Packaging&#10;Print"></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('brief')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('brief')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- CREDITS editor -->
+    <div class="block-editor" id="editor-credits">
+      <div class="block-editor-title">Credits</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Appears as "Credits" label on the left, attributed text on the right.</div>
+      <div class="form-group">
+        <label class="form-label">Credits Text</label>
+        <textarea class="form-textarea" id="credits-text" style="min-height:120px;" placeholder="Photographer: John Doe&#10;Art Direction: Praise&#10;Models: Jane Smith, Ada Obi&#10;Copywriting: Tunde Bello"></textarea>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('credits')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('credits')" style="margin-left:8px;">Cancel</button>
+    </div>
+
+    <!-- SPACER editor -->
+    <div class="block-editor" id="editor-spacer">
+      <div class="block-editor-title">Spacer</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Adds breathing room between blocks — useful for controlling rhythm.</div>
+      <div class="form-group">
+        <label class="form-label">Size</label>
+        <select class="form-select" id="spacer-size">
+          <option value="sm">Small (32px)</option>
+          <option value="md" selected>Medium (72px)</option>
+          <option value="lg">Large (140px)</option>
+        </select>
+      </div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('spacer')">Add Block →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('spacer')" style="margin-left:8px;">Cancel</button>
+    </div>
+
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-  function toggleMenu() {
-    const h = document.getElementById('hamburger');
-    const d = document.getElementById('nav-drawer');
-    h.classList.toggle('open');
-    d.classList.toggle('open');
-    document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
-  }
-  function closeMenu() {
-    document.getElementById('hamburger').classList.remove('open');
-    document.getElementById('nav-drawer').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
+  const DEFAULT_PW = 'designer2026';
   let projects = JSON.parse(localStorage.getItem('portfolio_projects') || '[]');
-  const settings = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+  let settings  = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+  let selectedImageData = null;
+  let currentCsId = null;      // project id being edited in case study builder
+  let csBlocks    = [];        // working copy of blocks for current project
+  let imgSlotData = {};        // image data per slot index for image block editor
+  let imgTextData = null;      // image data for image+text editor
+  let currentImgLayout = 'full';
+  let currentImgTextPos = 'left';
 
-  function init() {
-    if (settings.avail === 'booked') {
-      document.getElementById('nav-avail-text').textContent = 'Fully booked';
-      document.querySelector('.avail-dot').style.background = '#E8472A';
-    } else if (settings.avail === 'limited') {
-      document.getElementById('nav-avail-text').textContent = 'Limited availability';
-      document.querySelector('.avail-dot').style.background = '#EF9F27';
+  // ── LOGIN ──
+  function attemptLogin() {
+    const pw = document.getElementById('login-pw').value;
+    const correct = localStorage.getItem('admin_password') || DEFAULT_PW;
+    if (pw === correct) {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('admin-app').classList.add('visible');
+      initAdmin();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+      document.getElementById('login-pw').value = '';
     }
-    renderGallery();
+  }
+  document.getElementById('login-pw').addEventListener('keydown', e => { if (e.key==='Enter') attemptLogin(); });
+
+  function logout() {
+    document.getElementById('admin-app').classList.remove('visible');
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('login-pw').value = '';
   }
 
-  function renderGallery() {
-    const grid = document.getElementById('masonry-grid');
-    const empty = document.getElementById('empty-state');
-    Array.from(grid.querySelectorAll('.masonry-item')).forEach(el => el.remove());
+  function initAdmin() {
+    if (settings.name)   document.getElementById('set-name').value    = settings.name;
+    if (settings.tagline)document.getElementById('set-tagline').value = settings.tagline;
+    if (settings.avail)  document.getElementById('set-avail').value   = settings.avail;
+    renderManageList();
+  }
+
+  // ── TABS ──
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+name).classList.add('active');
+    if (name === 'manage') renderManageList();
+  }
+
+  // ── IMAGE COMPRESSION ──
+  function compressImage(file, callback) {
+    const MAX = 1400, Q = 0.82;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w=Math.round(w*r); h=Math.round(h*r); }
+        const c = document.createElement('canvas');
+        c.width=w; c.height=h;
+        c.getContext('2d').drawImage(img,0,0,w,h);
+        callback(c.toDataURL('image/jpeg', Q));
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── COVER UPLOAD ──
+  function handleFileSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    showToast('Processing…');
+    compressImage(file, data => {
+      selectedImageData = data;
+      document.getElementById('preview-img').src = data;
+      document.getElementById('upload-preview').style.display = 'block';
+      document.getElementById('upload-zone').style.borderColor = 'var(--orange)';
+      showToast('Cover ready');
+    });
+  }
+
+  const zone = document.getElementById('upload-zone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.background='var(--orange-glow)'; });
+  zone.addEventListener('dragleave', () => { zone.style.background=''; });
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.style.background='';
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      showToast('Processing…');
+      compressImage(file, data => {
+        selectedImageData = data;
+        document.getElementById('preview-img').src = data;
+        document.getElementById('upload-preview').style.display = 'block';
+        zone.style.borderColor = 'var(--orange)';
+        showToast('Cover ready');
+      });
+    }
+  });
+
+  // ── ADD PROJECT ──
+  function addProject() {
+    const title    = document.getElementById('proj-title').value.trim();
+    const category = document.getElementById('proj-category').value;
+    const desc     = document.getElementById('proj-desc').value.trim();
+    const link     = document.getElementById('proj-link').value.trim();
+
+    if (!title)             { showToast('Please enter a title', true); return; }
+    if (!selectedImageData) { showToast('Please add a cover image', true); return; }
+
+    const project = { id: Date.now(), title, category, desc, link, image: selectedImageData, caseStudy: null };
+    projects.unshift(project);
+
+    if (!saveProjects()) return;
+
+    document.getElementById('proj-title').value  = '';
+    document.getElementById('proj-desc').value   = '';
+    document.getElementById('proj-link').value   = '';
+    document.getElementById('upload-preview').style.display = 'none';
+    document.getElementById('upload-zone').style.borderColor = '';
+    document.getElementById('file-input').value  = '';
+    selectedImageData = null;
+
+    showToast('Project added! Build the case study in Manage Projects.');
+  }
+
+  // ── MANAGE LIST ──
+  function renderManageList() {
+    const list  = document.getElementById('projects-list');
+    const empty = document.getElementById('manage-empty');
+    Array.from(list.querySelectorAll('.project-row')).forEach(el => el.remove());
 
     if (projects.length === 0) {
       empty.style.display = 'block';
-    } else {
-      empty.style.display = 'none';
-      const filtered = projects;
-      filtered.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'masonry-item';
-        item.innerHTML = `
-          <img src="${p.image}" alt="${p.title}" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-tag">${p.category}</div>
-            <div class="overlay-title">${p.title}</div>
-            <div class="overlay-desc">${p.desc || ''}</div>
-          </div>`;
-        item.addEventListener('click', () => window.location.href = `project.html?id=${p.id}`);
-        grid.appendChild(item);
-      });
-    }
-  }
-
-  function openLightbox(p) {
-    document.getElementById('lb-img').src = p.image;
-    document.getElementById('lb-title').textContent = p.title;
-    document.getElementById('lb-tag').textContent = p.category;
-    document.getElementById('lb-desc').textContent = p.desc || '';
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  // ── INTRO ANIMATION ──
-  (function () {
-    const intro  = document.getElementById('intro');
-    const word   = document.getElementById('intro-word');
-
-    // Only skip if navigating within the same session (not on refresh)
-    if (sessionStorage.getItem('intro_played')) {
-      intro.classList.add('hidden');
       return;
     }
+    empty.style.display = 'none';
+    projects.forEach(p => {
+      const hasCs = p.caseStudy && (p.caseStudy.blocks || []).length > 0;
+      const row = document.createElement('div');
+      row.className = 'project-row';
+      row.innerHTML = `
+        <img class="project-thumb" src="${p.image}" alt="${p.title}">
+        <div>
+          <div class="project-name">${p.title}</div>
+          <div class="project-tag">${p.category} ${hasCs ? '· <span style="color:var(--teal)">Case Study ✓</span>' : ''}</div>
+        </div>
+        <button class="btn-ghost" onclick="openCaseStudy(${p.id})" title="Build case study" style="white-space:nowrap;">
+          ${hasCs ? 'Edit Study' : '+ Case Study'}
+        </button>
+        <button class="btn-ghost move-btn" onclick="moveUp(${p.id})">↑</button>
+        <button class="btn-danger" onclick="deleteProject(${p.id})">Delete</button>`;
+      list.appendChild(row);
+    });
+  }
 
+  function deleteProject(id) {
+    if (!confirm('Remove this project?')) return;
+    projects = projects.filter(p => p.id !== id);
+    saveProjects();
+    renderManageList();
+    showToast('Project removed');
+  }
+
+  function moveUp(id) {
+    const idx = projects.findIndex(p => p.id === id);
+    if (idx > 0) {
+      [projects[idx-1], projects[idx]] = [projects[idx], projects[idx-1]];
+      saveProjects();
+      renderManageList();
+    }
+  }
+
+  function saveProjects() {
+    try {
+      localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+      return true;
+    } catch(e) {
+      projects.shift();
+      showToast('Storage full. Delete older projects to free space.', true);
+      return false;
+    }
+  }
+
+  // ── SETTINGS ──
+  function saveSettings() {
+    settings.name    = document.getElementById('set-name').value.trim();
+    settings.tagline = document.getElementById('set-tagline').value.trim();
+    settings.avail   = document.getElementById('set-avail').value;
+    localStorage.setItem('portfolio_settings', JSON.stringify(settings));
+    const newPw = document.getElementById('set-pw').value.trim();
+    if (newPw) { localStorage.setItem('admin_password', newPw); document.getElementById('set-pw').value=''; }
+    showToast(newPw ? 'Settings & password saved!' : 'Settings saved!');
+  }
+
+  // ──────────────────────────────────────────────
+  // CASE STUDY BUILDER
+  // ──────────────────────────────────────────────
+
+  function openCaseStudy(id) {
+    const project = projects.find(p => p.id === id);
+    if (!project) return;
+    currentCsId = id;
+    csBlocks = project.caseStudy ? JSON.parse(JSON.stringify(project.caseStudy.blocks || [])) : [];
+
+    document.getElementById('cs-nav-title').textContent = `Case Study — ${project.title}`;
+    document.getElementById('cs-headline').value  = project.caseStudy?.headline  || '';
+    document.getElementById('cs-year').value      = project.caseStudy?.year      || '';
+    document.getElementById('cs-client').value    = project.caseStudy?.client    || '';
+    document.getElementById('cs-services').value  = project.caseStudy?.services  || '';
+    document.getElementById('cs-save-status').textContent = '';
+
+    renderBlockList();
+    closeAllBlockEditors();
+    document.getElementById('case-study-screen').classList.add('open');
     document.body.style.overflow = 'hidden';
+  }
 
-    function setPhase(phase) {
-      word.className = 'intro-word ' + phase;
+  function closeCaseStudy() {
+    document.getElementById('case-study-screen').classList.remove('open');
+    document.body.style.overflow = '';
+    currentCsId = null;
+    csBlocks = [];
+    renderManageList();
+  }
+
+  function saveCaseStudy() {
+    const project = projects.find(p => p.id === currentCsId);
+    if (!project) return;
+    project.caseStudy = {
+      headline: document.getElementById('cs-headline').value.trim(),
+      year:     document.getElementById('cs-year').value.trim(),
+      client:   document.getElementById('cs-client').value.trim(),
+      services: document.getElementById('cs-services').value.trim(),
+      blocks:   csBlocks
+    };
+    if (saveProjects()) {
+      document.getElementById('cs-save-status').textContent = 'Saved ✓';
+      showToast('Case study saved!');
+    }
+  }
+
+  function renderBlockList() {
+    const list = document.getElementById('block-list');
+    list.innerHTML = '';
+    if (csBlocks.length === 0) {
+      list.innerHTML = '<div style="font-family:var(--font-mono);font-size:11px;color:var(--gray);padding:20px 0;letter-spacing:0.08em;">No blocks yet. Add content below.</div>';
+      return;
+    }
+    csBlocks.forEach((block, i) => {
+      const el = document.createElement('div');
+      el.className = 'cs-block';
+      let preview = '';
+
+      if (block.type === 'text') {
+        preview = `${block.heading ? `<div style="font-family:var(--font-mono);font-size:10px;color:var(--warm-white);margin-bottom:4px;">${block.heading}</div>` : ''}
+          <div class="cs-block-text-preview">${(block.body||'').substring(0,120)}${block.body&&block.body.length>120?'…':''}</div>`;
+      } else if (block.type === 'image') {
+        const imgs = block.images || [];
+        preview = `<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+          ${imgs.map(src => `<img src="${src}" style="height:64px;width:auto;object-fit:cover;border:0.5px solid var(--border);" alt="">`).join('')}
+        </div>
+        ${block.caption ? `<div style="font-size:11px;color:var(--gray);margin-top:4px;">${block.caption}</div>` : ''}`;
+      } else if (block.type === 'image-text') {
+        preview = `<div style="display:flex;gap:12px;align-items:flex-start;margin-top:8px;">
+          ${block.image ? `<img src="${block.image}" style="height:56px;width:auto;object-fit:cover;border:0.5px solid var(--border);flex-shrink:0;" alt="">` : ''}
+          <div class="cs-block-text-preview" style="margin-top:0;">${(block.body||'').substring(0,80)}…</div>
+        </div>`;
+      } else if (block.type === 'quote') {
+        preview = `<div style="font-size:14px;font-style:italic;color:var(--warm-white);margin-top:6px;">"${(block.text||'').substring(0,100)}${(block.text||'').length>100?'…':''}"</div>`;
+      } else if (block.type === 'brief') {
+        preview = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:8px;">
+          <div class="cs-block-text-preview">${(block.body||'').substring(0,100)}…</div>
+          <div style="font-size:11px;color:var(--orange);font-family:var(--font-mono);">${(block.services||'').split('\n').slice(0,4).join(' · ')}</div>
+        </div>`;
+      } else if (block.type === 'credits') {
+        preview = `<div style="font-size:12px;color:var(--gray);margin-top:6px;line-height:1.8;">${(block.text||'').substring(0,140)}…</div>`;
+      } else if (block.type === 'spacer') {
+        const sizes = { sm:'Small', md:'Medium', lg:'Large' };
+        preview = `<div style="font-family:var(--font-mono);font-size:10px;color:var(--gray-2);margin-top:4px;">↕ ${sizes[block.size]||'Medium'} spacing</div>`;
+      }
+
+      el.innerHTML = `
+        <div class="cs-block-header">
+          <span class="cs-block-type">${block.type.replace('-',' ')}</span>
+          <div class="cs-block-actions">
+            ${i > 0 ? `<button class="btn-ghost btn-sm" onclick="moveBlock(${i},-1)">↑</button>` : ''}
+            ${i < csBlocks.length-1 ? `<button class="btn-ghost btn-sm" onclick="moveBlock(${i},1)">↓</button>` : ''}
+            <button class="btn-danger btn-sm" onclick="deleteBlock(${i})">Remove</button>
+          </div>
+        </div>
+        ${preview}`;
+      list.appendChild(el);
+    });
+  }
+
+  function moveBlock(i, dir) {
+    const j = i + dir;
+    if (j < 0 || j >= csBlocks.length) return;
+    [csBlocks[i], csBlocks[j]] = [csBlocks[j], csBlocks[i]];
+    renderBlockList();
+  }
+
+  function deleteBlock(i) {
+    csBlocks.splice(i, 1);
+    renderBlockList();
+  }
+
+  // ── BLOCK EDITORS ──
+  function closeAllBlockEditors() {
+    document.querySelectorAll('.block-editor').forEach(e => e.classList.remove('open'));
+  }
+
+  function openBlockEditor(type) {
+    closeAllBlockEditors();
+    if (type === 'text')       { document.getElementById('text-heading').value=''; document.getElementById('text-body').value=''; }
+    if (type === 'image')      { resetImgSlots('full'); document.getElementById('img-caption').value=''; }
+    if (type === 'image-text') { resetImgTextSlot(); document.getElementById('imgtext-heading').value=''; document.getElementById('imgtext-body').value=''; }
+    if (type === 'quote')      { document.getElementById('quote-text').value=''; }
+    if (type === 'brief')      { document.getElementById('brief-body').value=''; document.getElementById('brief-services').value=''; }
+    if (type === 'credits')    { document.getElementById('credits-text').value=''; }
+    if (type === 'spacer')     { document.getElementById('spacer-size').value='md'; }
+    document.getElementById('editor-'+type).classList.add('open');
+    document.getElementById('editor-'+type).scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function closeBlockEditor(type) {
+    document.getElementById('editor-'+type).classList.remove('open');
+  }
+
+  // Image layout for image block
+  function setImgLayout(btn, layout) {
+    currentImgLayout = layout;
+    document.querySelectorAll('#editor-image .img-layout-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cols = layout === 'full' ? 1 : layout === '2col' ? 2 : 3;
+    resetImgSlots(layout);
+  }
+
+  function resetImgSlots(layout) {
+    currentImgLayout = layout;
+    imgSlotData = {};
+    const cols = layout === 'full' ? 1 : layout === '2col' ? 2 : 3;
+    const colClass = layout === 'full' ? 'cols-1' : layout === '2col' ? 'cols-2' : 'cols-3';
+    const container = document.getElementById('img-slots');
+    container.className = 'img-slots ' + colClass;
+    container.innerHTML = '';
+    for (let i = 0; i < cols; i++) {
+      container.innerHTML += `
+        <div class="img-slot" id="slot-${i}">
+          <input type="file" accept="image/*" onchange="loadSlot(${i},event)">
+          <div class="img-slot-label">+ Image</div>
+        </div>`;
+    }
+  }
+
+  function loadSlot(idx, e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    compressImage(file, data => {
+      imgSlotData[idx] = data;
+      const slot = document.getElementById('slot-'+idx);
+      slot.innerHTML = `<img src="${data}" alt=""><input type="file" accept="image/*" onchange="loadSlot(${idx},event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;">`;
+    });
+  }
+
+  function setImgTextPos(btn, pos) {
+    currentImgTextPos = pos;
+    document.querySelectorAll('#editor-image-text .img-layout-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function resetImgTextSlot() {
+    imgTextData = null;
+    document.getElementById('imgtext-slot').innerHTML = `
+      <div class="img-slot">
+        <input type="file" accept="image/*" onchange="loadImgTextSlot(event)">
+        <div class="img-slot-label">+ Image</div>
+      </div>`;
+  }
+
+  function loadImgTextSlot(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    compressImage(file, data => {
+      imgTextData = data;
+      document.getElementById('imgtext-slot').innerHTML = `
+        <div class="img-slot">
+          <img src="${data}" alt="">
+          <input type="file" accept="image/*" onchange="loadImgTextSlot(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;">
+        </div>`;
+    });
+  }
+
+  // Commit a block to csBlocks
+  function commitBlock(type) {
+    let block = { type };
+
+    if (type === 'text') {
+      const body = document.getElementById('text-body').value.trim();
+      if (!body) { showToast('Please write some text', true); return; }
+      block.heading = document.getElementById('text-heading').value.trim();
+      block.body    = body;
     }
 
-    // ── TIMELINE ──
-    // t=0      hidden (start)
-    // t=300    fade in — phase-in
-    // t=1150   tracking tightens, strokes thin — phase-tight
-    // t=1850   shake — phase-shake (add on top of phase-tight)
-    // t=2250   tracks wide, grows, fades out — phase-out
-    // t=3100   overlay wipes up
-    // t=3700   done
+    if (type === 'image') {
+      const images = Object.values(imgSlotData);
+      if (images.length === 0) { showToast('Please upload at least one image', true); return; }
+      block.layout  = currentImgLayout;
+      block.images  = images;
+      block.caption = document.getElementById('img-caption').value.trim();
+    }
 
-    // Phase 2: fade in
-    setTimeout(() => setPhase('phase-in'), 300);
+    if (type === 'image-text') {
+      if (!imgTextData) { showToast('Please upload an image', true); return; }
+      const body = document.getElementById('imgtext-body').value.trim();
+      if (!body) { showToast('Please add some text', true); return; }
+      block.image    = imgTextData;
+      block.position = currentImgTextPos;
+      block.heading  = document.getElementById('imgtext-heading').value.trim();
+      block.body     = body;
+    }
 
-    // Phase 3: tighten + thin
-    setTimeout(() => setPhase('phase-tight'), 1150);
+    if (type === 'quote') {
+      const text = document.getElementById('quote-text').value.trim();
+      if (!text) { showToast('Please enter a quote', true); return; }
+      block.text = text;
+    }
 
-    // Phase 4: shake (add shake class without removing tight)
-    setTimeout(() => {
-      word.classList.add('phase-shake');
-    }, 1850);
+    if (type === 'brief') {
+      const body = document.getElementById('brief-body').value.trim();
+      if (!body) { showToast('Please write the brief text', true); return; }
+      block.body     = body;
+      block.services = document.getElementById('brief-services').value.trim();
+    }
 
-    // Phase 5: widen + fatten + grow + fade out
-    setTimeout(() => setPhase('phase-out'), 2280);
+    if (type === 'credits') {
+      const text = document.getElementById('credits-text').value.trim();
+      if (!text) { showToast('Please enter credits', true); return; }
+      block.text = text;
+    }
 
-    // Exit: wipe overlay upward
-    setTimeout(() => {
-      intro.classList.add('exiting');
-      setTimeout(() => {
-        intro.classList.add('hidden');
-        document.body.style.overflow = '';
-        sessionStorage.setItem('intro_played', '1');
-      }, 620);
-    }, 3080);
+    if (type === 'spacer') {
+      block.size = document.getElementById('spacer-size').value;
+    }
 
-  })();
+    csBlocks.push(block);
+    closeBlockEditor(type);
+    renderBlockList();
+    showToast('Block added');
+  }
 
-  init();
+  // ── TOAST ──
+  function showToast(msg, isError=false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = isError ? 'var(--coral)' : 'var(--teal)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
 </script>
 </body>
 </html>
