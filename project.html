@@ -251,21 +251,23 @@
 
   /* ── IMAGE BLOCK — GRID ── */
   .block-image-grid { padding-top: 80px; }
-  .img-grid { display: grid; gap: 20px; }
+  .img-grid { display: grid; gap: 50px; }
   .img-grid.cols-2 { grid-template-columns: 1fr 1fr; }
   .img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  /* Tall portrait crops — doubled size */
   .img-grid.cols-2 img {
     width: 100%; display: block;
-    aspect-ratio: 4/5;
-    object-fit: cover;
+    aspect-ratio: unset;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
   }
   .img-grid.cols-3 img {
     width: 100%; display: block;
-    aspect-ratio: 3/4;
-    object-fit: cover;
+    aspect-ratio: unset;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
   }
-  /* Single image in grid mode */
   .img-grid.cols-1 img { aspect-ratio: unset; height: auto; }
   .block-caption {
     font-size: 12px; font-weight: 400;
@@ -389,8 +391,8 @@
     .project-footer { padding: 32px 20px 48px; }
     .meta-headline { font-size: clamp(24px, 7vw, 36px); }
     .meta-info { flex-direction: column; gap: 20px; }
-    .img-grid.cols-2, .img-grid.cols-3 { grid-template-columns: 1fr; }
-    .img-grid.cols-2 img, .img-grid.cols-3 img { aspect-ratio: 3/2; }
+    .img-grid.cols-2, .img-grid.cols-3 { grid-template-columns: 1fr; gap: 28px; }
+    .img-grid.cols-2 img, .img-grid.cols-3 img { aspect-ratio: unset; height: auto; }
     .credits-inner { grid-template-columns: 1fr; gap: 10px; }
     .block-quote-inner { padding-left: 20px; }
     .block-text, .block-image-full, .block-image-grid,
