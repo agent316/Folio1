@@ -48,10 +48,9 @@
   nav {
     position: sticky; top: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px; height: 64px;
+    padding: 10px 48px 0; height: 64px;
     background: rgba(8,8,7,0.92);
     backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
   }
   .nav-logo {
     font-family: var(--font-display); font-size: 17px;
@@ -61,7 +60,7 @@
   .nav-links { display: flex; gap: 36px; align-items: center; }
   .nav-links a {
     font-family: var(--font-mono); font-size: 17px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
+    letter-spacing: 0.12em; text-transform: lowercase;
     color: var(--gray); text-decoration: none; transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--warm-white); }
