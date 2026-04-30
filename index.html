@@ -48,27 +48,36 @@
   nav {
     position: sticky; top: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 48px 0; height: 64px;
+    padding: 20px 48px 0; height: 64px;
     background: rgba(8,8,7,0.92);
     backdrop-filter: blur(12px);
   }
   .nav-logo {
-    font-family: var(--font-display); font-size: 17px;
-    letter-spacing: 0.06em; color: var(--warm-white); text-decoration: none;
+    font-family: var(--font-display); font-size: 12px;
+    letter-spacing: 0.04em; color: var(--warm-white); text-decoration: none;
   }
   .nav-logo span { color: var(--orange); }
-  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
   .nav-links a {
-    font-family: var(--font-mono); font-size: 17px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: lowercase;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: lowercase;
     color: var(--gray); text-decoration: none; transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--warm-white); }
   .nav-links a.active { color: var(--orange); }
-  .nav-avail {
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-size: 17px;
-    color: var(--teal); letter-spacing: 0.08em;
+  .nav-icons {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .nav-icon {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gray); transition: color 0.2s;
+    text-decoration: none; line-height: 1;
+  }
+  .nav-icon:hover { color: var(--warm-white); }
+  .nav-icon svg {
+    width: 18px; height: 18px;
+    stroke: currentColor; fill: none;
+    stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
   }
   .avail-dot {
     width: 6px; height: 6px; border-radius: 50%;
@@ -289,6 +298,7 @@
   @media (max-width: 900px) {
     nav { padding: 0 24px; height: 60px; }
     .nav-links { display: none; }
+    .nav-icons { display: none; }
     .nav-hamburger { display: flex; }
     .bio-statement { padding: 48px 24px 40px; }
     .bio-statement p { font-size: clamp(16px, 4.2vw, 26px); }
@@ -439,29 +449,50 @@
 <nav>
   <a href="index.html" class="nav-logo">P<span>.</span>RAISE</a>
   <div class="nav-links">
-    <a href="index.html" class="active">Work</a>
-    <a href="about.html">About</a>
-    <a href="work-with-me.html">Work With Me</a>
-    <a href="mailto:hello@karisadeyemi.com">Contact</a>
-    <div class="nav-avail">
-      <div class="avail-dot"></div>
-      <span id="nav-avail-text">Available for work</span>
-    </div>
+    <a href="index.html" class="active">work</a>
+    <a href="about.html">about</a>
+    <a href="work-with-me.html">work with me</a>
+    <a href="mailto:anyahurup@gmail.com">contact</a>
   </div>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-icons">
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/iampgee_/" target="_blank" rel="noopener" class="nav-icon" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4.5"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <!-- Mail -->
+    <a href="mailto:anyahurup@gmail.com" class="nav-icon" aria-label="Email">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <polyline points="2,4 12,13 22,4"/>
+      </svg>
+    </a>
+  </div>
 </nav>
 
 <!-- MOBILE DRAWER -->
 <div class="nav-drawer" id="nav-drawer">
-  <a href="index.html" class="active" onclick="closeMenu()">Work</a>
-  <a href="about.html" onclick="closeMenu()">About</a>
-  <a href="work-with-me.html" onclick="closeMenu()">Work With Me</a>
-  <a href="mailto:hello@karisadeyemi.com" onclick="closeMenu()">Contact</a>
-  <div class="drawer-avail">
-    <div class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;"></div>
-    <span id="drawer-avail-text">Available for work</span>
+  <a href="index.html" class="active" onclick="closeMenu()">work</a>
+  <a href="about.html" onclick="closeMenu()">about</a>
+  <a href="work-with-me.html" onclick="closeMenu()">work with me</a>
+  <a href="mailto:anyahurup@gmail.com" onclick="closeMenu()">contact</a>
+  <div style="display:flex;gap:24px;padding:24px 0 0;">
+    <a href="https://www.instagram.com/iampgee_/" target="_blank" rel="noopener" class="nav-icon" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4.5"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="var(--gray)" stroke="none"/>
+      </svg>
+    </a>
+    <a href="mailto:anyahurup@gmail.com" class="nav-icon" aria-label="Email">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <polyline points="2,4 12,13 22,4"/>
+      </svg>
+    </a>
   </div>
 </div>
 
