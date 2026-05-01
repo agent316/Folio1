@@ -49,12 +49,27 @@
 
   /* ── NAV ── */
   nav {
-    position: sticky; top: 0; z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 20px 48px 0; height: 64px;
     background: rgba(8,8,7,0.92);
     backdrop-filter: blur(12px);
+    /* Smart scroll behaviour */
+    transform: translateY(0);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.35s ease;
+    will-change: transform;
   }
+  nav.nav-hidden {
+    transform: translateY(-100%);
+  }
+  nav.nav-scrolled {
+    box-shadow: 0 1px 0 var(--border);
+  }
+
+  /* Push page content below the fixed nav */
+  body > nav + * { margin-top: 64px; }
+
   .nav-logo {
     font-family: var(--font-display); font-size: 15px;
     letter-spacing: 0.04em; color: var(--warm-white); text-decoration: none;
@@ -258,7 +273,10 @@
     background: var(--black); z-index: 99;
     flex-direction: column; padding: 32px 24px;
     border-top: 0.5px solid var(--border); overflow-y: auto;
+    /* Drawer follows the nav when it hides */
+    transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  nav.nav-hidden ~ .nav-drawer { top: 0; }
   .nav-drawer.open { display: flex; }
   .nav-drawer a {
     font-family: var(--font-mono); font-size: 14px; font-weight: 500;
@@ -297,6 +315,8 @@
   /* Tablet portrait 601–900px */
   @media (max-width: 900px) {
     nav { padding: 0 24px; height: 60px; }
+    body > nav + * { margin-top: 60px; }
+    .nav-drawer { top: 60px; }
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
     .bio-statement { padding: 48px 24px 40px; }
@@ -322,6 +342,7 @@
   /* Mobile small up to 480px */
   @media (max-width: 480px) {
     nav { height: 56px; padding: 0 20px; }
+    body > nav + * { margin-top: 56px; }
     .nav-drawer { top: 56px; padding: 24px 20px; }
     .bio-statement { padding: 28px 20px 24px; text-align: left; text-align-last: left; }
     .bio-statement p { font-size: 16px; letter-spacing: 0.02em; line-height: 1.5; }
@@ -357,7 +378,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* transitions driven by JS class changes */
     transition:
       letter-spacing 0.55s cubic-bezier(0.4,0,0.2,1),
       font-size 0.7s cubic-bezier(0.22,0.68,0,1),
@@ -365,12 +385,8 @@
     will-change: letter-spacing, font-size, opacity;
   }
 
-  /* Phase 1: letters invisible at start */
-  .intro-word.phase-hidden {
-    opacity: 0;
-  }
+  .intro-word.phase-hidden { opacity: 0; }
 
-  /* Phase 2: fade in, normal tracking */
   .intro-word.phase-in {
     opacity: 1;
     letter-spacing: 0.12em;
@@ -379,7 +395,6 @@
     transition: opacity 0.7s ease;
   }
 
-  /* Phase 3: tracking tightens, strokes thin (simulate with font-weight + color lightening) */
   .intro-word.phase-tight {
     opacity: 1;
     letter-spacing: -0.04em;
@@ -392,7 +407,6 @@
       color 0.6s ease;
   }
 
-  /* Phase 4: shake — applied as animation class */
   .intro-word.phase-shake {
     animation: introShake 0.38s cubic-bezier(0.36,0.07,0.19,0.97) both;
   }
@@ -406,7 +420,6 @@
     90%      { transform: translateX(2px); }
   }
 
-  /* Phase 5: tracking widens, strokes fatten, letters grow and fade out */
   .intro-word.phase-out {
     opacity: 0;
     letter-spacing: 0.55em;
@@ -419,7 +432,6 @@
       color 0.2s ease;
   }
 
-  /* Overlay wipes upward */
   #intro.exiting {
     animation: introWipe 0.6s cubic-bezier(0.76,0,0.24,1) forwards;
     transform-origin: top;
@@ -445,7 +457,7 @@
 </div>
 
 <!-- NAV -->
-<nav>
+<nav id="main-nav">
   <a href="index.html" class="nav-logo">P<span>.</span>RAISE</a>
   <div class="nav-links">
     <a href="index.html" class="active">work</a>
@@ -543,12 +555,59 @@
 <div id="toast"></div>
 
 <script>
+  // ── SMART SCROLL NAV ──
+  (function () {
+    const nav = document.getElementById('main-nav');
+    const THRESHOLD = 8; // px of scroll before we react
+    let lastY = 0;
+    let ticking = false;
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    function update() {
+      const currentY = window.scrollY;
+
+      // Add a subtle border when scrolled away from top
+      if (currentY > 10) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+
+      // Hide on scroll down, show on scroll up
+      if (currentY > lastY + THRESHOLD) {
+        // Scrolling DOWN — hide nav (but not if drawer is open)
+        if (!document.getElementById('nav-drawer').classList.contains('open')) {
+          nav.classList.add('nav-hidden');
+        }
+      } else if (currentY < lastY - THRESHOLD) {
+        // Scrolling UP — show nav
+        nav.classList.remove('nav-hidden');
+      }
+
+      lastY = currentY;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  // ── MENU ──
   function toggleMenu() {
     const h = document.getElementById('hamburger');
     const d = document.getElementById('nav-drawer');
     h.classList.toggle('open');
     d.classList.toggle('open');
     document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+    // Always show nav when drawer opens
+    if (d.classList.contains('open')) {
+      document.getElementById('main-nav').classList.remove('nav-hidden');
+    }
   }
   function closeMenu() {
     document.getElementById('hamburger').classList.remove('open');
@@ -561,11 +620,15 @@
 
   function init() {
     if (settings.avail === 'booked') {
-      document.getElementById('nav-avail-text').textContent = 'Fully booked';
-      document.querySelector('.avail-dot').style.background = '#E8472A';
+      document.getElementById('nav-avail-text') &&
+        (document.getElementById('nav-avail-text').textContent = 'Fully booked');
+      document.querySelector('.avail-dot') &&
+        (document.querySelector('.avail-dot').style.background = '#E8472A');
     } else if (settings.avail === 'limited') {
-      document.getElementById('nav-avail-text').textContent = 'Limited availability';
-      document.querySelector('.avail-dot').style.background = '#EF9F27';
+      document.getElementById('nav-avail-text') &&
+        (document.getElementById('nav-avail-text').textContent = 'Limited availability');
+      document.querySelector('.avail-dot') &&
+        (document.querySelector('.avail-dot').style.background = '#EF9F27');
     }
     renderGallery();
   }
@@ -579,8 +642,7 @@
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      const filtered = projects;
-      filtered.forEach(p => {
+      projects.forEach(p => {
         const item = document.createElement('div');
         item.className = 'masonry-item';
         item.innerHTML = `
@@ -615,7 +677,6 @@
     const intro  = document.getElementById('intro');
     const word   = document.getElementById('intro-word');
 
-    // Only skip if navigating within the same session (not on refresh)
     if (sessionStorage.getItem('intro_played')) {
       intro.classList.add('hidden');
       return;
@@ -627,30 +688,11 @@
       word.className = 'intro-word ' + phase;
     }
 
-    // ── TIMELINE ──
-    // t=0      hidden (start)
-    // t=300    fade in — phase-in
-    // t=1150   tracking tightens, strokes thin — phase-tight
-    // t=1850   shake — phase-shake (add on top of phase-tight)
-    // t=2250   tracks wide, grows, fades out — phase-out
-    // t=3100   overlay wipes up
-    // t=3700   done
-
-    // Phase 2: fade in
     setTimeout(() => setPhase('phase-in'), 300);
-
-    // Phase 3: tighten + thin
     setTimeout(() => setPhase('phase-tight'), 1150);
-
-    // Phase 4: shake (add shake class without removing tight)
-    setTimeout(() => {
-      word.classList.add('phase-shake');
-    }, 1850);
-
-    // Phase 5: widen + fatten + grow + fade out
+    setTimeout(() => { word.classList.add('phase-shake'); }, 1850);
     setTimeout(() => setPhase('phase-out'), 2280);
 
-    // Exit: wipe overlay upward
     setTimeout(() => {
       intro.classList.add('exiting');
       setTimeout(() => {
