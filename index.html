@@ -110,18 +110,16 @@
     animation: fadeUp 0.8s cubic-bezier(0.22,0.68,0,1) 0.1s both;
   }
   .bio-statement p {
-    font-family: 'Instrument Serif', 'Manrope', serif, sans-serif;
+    font-family: 'Instrument Serif', serif;
     font-size: clamp(22px, 3.2vw, 44px);
-    font-weight: 600;
+    font-weight: 400;
     font-style: normal;
     line-height: 1;
     color: var(--warm-white);
-    letter-spacing: 0.06em;
-    text-transform: sentencecase;
+    letter-spacing: -0.01em;
   }
-  .bio-statement p strong {
-    color: var(--orange);
-  }
+  .bio-statement p strong { color: var(--warm-white); font-weight: 400; }
+  
   .bio-statement p a {
     color: var(--warm-white);
     text-decoration: underline;
@@ -129,8 +127,8 @@
     text-underline-offset: 5px;
     transition: color 0.2s;
   }
-  .bio-statement p a:hover { color: var(--orange); }
-
+  .bio-statement p a:hover { opacity: 0.6; }
+  
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
