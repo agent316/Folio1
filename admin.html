@@ -5,20 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — Portfolio Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black:#080807; --black-2:#111110; --black-3:#1a1a18; --black-4:#222220;
-    --orange:#FF5C00; --orange-glow:rgba(255,92,0,0.1);
-    --teal:#00C48C; --coral:#E8472A; --coral-dim:rgba(232,71,42,0.12);
-    --warm-white:#F0EDE6; --gray:#888880; --gray-2:#555550;
-    --border:rgba(255,255,255,0.07); --border-bright:rgba(255,255,255,0.14);
-    --font-body:'DM Sans',sans-serif; --font-mono:'DM Mono',monospace;
-  }
+  :root{--black:#080807;--black-2:#111110;--black-3:#1a1a18;--black-4:#222220;--orange:#FF5C00;--orange-glow:rgba(255,92,0,0.1);--teal:#00C48C;--coral:#E8472A;--coral-dim:rgba(232,71,42,0.12);--warm-white:#F0EDE6;--gray:#888880;--gray-2:#555550;--border:rgba(255,255,255,0.07);--border-bright:rgba(255,255,255,0.14);--font-body:'DM Sans',sans-serif;--font-mono:'DM Mono',monospace;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--black-2);color:var(--warm-white);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;}
-
-  /* LOGIN */
   #login-screen{position:fixed;inset:0;z-index:200;background:var(--black);display:flex;align-items:center;justify-content:center;}
   #login-screen.hidden{display:none;}
   .login-box{width:380px;padding:48px;border:0.5px solid var(--border-bright);}
@@ -26,8 +17,6 @@
   .login-title{font-size:32px;font-weight:500;color:var(--warm-white);margin-bottom:6px;}
   .login-sub{font-family:var(--font-mono);font-size:11px;color:var(--gray);letter-spacing:0.08em;margin-bottom:32px;}
   .login-error{font-family:var(--font-mono);font-size:11px;color:var(--coral);letter-spacing:0.08em;margin-top:10px;display:none;}
-
-  /* APP */
   #admin-app{display:none;min-height:100vh;}
   #admin-app.visible{display:block;}
   .admin-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--black-2);border-bottom:0.5px solid var(--border);}
@@ -35,8 +24,6 @@
   .admin-logo{font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);text-decoration:none;}
   .admin-nav-title{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);padding-left:24px;border-left:0.5px solid var(--border-bright);}
   .admin-nav-right{display:flex;gap:12px;align-items:center;}
-
-  /* TABS */
   .admin-tabs{display:flex;gap:2px;padding:24px 40px 0;border-bottom:0.5px solid var(--border);}
   .tab-btn{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;background:transparent;border:none;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all 0.2s;}
   .tab-btn:hover{color:var(--warm-white);}
@@ -45,8 +32,6 @@
   .tab-panel.active{display:block;}
   .panel-title{font-size:26px;font-weight:500;letter-spacing:-0.01em;color:var(--warm-white);margin-bottom:6px;}
   .panel-sub{font-family:var(--font-mono);font-size:11px;color:var(--gray);letter-spacing:0.08em;margin-bottom:36px;}
-
-  /* FORMS */
   .form-group{margin-bottom:20px;}
   .form-label{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
   .form-input,.form-textarea,.form-select{width:100%;background:var(--black-3);border:0.5px solid var(--border-bright);color:var(--warm-white);font-family:var(--font-body);font-size:15px;padding:12px 16px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
@@ -54,8 +39,6 @@
   .form-textarea{resize:vertical;min-height:90px;}
   .form-select option{background:var(--black-3);}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-
-  /* UPLOAD ZONE */
   .upload-zone{border:1px dashed var(--border-bright);padding:40px;text-align:center;cursor:pointer;margin-bottom:24px;transition:border-color 0.2s,background 0.2s;position:relative;}
   .upload-zone:hover{border-color:var(--orange);background:var(--orange-glow);}
   .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
@@ -63,17 +46,14 @@
   .upload-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
   .upload-preview{display:none;margin-bottom:20px;}
   .upload-preview img{max-height:180px;max-width:100%;border:0.5px solid var(--border-bright);}
-
-  /* BUTTONS */
   .btn-primary{font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;background:var(--orange);color:var(--black);border:none;padding:13px 28px;cursor:pointer;font-weight:500;transition:background 0.2s,transform 0.15s;}
   .btn-primary:hover{background:var(--warm-white);transform:translateY(-1px);}
+  .btn-primary:disabled{background:var(--gray);cursor:not-allowed;transform:none;}
   .btn-ghost{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;border:0.5px solid var(--border-bright);color:var(--gray);padding:6px 14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
   .btn-ghost:hover{color:var(--warm-white);border-color:var(--gray);}
   .btn-danger{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;border:0.5px solid rgba(232,71,42,0.3);color:var(--coral);padding:6px 14px;cursor:pointer;transition:all 0.2s;}
   .btn-danger:hover{background:var(--coral-dim);border-color:var(--coral);}
   .btn-sm{padding:5px 12px;font-size:9px;}
-
-  /* MANAGE LIST */
   .admin-divider{height:0.5px;background:var(--border);margin:36px 0;}
   .projects-list{display:flex;flex-direction:column;gap:2px;}
   .project-row{display:grid;grid-template-columns:72px 1fr repeat(3,auto);gap:16px;align-items:center;padding:14px 16px;background:var(--black-3);transition:background 0.2s;}
@@ -82,39 +62,28 @@
   .project-name{font-size:14px;font-weight:400;color:var(--warm-white);}
   .project-tag{font-family:var(--font-mono);font-size:10px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;}
   .empty-state{padding:48px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--gray);letter-spacing:0.08em;background:var(--black-3);}
-
-  /* ── CASE STUDY BUILDER ── */
+  .upload-progress{display:none;margin-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--teal);letter-spacing:0.08em;}
+  /* CASE STUDY BUILDER */
   #case-study-screen{display:none;position:fixed;inset:0;z-index:100;background:var(--black-2);overflow-y:auto;}
   #case-study-screen.open{display:block;}
   .cs-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:var(--black-2);border-bottom:0.5px solid var(--border);}
   .cs-nav-title{font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);}
   .cs-body{max-width:820px;padding:40px;}
-
-  /* Block list */
   .block-list{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
   .cs-block{background:var(--black-3);border:0.5px solid var(--border-bright);padding:16px 20px;}
   .cs-block-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
   .cs-block-type{font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);background:rgba(255,92,0,0.1);padding:3px 10px;}
   .cs-block-actions{margin-left:auto;display:flex;gap:6px;}
-  .cs-block-preview-img{max-width:100%;max-height:120px;object-fit:cover;display:block;margin-top:8px;border:0.5px solid var(--border);}
   .cs-block-text-preview{font-size:13px;color:var(--gray);line-height:1.5;margin-top:6px;white-space:pre-wrap;}
-
-  /* Add block panel */
   .add-block-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
   .add-block-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;border:0.5px solid var(--border-bright);color:var(--gray);padding:9px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
   .add-block-btn:hover{border-color:var(--orange);color:var(--orange);}
-
-  /* Inline block editors */
   .block-editor{background:var(--black-4);border:0.5px solid var(--orange);padding:20px;margin-bottom:16px;display:none;}
   .block-editor.open{display:block;}
   .block-editor-title{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
-
-  /* Image block grid options */
   .img-layout-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
   .img-layout-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;border:0.5px solid var(--border-bright);background:transparent;color:var(--gray);padding:7px 14px;cursor:pointer;transition:all 0.2s;}
   .img-layout-btn.active,.img-layout-btn:hover{border-color:var(--orange);color:var(--orange);}
-
-  /* Image multi-upload slots */
   .img-slots{display:grid;gap:8px;margin-bottom:16px;}
   .img-slots.cols-1{grid-template-columns:1fr;}
   .img-slots.cols-2{grid-template-columns:1fr 1fr;}
@@ -124,23 +93,13 @@
   .img-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
   .img-slot img{max-width:100%;max-height:100px;object-fit:cover;display:block;}
   .img-slot-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray);}
-
-  /* TOAST */
   #toast{position:fixed;bottom:32px;right:32px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.08em;padding:12px 24px;background:var(--teal);color:var(--black);font-weight:500;z-index:999;transform:translateY(100px);opacity:0;transition:transform 0.3s,opacity 0.3s;}
   #toast.show{transform:translateY(0);opacity:1;}
-
-  @media (max-width:700px){
-    .admin-tabs,.tab-panel,.admin-nav,.cs-nav,.cs-body{padding-left:20px;padding-right:20px;}
-    .form-row{grid-template-columns:1fr;}
-    .project-row{grid-template-columns:56px 1fr auto;}
-    .project-row .btn-ghost.move-btn{display:none;}
-    .img-slots.cols-2,.img-slots.cols-3{grid-template-columns:1fr;}
-  }
+  @media(max-width:700px){.admin-tabs,.tab-panel,.admin-nav,.cs-nav,.cs-body{padding-left:20px;padding-right:20px;}.form-row{grid-template-columns:1fr;}.project-row{grid-template-columns:56px 1fr auto;}.img-slots.cols-2,.img-slots.cols-3{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">PGEE — Portfolio</div>
@@ -152,15 +111,11 @@
       <div class="login-error" id="login-error">Incorrect password. Try again.</div>
     </div>
     <button class="btn-primary" onclick="attemptLogin()" style="width:100%;margin-top:4px;">Enter →</button>
-    <div style="margin-top:16px;text-align:center;">
-      <a href="index.html" class="btn-ghost">← Back to Portfolio</a>
-    </div>
+    <div style="margin-top:16px;text-align:center;"><a href="index.html" class="btn-ghost">← Back to Portfolio</a></div>
   </div>
 </div>
 
-<!-- ADMIN APP -->
 <div id="admin-app">
-
   <div class="admin-nav">
     <div class="admin-nav-left">
       <span class="admin-logo">PGEE</span>
@@ -178,20 +133,15 @@
     <button class="tab-btn" onclick="switchTab('settings',this)">Site Settings</button>
   </div>
 
-  <!-- TAB: ADD PROJECT -->
   <div class="tab-panel active" id="tab-upload">
     <div class="panel-title">Add New Project</div>
-    <div class="panel-sub">Upload a cover image and fill in the project details. You can build the full case study after adding.</div>
-
+    <div class="panel-sub">Upload a cover image and fill in the project details</div>
     <div class="upload-zone" id="upload-zone">
       <input type="file" id="file-input" accept="image/*" onchange="handleFileSelect(event)">
       <div class="upload-icon">+</div>
       <div class="upload-label">Cover image — click or drag</div>
     </div>
-    <div class="upload-preview" id="upload-preview">
-      <img id="preview-img" src="" alt="Preview">
-    </div>
-
+    <div class="upload-preview" id="upload-preview"><img id="preview-img" src="" alt="Preview"></div>
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Project Title</label>
@@ -207,56 +157,37 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Short Description <span style="color:var(--gray);font-size:9px;">(shown on hover in the grid)</span></label>
+      <label class="form-label">Short Description</label>
       <textarea class="form-textarea" id="proj-desc" placeholder="One or two lines about the project"></textarea>
     </div>
     <div class="form-group">
       <label class="form-label">External Link (optional)</label>
       <input type="url" class="form-input" id="proj-link" placeholder="https://behance.net/...">
     </div>
-    <button class="btn-primary" onclick="addProject()">Add to Portfolio →</button>
+    <button class="btn-primary" id="add-btn" onclick="addProject()">Add to Portfolio →</button>
+    <div class="upload-progress" id="upload-progress">Uploading image…</div>
   </div>
 
-  <!-- TAB: MANAGE -->
   <div class="tab-panel" id="tab-manage">
     <div class="panel-title">Manage Projects</div>
-    <div class="panel-sub">Edit details, build case studies, reorder, or remove projects</div>
+    <div class="panel-sub">Edit case studies, reorder, or remove projects</div>
     <div class="projects-list" id="projects-list">
-      <div class="empty-state" id="manage-empty">No projects yet. Add your first one above.</div>
+      <div class="empty-state" id="manage-empty">Loading projects…</div>
     </div>
   </div>
 
-  <!-- TAB: SETTINGS -->
   <div class="tab-panel" id="tab-settings">
     <div class="panel-title">Site Settings</div>
     <div class="panel-sub">Update your availability and personal details</div>
-    <div class="form-group">
-      <label class="form-label">Your Name</label>
-      <input type="text" class="form-input" id="set-name" placeholder="Praise">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Tagline</label>
-      <input type="text" class="form-input" id="set-tagline" placeholder="Brand & Visual Designer">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Availability Status</label>
-      <select class="form-select" id="set-avail">
-        <option value="available">Available for work</option>
-        <option value="limited">Limited availability</option>
-        <option value="booked">Fully booked</option>
-      </select>
-    </div>
-    <div class="admin-divider"></div>
     <div class="form-group">
       <label class="form-label">Change Password</label>
       <input type="password" class="form-input" id="set-pw" placeholder="Enter new password">
     </div>
     <button class="btn-primary" onclick="saveSettings()">Save Settings →</button>
   </div>
+</div>
 
-</div><!-- /admin-app -->
-
-<!-- ── CASE STUDY BUILDER (full-screen overlay) ── -->
+<!-- CASE STUDY BUILDER -->
 <div id="case-study-screen">
   <div class="cs-nav">
     <div class="cs-nav-title" id="cs-nav-title">Case Study Builder</div>
@@ -266,197 +197,122 @@
       <button class="btn-ghost" onclick="closeCaseStudy()">← Back</button>
     </div>
   </div>
-
   <div class="cs-body">
-
-    <!-- Intro / tagline for case study -->
     <div style="margin-bottom:32px;">
       <div class="form-group">
-        <label class="form-label">Case Study Headline <span style="color:var(--gray);font-size:9px;">(shown at top of project page)</span></label>
+        <label class="form-label">Case Study Headline</label>
         <input type="text" class="form-input" id="cs-headline" placeholder="e.g. Building a brand that commands the room">
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Year</label>
-          <input type="text" class="form-input" id="cs-year" placeholder="2024">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Client / Brand</label>
-          <input type="text" class="form-input" id="cs-client" placeholder="e.g. Oya Botanicals">
-        </div>
+        <div class="form-group"><label class="form-label">Year</label><input type="text" class="form-input" id="cs-year" placeholder="2024"></div>
+        <div class="form-group"><label class="form-label">Client / Brand</label><input type="text" class="form-input" id="cs-client" placeholder="e.g. Oya Botanicals"></div>
       </div>
       <div class="form-group">
         <label class="form-label">Services Provided</label>
         <input type="text" class="form-input" id="cs-services" placeholder="e.g. Brand Identity · Packaging · Print">
       </div>
     </div>
-
     <div class="admin-divider" style="margin:0 0 24px;"></div>
-
-    <!-- Block list -->
     <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;">Content Blocks</div>
     <div class="block-list" id="block-list"></div>
-
-    <!-- Add block buttons -->
     <div class="add-block-row">
-      <button class="add-block-btn" onclick="openBlockEditor('text')">
-        <span style="font-size:14px;line-height:1;">¶</span> Text Section
-      </button>
-      <button class="add-block-btn" onclick="openBlockEditor('brief')">
-        <span style="font-size:14px;line-height:1;">◧</span> Brief + Services
-      </button>
-      <button class="add-block-btn" onclick="openBlockEditor('image')">
-        <span style="font-size:14px;line-height:1;">⬜</span> Image(s)
-      </button>
-      <button class="add-block-btn" onclick="openBlockEditor('image-text')">
-        <span style="font-size:14px;line-height:1;">◫</span> Image + Text
-      </button>
-      <button class="add-block-btn" onclick="openBlockEditor('quote')">
-        <span style="font-size:14px;line-height:1;">"</span> Pull Quote
-      </button>
-      <button class="add-block-btn" onclick="openBlockEditor('credits')">
-        <span style="font-size:14px;line-height:1;">≡</span> Credits
-      </button>
-      <button class="add-block-btn" onclick="openBlockEditor('spacer')">
-        <span style="font-size:14px;line-height:1;">↕</span> Spacer
-      </button>
+      <button class="add-block-btn" onclick="openBlockEditor('text')"><span>¶</span> Text</button>
+      <button class="add-block-btn" onclick="openBlockEditor('brief')"><span>◧</span> Brief + Services</button>
+      <button class="add-block-btn" onclick="openBlockEditor('image')"><span>⬜</span> Image(s)</button>
+      <button class="add-block-btn" onclick="openBlockEditor('image-text')"><span>◫</span> Image + Text</button>
+      <button class="add-block-btn" onclick="openBlockEditor('quote')"><span>"</span> Quote</button>
+      <button class="add-block-btn" onclick="openBlockEditor('credits')"><span>≡</span> Credits</button>
+      <button class="add-block-btn" onclick="openBlockEditor('spacer')"><span>↕</span> Spacer</button>
     </div>
-
-    <!-- Block editors (hidden until triggered) -->
-
-    <!-- TEXT editor -->
+    <!-- TEXT -->
     <div class="block-editor" id="editor-text">
       <div class="block-editor-title">Text Section</div>
-      <div class="form-group">
-        <label class="form-label">Heading (optional)</label>
-        <input type="text" class="form-input" id="text-heading" placeholder="e.g. The Challenge">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Body Text</label>
-        <textarea class="form-textarea" id="text-body" style="min-height:120px;" placeholder="Write your story here..."></textarea>
-      </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('text')">Add Block →</button>
+      <div class="form-group"><label class="form-label">Heading (optional)</label><input type="text" class="form-input" id="text-heading" placeholder="e.g. The Challenge"></div>
+      <div class="form-group"><label class="form-label">Body Text</label><textarea class="form-textarea" id="text-body" style="min-height:120px;" placeholder="Write your story here..."></textarea></div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('text')">Add →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('text')" style="margin-left:8px;">Cancel</button>
     </div>
-
-    <!-- IMAGE editor -->
+    <!-- BRIEF -->
+    <div class="block-editor" id="editor-brief">
+      <div class="block-editor-title">Brief + Services</div>
+      <div class="form-group"><label class="form-label">Brief / Description</label><textarea class="form-textarea" id="brief-body" style="min-height:120px;" placeholder="Describe the project..."></textarea></div>
+      <div class="form-group"><label class="form-label">Services (one per line)</label><textarea class="form-textarea" id="brief-services" style="min-height:80px;" placeholder="Brand Identity&#10;Packaging&#10;Print"></textarea></div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('brief')">Add →</button>
+      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('brief')" style="margin-left:8px;">Cancel</button>
+    </div>
+    <!-- IMAGE -->
     <div class="block-editor" id="editor-image">
       <div class="block-editor-title">Image Block</div>
       <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;color:var(--gray);margin-bottom:12px;">LAYOUT</div>
       <div class="img-layout-row">
-        <button class="img-layout-btn active" data-layout="full" onclick="setImgLayout(this,'full')">Full Width</button>
-        <button class="img-layout-btn" data-layout="2col" onclick="setImgLayout(this,'2col')">2 Columns</button>
-        <button class="img-layout-btn" data-layout="3col" onclick="setImgLayout(this,'3col')">3 Columns</button>
+        <button class="img-layout-btn active" onclick="setImgLayout(this,'full')">Full Width</button>
+        <button class="img-layout-btn" onclick="setImgLayout(this,'2col')">2 Columns</button>
+        <button class="img-layout-btn" onclick="setImgLayout(this,'3col')">3 Columns</button>
       </div>
-      <div class="img-slots cols-1" id="img-slots">
-        <div class="img-slot" id="slot-0">
-          <input type="file" accept="image/*" onchange="loadSlot(0,event)">
-          <div class="img-slot-label">+ Image</div>
-        </div>
-      </div>
-      <div class="form-group" style="margin-top:8px;">
-        <label class="form-label">Caption (optional)</label>
-        <input type="text" class="form-input" id="img-caption" placeholder="Image caption">
-      </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('image')">Add Block →</button>
+      <div class="img-slots cols-1" id="img-slots"></div>
+      <div class="form-group" style="margin-top:8px;"><label class="form-label">Caption (optional)</label><input type="text" class="form-input" id="img-caption" placeholder="Image caption"></div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('image')">Add →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('image')" style="margin-left:8px;">Cancel</button>
     </div>
-
-    <!-- IMAGE + TEXT editor -->
+    <!-- IMAGE + TEXT -->
     <div class="block-editor" id="editor-image-text">
       <div class="block-editor-title">Image + Text</div>
-      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;color:var(--gray);margin-bottom:12px;">IMAGE POSITION</div>
-      <div class="img-layout-row" style="margin-bottom:16px;">
-        <button class="img-layout-btn active" data-pos="left" onclick="setImgTextPos(this,'left')">Image Left</button>
-        <button class="img-layout-btn" data-pos="right" onclick="setImgTextPos(this,'right')">Image Right</button>
+      <div class="img-layout-row">
+        <button class="img-layout-btn active" onclick="setImgTextPos(this,'left')">Image Left</button>
+        <button class="img-layout-btn" onclick="setImgTextPos(this,'right')">Image Right</button>
       </div>
-      <div class="img-slots cols-1" id="imgtext-slot" style="margin-bottom:16px;">
-        <div class="img-slot">
-          <input type="file" accept="image/*" onchange="loadImgTextSlot(event)">
-          <div class="img-slot-label">+ Image</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Heading (optional)</label>
-        <input type="text" class="form-input" id="imgtext-heading" placeholder="">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Body Text</label>
-        <textarea class="form-textarea" id="imgtext-body" placeholder="Write alongside the image..."></textarea>
-      </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('image-text')">Add Block →</button>
+      <div class="img-slots cols-1" id="imgtext-slot" style="margin-bottom:16px;"></div>
+      <div class="form-group"><label class="form-label">Heading (optional)</label><input type="text" class="form-input" id="imgtext-heading" placeholder=""></div>
+      <div class="form-group"><label class="form-label">Body Text</label><textarea class="form-textarea" id="imgtext-body" placeholder="Write alongside the image..."></textarea></div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('image-text')">Add →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('image-text')" style="margin-left:8px;">Cancel</button>
     </div>
-
-    <!-- QUOTE editor -->
+    <!-- QUOTE -->
     <div class="block-editor" id="editor-quote">
       <div class="block-editor-title">Pull Quote</div>
-      <div class="form-group">
-        <label class="form-label">Quote Text</label>
-        <textarea class="form-textarea" id="quote-text" placeholder="e.g. The brief was simple: make it impossible to ignore."></textarea>
-      </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('quote')">Add Block →</button>
+      <div class="form-group"><label class="form-label">Quote Text</label><textarea class="form-textarea" id="quote-text" placeholder="e.g. The brief was simple: make it impossible to ignore."></textarea></div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('quote')">Add →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('quote')" style="margin-left:8px;">Cancel</button>
     </div>
-
-    <!-- BRIEF + SERVICES editor -->
-    <div class="block-editor" id="editor-brief">
-      <div class="block-editor-title">Brief + Services</div>
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Left column: project description. Right column: short label list (services, deliverables, etc.)</div>
-      <div class="form-group">
-        <label class="form-label">Brief / Description (left column)</label>
-        <textarea class="form-textarea" id="brief-body" style="min-height:120px;" placeholder="Write a description of the project, the challenge, or the context..."></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Services / Labels (right column — one per line)</label>
-        <textarea class="form-textarea" id="brief-services" style="min-height:80px;" placeholder="Brand Identity&#10;Packaging&#10;Print"></textarea>
-      </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('brief')">Add Block →</button>
-      <button class="btn-ghost btn-sm" onclick="closeBlockEditor('brief')" style="margin-left:8px;">Cancel</button>
-    </div>
-
-    <!-- CREDITS editor -->
+    <!-- CREDITS -->
     <div class="block-editor" id="editor-credits">
       <div class="block-editor-title">Credits</div>
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Appears as "Credits" label on the left, attributed text on the right.</div>
-      <div class="form-group">
-        <label class="form-label">Credits Text</label>
-        <textarea class="form-textarea" id="credits-text" style="min-height:120px;" placeholder="Photographer: John Doe&#10;Art Direction: Praise&#10;Models: Jane Smith, Ada Obi&#10;Copywriting: Tunde Bello"></textarea>
-      </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('credits')">Add Block →</button>
+      <div class="form-group"><label class="form-label">Credits Text</label><textarea class="form-textarea" id="credits-text" style="min-height:120px;" placeholder="Photographer: John Doe&#10;Art Direction: Praise&#10;Models: Jane Smith"></textarea></div>
+      <button class="btn-primary btn-sm" onclick="commitBlock('credits')">Add →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('credits')" style="margin-left:8px;">Cancel</button>
     </div>
-
-    <!-- SPACER editor -->
+    <!-- SPACER -->
     <div class="block-editor" id="editor-spacer">
       <div class="block-editor-title">Spacer</div>
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:0.08em;margin-bottom:16px;">Adds breathing room between blocks — useful for controlling rhythm.</div>
-      <div class="form-group">
-        <label class="form-label">Size</label>
+      <div class="form-group"><label class="form-label">Size</label>
         <select class="form-select" id="spacer-size">
-          <option value="sm">Small (32px)</option>
-          <option value="md" selected>Medium (72px)</option>
-          <option value="lg">Large (140px)</option>
+          <option value="sm">Small (48px)</option>
+          <option value="md" selected>Medium (100px)</option>
+          <option value="lg">Large (180px)</option>
         </select>
       </div>
-      <button class="btn-primary btn-sm" onclick="commitBlock('spacer')">Add Block →</button>
+      <button class="btn-primary btn-sm" onclick="commitBlock('spacer')">Add →</button>
       <button class="btn-ghost btn-sm" onclick="closeBlockEditor('spacer')" style="margin-left:8px;">Cancel</button>
     </div>
-
   </div>
 </div>
 
 <div id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  const SUPABASE_URL = 'https://nslklswwadwczybtrkvw.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zbGtsc3d3YWR3Y3p5YnRya3Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MzU3MzcsImV4cCI6MjA5MzIxMTczN30.X3idfy-yrfoheC44fUZzYjxq2W12DXSGf9Y7bGJdOnI';
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   const DEFAULT_PW = 'designer2026';
-  let projects = JSON.parse(localStorage.getItem('portfolio_projects') || '[]');
-  let settings  = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+  let projects = [];
   let selectedImageData = null;
-  let currentCsId = null;      // project id being edited in case study builder
-  let csBlocks    = [];        // working copy of blocks for current project
-  let imgSlotData = {};        // image data per slot index for image block editor
-  let imgTextData = null;      // image data for image+text editor
+  let selectedImageFile = null;
+  let currentCsId = null;
+  let csBlocks = [];
+  let imgSlotFiles = {};
+  let imgTextFile = null;
   let currentImgLayout = 'full';
   let currentImgTextPos = 'left';
 
@@ -467,25 +323,17 @@
     if (pw === correct) {
       document.getElementById('login-screen').classList.add('hidden');
       document.getElementById('admin-app').classList.add('visible');
-      initAdmin();
+      loadProjects();
     } else {
       document.getElementById('login-error').style.display = 'block';
       document.getElementById('login-pw').value = '';
     }
   }
-  document.getElementById('login-pw').addEventListener('keydown', e => { if (e.key==='Enter') attemptLogin(); });
-
+  document.getElementById('login-pw').addEventListener('keydown', e => { if(e.key==='Enter') attemptLogin(); });
   function logout() {
     document.getElementById('admin-app').classList.remove('visible');
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('login-pw').value = '';
-  }
-
-  function initAdmin() {
-    if (settings.name)   document.getElementById('set-name').value    = settings.name;
-    if (settings.tagline)document.getElementById('set-tagline').value = settings.tagline;
-    if (settings.avail)  document.getElementById('set-avail').value   = settings.avail;
-    renderManageList();
   }
 
   // ── TABS ──
@@ -499,19 +347,19 @@
 
   // ── IMAGE COMPRESSION ──
   function compressImage(file, callback) {
-    const MAX = 1400, Q = 0.82;
+    const MAX=1400, Q=0.82;
     const reader = new FileReader();
     reader.onload = ev => {
       const img = new Image();
       img.onload = () => {
-        let w = img.width, h = img.height;
-        if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w=Math.round(w*r); h=Math.round(h*r); }
-        const c = document.createElement('canvas');
-        c.width=w; c.height=h;
+        let w=img.width, h=img.height;
+        if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.round(w*r);h=Math.round(h*r);}
+        const c=document.createElement('canvas');
+        c.width=w;c.height=h;
         c.getContext('2d').drawImage(img,0,0,w,h);
-        callback(c.toDataURL('image/jpeg', Q));
+        c.toBlob(blob => callback(blob, c.toDataURL('image/jpeg',Q)), 'image/jpeg', Q);
       };
-      img.src = ev.target.result;
+      img.src=ev.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -520,146 +368,165 @@
   function handleFileSelect(e) {
     const file = e.target.files[0];
     if (!file) return;
-    showToast('Processing…');
-    compressImage(file, data => {
-      selectedImageData = data;
-      document.getElementById('preview-img').src = data;
+    showToast('Processing image…');
+    compressImage(file, (blob, dataUrl) => {
+      selectedImageFile = blob;
+      selectedImageData = dataUrl;
+      document.getElementById('preview-img').src = dataUrl;
       document.getElementById('upload-preview').style.display = 'block';
       document.getElementById('upload-zone').style.borderColor = 'var(--orange)';
-      showToast('Cover ready');
+      showToast('Image ready');
     });
   }
 
-  const zone = document.getElementById('upload-zone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.background='var(--orange-glow)'; });
-  zone.addEventListener('dragleave', () => { zone.style.background=''; });
-  zone.addEventListener('drop', e => {
-    e.preventDefault(); zone.style.background='';
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      showToast('Processing…');
-      compressImage(file, data => {
-        selectedImageData = data;
-        document.getElementById('preview-img').src = data;
-        document.getElementById('upload-preview').style.display = 'block';
-        zone.style.borderColor = 'var(--orange)';
-        showToast('Cover ready');
-      });
-    }
-  });
+  // ── UPLOAD IMAGE TO SUPABASE STORAGE ──
+  async function uploadImageToStorage(blob, filename) {
+    const { data, error } = await db.storage
+      .from('images')
+      .upload(filename, blob, { contentType: 'image/jpeg', upsert: false });
+    if (error) throw error;
+    const { data: urlData } = db.storage.from('images').getPublicUrl(filename);
+    return urlData.publicUrl;
+  }
 
   // ── ADD PROJECT ──
-  function addProject() {
+  async function addProject() {
     const title    = document.getElementById('proj-title').value.trim();
     const category = document.getElementById('proj-category').value;
     const desc     = document.getElementById('proj-desc').value.trim();
     const link     = document.getElementById('proj-link').value.trim();
 
     if (!title)             { showToast('Please enter a title', true); return; }
-    if (!selectedImageData) { showToast('Please add a cover image', true); return; }
+    if (!selectedImageFile) { showToast('Please add a cover image', true); return; }
 
-    const project = { id: Date.now(), title, category, desc, link, image: selectedImageData, caseStudy: null };
-    projects.unshift(project);
+    const btn = document.getElementById('add-btn');
+    const progress = document.getElementById('upload-progress');
+    btn.disabled = true;
+    progress.style.display = 'block';
+    progress.textContent = 'Uploading image…';
 
-    if (!saveProjects()) return;
+    try {
+      const filename = `covers/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+      const imageUrl = await uploadImageToStorage(selectedImageFile, filename);
 
-    document.getElementById('proj-title').value  = '';
-    document.getElementById('proj-desc').value   = '';
-    document.getElementById('proj-link').value   = '';
-    document.getElementById('upload-preview').style.display = 'none';
-    document.getElementById('upload-zone').style.borderColor = '';
-    document.getElementById('file-input').value  = '';
-    selectedImageData = null;
+      progress.textContent = 'Saving project…';
 
-    showToast('Project added! Build the case study in Manage Projects.');
+      const projectId = Date.now();
+      const { error } = await db.from('projects').insert({
+        id: projectId,
+        title,
+        category,
+        description: desc,
+        external_link: link,
+        image_url: imageUrl,
+        case_study: null,
+        sort_order: 0
+      });
+
+      if (error) throw error;
+
+      showToast('Project added! Build the case study in Manage Projects.');
+      document.getElementById('proj-title').value = '';
+      document.getElementById('proj-desc').value = '';
+      document.getElementById('proj-link').value = '';
+      document.getElementById('upload-preview').style.display = 'none';
+      document.getElementById('upload-zone').style.borderColor = '';
+      document.getElementById('file-input').value = '';
+      selectedImageFile = null;
+      selectedImageData = null;
+
+      await loadProjects();
+
+    } catch(err) {
+      showToast('Upload failed: ' + err.message, true);
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      progress.style.display = 'none';
+    }
+  }
+
+  // ── LOAD PROJECTS ──
+  async function loadProjects() {
+    const { data, error } = await db
+      .from('projects')
+      .select('*')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false });
+    if (!error) projects = data || [];
   }
 
   // ── MANAGE LIST ──
-  function renderManageList() {
+  async function renderManageList() {
+    await loadProjects();
     const list  = document.getElementById('projects-list');
     const empty = document.getElementById('manage-empty');
     Array.from(list.querySelectorAll('.project-row')).forEach(el => el.remove());
 
     if (projects.length === 0) {
       empty.style.display = 'block';
+      empty.textContent = 'No projects yet. Add your first one above.';
       return;
     }
     empty.style.display = 'none';
     projects.forEach(p => {
-      const hasCs = p.caseStudy && (p.caseStudy.blocks || []).length > 0;
+      const hasCs = p.case_study && (p.case_study.blocks||[]).length > 0;
       const row = document.createElement('div');
       row.className = 'project-row';
       row.innerHTML = `
-        <img class="project-thumb" src="${p.image}" alt="${p.title}">
+        <img class="project-thumb" src="${p.image_url}" alt="${p.title}">
         <div>
           <div class="project-name">${p.title}</div>
-          <div class="project-tag">${p.category} ${hasCs ? '· <span style="color:var(--teal)">Case Study ✓</span>' : ''}</div>
+          <div class="project-tag">${p.category||''} ${hasCs?'· <span style="color:var(--teal)">Case Study ✓</span>':''}</div>
         </div>
-        <button class="btn-ghost" onclick="openCaseStudy(${p.id})" title="Build case study" style="white-space:nowrap;">
-          ${hasCs ? 'Edit Study' : '+ Case Study'}
-        </button>
-        <button class="btn-ghost move-btn" onclick="moveUp(${p.id})">↑</button>
+        <button class="btn-ghost" onclick="openCaseStudy(${p.id})" style="white-space:nowrap;">${hasCs?'Edit Study':'+ Case Study'}</button>
+        <button class="btn-ghost" onclick="moveUp(${p.id})">↑</button>
         <button class="btn-danger" onclick="deleteProject(${p.id})">Delete</button>`;
       list.appendChild(row);
     });
   }
 
-  function deleteProject(id) {
+  async function deleteProject(id) {
     if (!confirm('Remove this project?')) return;
-    projects = projects.filter(p => p.id !== id);
-    saveProjects();
-    renderManageList();
+    const p = projects.find(x => x.id === id);
+    if (p && p.image_url) {
+      const path = p.image_url.split('/storage/v1/object/public/images/')[1];
+      if (path) await db.storage.from('images').remove([path]);
+    }
+    await db.from('projects').delete().eq('id', id);
     showToast('Project removed');
+    renderManageList();
   }
 
-  function moveUp(id) {
+  async function moveUp(id) {
     const idx = projects.findIndex(p => p.id === id);
-    if (idx > 0) {
-      [projects[idx-1], projects[idx]] = [projects[idx], projects[idx-1]];
-      saveProjects();
-      renderManageList();
-    }
-  }
-
-  function saveProjects() {
-    try {
-      localStorage.setItem('portfolio_projects', JSON.stringify(projects));
-      return true;
-    } catch(e) {
-      projects.shift();
-      showToast('Storage full. Delete older projects to free space.', true);
-      return false;
-    }
+    if (idx <= 0) return;
+    const a = projects[idx-1], b = projects[idx];
+    await db.from('projects').update({ sort_order: idx }).eq('id', a.id);
+    await db.from('projects').update({ sort_order: idx-1 }).eq('id', b.id);
+    renderManageList();
   }
 
   // ── SETTINGS ──
   function saveSettings() {
-    settings.name    = document.getElementById('set-name').value.trim();
-    settings.tagline = document.getElementById('set-tagline').value.trim();
-    settings.avail   = document.getElementById('set-avail').value;
-    localStorage.setItem('portfolio_settings', JSON.stringify(settings));
     const newPw = document.getElementById('set-pw').value.trim();
     if (newPw) { localStorage.setItem('admin_password', newPw); document.getElementById('set-pw').value=''; }
-    showToast(newPw ? 'Settings & password saved!' : 'Settings saved!');
+    showToast(newPw ? 'Password saved!' : 'Nothing to save.');
   }
 
-  // ──────────────────────────────────────────────
-  // CASE STUDY BUILDER
-  // ──────────────────────────────────────────────
-
+  // ── CASE STUDY BUILDER ──
   function openCaseStudy(id) {
     const project = projects.find(p => p.id === id);
     if (!project) return;
     currentCsId = id;
-    csBlocks = project.caseStudy ? JSON.parse(JSON.stringify(project.caseStudy.blocks || [])) : [];
-
+    const cs = project.case_study || {};
+    csBlocks = JSON.parse(JSON.stringify(cs.blocks || []));
     document.getElementById('cs-nav-title').textContent = `Case Study — ${project.title}`;
-    document.getElementById('cs-headline').value  = project.caseStudy?.headline  || '';
-    document.getElementById('cs-year').value      = project.caseStudy?.year      || '';
-    document.getElementById('cs-client').value    = project.caseStudy?.client    || '';
-    document.getElementById('cs-services').value  = project.caseStudy?.services  || '';
+    document.getElementById('cs-headline').value  = cs.headline  || '';
+    document.getElementById('cs-year').value      = cs.year      || '';
+    document.getElementById('cs-client').value    = cs.client    || '';
+    document.getElementById('cs-services').value  = cs.services  || '';
     document.getElementById('cs-save-status').textContent = '';
-
     renderBlockList();
     closeAllBlockEditors();
     document.getElementById('case-study-screen').classList.add('open');
@@ -669,25 +536,24 @@
   function closeCaseStudy() {
     document.getElementById('case-study-screen').classList.remove('open');
     document.body.style.overflow = '';
-    currentCsId = null;
-    csBlocks = [];
+    currentCsId = null; csBlocks = [];
     renderManageList();
   }
 
-  function saveCaseStudy() {
-    const project = projects.find(p => p.id === currentCsId);
-    if (!project) return;
-    project.caseStudy = {
+  async function saveCaseStudy() {
+    const caseStudy = {
       headline: document.getElementById('cs-headline').value.trim(),
       year:     document.getElementById('cs-year').value.trim(),
       client:   document.getElementById('cs-client').value.trim(),
       services: document.getElementById('cs-services').value.trim(),
       blocks:   csBlocks
     };
-    if (saveProjects()) {
-      document.getElementById('cs-save-status').textContent = 'Saved ✓';
-      showToast('Case study saved!');
-    }
+    const { error } = await db.from('projects').update({ case_study: caseStudy }).eq('id', currentCsId);
+    if (error) { showToast('Save failed: ' + error.message, true); return; }
+    document.getElementById('cs-save-status').textContent = 'Saved ✓';
+    showToast('Case study saved!');
+    const p = projects.find(x => x.id === currentCsId);
+    if (p) p.case_study = caseStudy;
   }
 
   function renderBlockList() {
@@ -698,215 +564,170 @@
       return;
     }
     csBlocks.forEach((block, i) => {
+      let preview = '';
+      if (block.type==='text') preview = `<div class="cs-block-text-preview">${(block.body||'').substring(0,120)}…</div>`;
+      else if (block.type==='brief') preview = `<div class="cs-block-text-preview">${(block.body||'').substring(0,100)}…</div>`;
+      else if (block.type==='image') preview = `<div style="font-family:var(--font-mono);font-size:10px;color:var(--gray);margin-top:4px;">${(block.images||[]).length} image(s) · ${block.layout||'full'}</div>`;
+      else if (block.type==='image-text') preview = `<div class="cs-block-text-preview">${(block.body||'').substring(0,80)}…</div>`;
+      else if (block.type==='quote') preview = `<div style="font-size:13px;font-style:italic;color:var(--warm-white);margin-top:4px;">"${(block.text||'').substring(0,100)}…"</div>`;
+      else if (block.type==='credits') preview = `<div class="cs-block-text-preview">${(block.text||'').substring(0,100)}…</div>`;
+      else if (block.type==='spacer') preview = `<div style="font-family:var(--font-mono);font-size:10px;color:var(--gray-2);margin-top:4px;">↕ ${block.size||'md'}</div>`;
       const el = document.createElement('div');
       el.className = 'cs-block';
-      let preview = '';
-
-      if (block.type === 'text') {
-        preview = `${block.heading ? `<div style="font-family:var(--font-mono);font-size:10px;color:var(--warm-white);margin-bottom:4px;">${block.heading}</div>` : ''}
-          <div class="cs-block-text-preview">${(block.body||'').substring(0,120)}${block.body&&block.body.length>120?'…':''}</div>`;
-      } else if (block.type === 'image') {
-        const imgs = block.images || [];
-        preview = `<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
-          ${imgs.map(src => `<img src="${src}" style="height:64px;width:auto;object-fit:cover;border:0.5px solid var(--border);" alt="">`).join('')}
-        </div>
-        ${block.caption ? `<div style="font-size:11px;color:var(--gray);margin-top:4px;">${block.caption}</div>` : ''}`;
-      } else if (block.type === 'image-text') {
-        preview = `<div style="display:flex;gap:12px;align-items:flex-start;margin-top:8px;">
-          ${block.image ? `<img src="${block.image}" style="height:56px;width:auto;object-fit:cover;border:0.5px solid var(--border);flex-shrink:0;" alt="">` : ''}
-          <div class="cs-block-text-preview" style="margin-top:0;">${(block.body||'').substring(0,80)}…</div>
-        </div>`;
-      } else if (block.type === 'quote') {
-        preview = `<div style="font-size:14px;font-style:italic;color:var(--warm-white);margin-top:6px;">"${(block.text||'').substring(0,100)}${(block.text||'').length>100?'…':''}"</div>`;
-      } else if (block.type === 'brief') {
-        preview = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:8px;">
-          <div class="cs-block-text-preview">${(block.body||'').substring(0,100)}…</div>
-          <div style="font-size:11px;color:var(--orange);font-family:var(--font-mono);">${(block.services||'').split('\n').slice(0,4).join(' · ')}</div>
-        </div>`;
-      } else if (block.type === 'credits') {
-        preview = `<div style="font-size:12px;color:var(--gray);margin-top:6px;line-height:1.8;">${(block.text||'').substring(0,140)}…</div>`;
-      } else if (block.type === 'spacer') {
-        const sizes = { sm:'Small', md:'Medium', lg:'Large' };
-        preview = `<div style="font-family:var(--font-mono);font-size:10px;color:var(--gray-2);margin-top:4px;">↕ ${sizes[block.size]||'Medium'} spacing</div>`;
-      }
-
       el.innerHTML = `
         <div class="cs-block-header">
           <span class="cs-block-type">${block.type.replace('-',' ')}</span>
           <div class="cs-block-actions">
-            ${i > 0 ? `<button class="btn-ghost btn-sm" onclick="moveBlock(${i},-1)">↑</button>` : ''}
-            ${i < csBlocks.length-1 ? `<button class="btn-ghost btn-sm" onclick="moveBlock(${i},1)">↓</button>` : ''}
+            ${i>0?`<button class="btn-ghost btn-sm" onclick="moveBlock(${i},-1)">↑</button>`:''}
+            ${i<csBlocks.length-1?`<button class="btn-ghost btn-sm" onclick="moveBlock(${i},1)">↓</button>`:''}
             <button class="btn-danger btn-sm" onclick="deleteBlock(${i})">Remove</button>
           </div>
-        </div>
-        ${preview}`;
+        </div>${preview}`;
       list.appendChild(el);
     });
   }
 
   function moveBlock(i, dir) {
-    const j = i + dir;
-    if (j < 0 || j >= csBlocks.length) return;
-    [csBlocks[i], csBlocks[j]] = [csBlocks[j], csBlocks[i]];
+    const j = i+dir;
+    if(j<0||j>=csBlocks.length) return;
+    [csBlocks[i],csBlocks[j]]=[csBlocks[j],csBlocks[i]];
     renderBlockList();
   }
-
-  function deleteBlock(i) {
-    csBlocks.splice(i, 1);
-    renderBlockList();
-  }
+  function deleteBlock(i) { csBlocks.splice(i,1); renderBlockList(); }
 
   // ── BLOCK EDITORS ──
-  function closeAllBlockEditors() {
-    document.querySelectorAll('.block-editor').forEach(e => e.classList.remove('open'));
-  }
+  function closeAllBlockEditors() { document.querySelectorAll('.block-editor').forEach(e=>e.classList.remove('open')); }
+  function closeBlockEditor(type) { document.getElementById('editor-'+type).classList.remove('open'); }
 
   function openBlockEditor(type) {
     closeAllBlockEditors();
-    if (type === 'text')       { document.getElementById('text-heading').value=''; document.getElementById('text-body').value=''; }
-    if (type === 'image')      { resetImgSlots('full'); document.getElementById('img-caption').value=''; }
-    if (type === 'image-text') { resetImgTextSlot(); document.getElementById('imgtext-heading').value=''; document.getElementById('imgtext-body').value=''; }
-    if (type === 'quote')      { document.getElementById('quote-text').value=''; }
-    if (type === 'brief')      { document.getElementById('brief-body').value=''; document.getElementById('brief-services').value=''; }
-    if (type === 'credits')    { document.getElementById('credits-text').value=''; }
-    if (type === 'spacer')     { document.getElementById('spacer-size').value='md'; }
+    if(type==='text'){document.getElementById('text-heading').value='';document.getElementById('text-body').value='';}
+    if(type==='image'){resetImgSlots('full');document.getElementById('img-caption').value='';}
+    if(type==='image-text'){resetImgTextSlot();document.getElementById('imgtext-heading').value='';document.getElementById('imgtext-body').value='';}
+    if(type==='quote')document.getElementById('quote-text').value='';
+    if(type==='brief'){document.getElementById('brief-body').value='';document.getElementById('brief-services').value='';}
+    if(type==='credits')document.getElementById('credits-text').value='';
+    if(type==='spacer')document.getElementById('spacer-size').value='md';
     document.getElementById('editor-'+type).classList.add('open');
-    document.getElementById('editor-'+type).scrollIntoView({ behavior:'smooth', block:'nearest' });
+    document.getElementById('editor-'+type).scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 
-  function closeBlockEditor(type) {
-    document.getElementById('editor-'+type).classList.remove('open');
-  }
-
-  // Image layout for image block
   function setImgLayout(btn, layout) {
-    currentImgLayout = layout;
-    document.querySelectorAll('#editor-image .img-layout-btn').forEach(b => b.classList.remove('active'));
+    currentImgLayout=layout;
+    document.querySelectorAll('#editor-image .img-layout-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    const cols = layout === 'full' ? 1 : layout === '2col' ? 2 : 3;
     resetImgSlots(layout);
   }
 
   function resetImgSlots(layout) {
-    currentImgLayout = layout;
-    imgSlotData = {};
-    const cols = layout === 'full' ? 1 : layout === '2col' ? 2 : 3;
-    const colClass = layout === 'full' ? 'cols-1' : layout === '2col' ? 'cols-2' : 'cols-3';
-    const container = document.getElementById('img-slots');
-    container.className = 'img-slots ' + colClass;
-    container.innerHTML = '';
-    for (let i = 0; i < cols; i++) {
-      container.innerHTML += `
-        <div class="img-slot" id="slot-${i}">
-          <input type="file" accept="image/*" onchange="loadSlot(${i},event)">
-          <div class="img-slot-label">+ Image</div>
-        </div>`;
+    currentImgLayout=layout; imgSlotFiles={};
+    const cols=layout==='full'?1:layout==='2col'?2:3;
+    const colClass=layout==='full'?'cols-1':layout==='2col'?'cols-2':'cols-3';
+    const container=document.getElementById('img-slots');
+    container.className='img-slots '+colClass;
+    container.innerHTML='';
+    for(let i=0;i<cols;i++){
+      container.innerHTML+=`<div class="img-slot" id="slot-${i}"><input type="file" accept="image/*" onchange="loadSlot(${i},event)"><div class="img-slot-label">+ Image</div></div>`;
     }
   }
 
   function loadSlot(idx, e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    compressImage(file, data => {
-      imgSlotData[idx] = data;
-      const slot = document.getElementById('slot-'+idx);
-      slot.innerHTML = `<img src="${data}" alt=""><input type="file" accept="image/*" onchange="loadSlot(${idx},event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;">`;
+    const file=e.target.files[0]; if(!file) return;
+    compressImage(file,(blob,dataUrl)=>{
+      imgSlotFiles[idx]=blob;
+      const slot=document.getElementById('slot-'+idx);
+      slot.innerHTML=`<img src="${dataUrl}" alt=""><input type="file" accept="image/*" onchange="loadSlot(${idx},event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;">`;
     });
   }
 
-  function setImgTextPos(btn, pos) {
-    currentImgTextPos = pos;
-    document.querySelectorAll('#editor-image-text .img-layout-btn').forEach(b => b.classList.remove('active'));
+  function setImgTextPos(btn,pos){
+    currentImgTextPos=pos;
+    document.querySelectorAll('#editor-image-text .img-layout-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
   }
 
-  function resetImgTextSlot() {
-    imgTextData = null;
-    document.getElementById('imgtext-slot').innerHTML = `
-      <div class="img-slot">
-        <input type="file" accept="image/*" onchange="loadImgTextSlot(event)">
-        <div class="img-slot-label">+ Image</div>
-      </div>`;
+  function resetImgTextSlot(){
+    imgTextFile=null;
+    document.getElementById('imgtext-slot').innerHTML=`<div class="img-slot"><input type="file" accept="image/*" onchange="loadImgTextSlot(event)"><div class="img-slot-label">+ Image</div></div>`;
   }
 
-  function loadImgTextSlot(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    compressImage(file, data => {
-      imgTextData = data;
-      document.getElementById('imgtext-slot').innerHTML = `
-        <div class="img-slot">
-          <img src="${data}" alt="">
-          <input type="file" accept="image/*" onchange="loadImgTextSlot(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;">
-        </div>`;
+  function loadImgTextSlot(e){
+    const file=e.target.files[0]; if(!file) return;
+    compressImage(file,(blob,dataUrl)=>{
+      imgTextFile={blob,dataUrl};
+      document.getElementById('imgtext-slot').innerHTML=`<div class="img-slot"><img src="${dataUrl}" alt=""><input type="file" accept="image/*" onchange="loadImgTextSlot(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;"></div>`;
     });
   }
 
-  // Commit a block to csBlocks
-  function commitBlock(type) {
-    let block = { type };
+  async function commitBlock(type) {
+    let block={type};
+    try {
+      if(type==='text'){
+        const body=document.getElementById('text-body').value.trim();
+        if(!body){showToast('Please write some text',true);return;}
+        block.heading=document.getElementById('text-heading').value.trim();
+        block.body=body;
+      }
+      if(type==='brief'){
+        const body=document.getElementById('brief-body').value.trim();
+        if(!body){showToast('Please write the brief',true);return;}
+        block.body=body;
+        block.services=document.getElementById('brief-services').value.trim();
+      }
+      if(type==='image'){
+        const files=Object.values(imgSlotFiles);
+        if(files.length===0){showToast('Please upload at least one image',true);return;}
+        showToast('Uploading images…');
+        const urls=[];
+        for(const blob of files){
+          const fn=`case-study/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+          const url=await uploadImageToStorage(blob,fn);
+          urls.push(url);
+        }
+        block.layout=currentImgLayout;
+        block.images=urls;
+        block.caption=document.getElementById('img-caption').value.trim();
+      }
+      if(type==='image-text'){
+        if(!imgTextFile){showToast('Please upload an image',true);return;}
+        const body=document.getElementById('imgtext-body').value.trim();
+        if(!body){showToast('Please add some text',true);return;}
+        showToast('Uploading image…');
+        const fn=`case-study/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+        block.image=await uploadImageToStorage(imgTextFile.blob,fn);
+        block.position=currentImgTextPos;
+        block.heading=document.getElementById('imgtext-heading').value.trim();
+        block.body=body;
+      }
+      if(type==='quote'){
+        const text=document.getElementById('quote-text').value.trim();
+        if(!text){showToast('Please enter a quote',true);return;}
+        block.text=text;
+      }
+      if(type==='credits'){
+        const text=document.getElementById('credits-text').value.trim();
+        if(!text){showToast('Please enter credits',true);return;}
+        block.text=text;
+      }
+      if(type==='spacer') block.size=document.getElementById('spacer-size').value;
 
-    if (type === 'text') {
-      const body = document.getElementById('text-body').value.trim();
-      if (!body) { showToast('Please write some text', true); return; }
-      block.heading = document.getElementById('text-heading').value.trim();
-      block.body    = body;
+      csBlocks.push(block);
+      closeBlockEditor(type);
+      renderBlockList();
+      showToast('Block added');
+    } catch(err) {
+      showToast('Error: '+err.message, true);
+      console.error(err);
     }
-
-    if (type === 'image') {
-      const images = Object.values(imgSlotData);
-      if (images.length === 0) { showToast('Please upload at least one image', true); return; }
-      block.layout  = currentImgLayout;
-      block.images  = images;
-      block.caption = document.getElementById('img-caption').value.trim();
-    }
-
-    if (type === 'image-text') {
-      if (!imgTextData) { showToast('Please upload an image', true); return; }
-      const body = document.getElementById('imgtext-body').value.trim();
-      if (!body) { showToast('Please add some text', true); return; }
-      block.image    = imgTextData;
-      block.position = currentImgTextPos;
-      block.heading  = document.getElementById('imgtext-heading').value.trim();
-      block.body     = body;
-    }
-
-    if (type === 'quote') {
-      const text = document.getElementById('quote-text').value.trim();
-      if (!text) { showToast('Please enter a quote', true); return; }
-      block.text = text;
-    }
-
-    if (type === 'brief') {
-      const body = document.getElementById('brief-body').value.trim();
-      if (!body) { showToast('Please write the brief text', true); return; }
-      block.body     = body;
-      block.services = document.getElementById('brief-services').value.trim();
-    }
-
-    if (type === 'credits') {
-      const text = document.getElementById('credits-text').value.trim();
-      if (!text) { showToast('Please enter credits', true); return; }
-      block.text = text;
-    }
-
-    if (type === 'spacer') {
-      block.size = document.getElementById('spacer-size').value;
-    }
-
-    csBlocks.push(block);
-    closeBlockEditor(type);
-    renderBlockList();
-    showToast('Block added');
   }
 
   // ── TOAST ──
-  function showToast(msg, isError=false) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.style.background = isError ? 'var(--coral)' : 'var(--teal)';
+  function showToast(msg,isError=false){
+    const t=document.getElementById('toast');
+    t.textContent=msg;
+    t.style.background=isError?'var(--coral)':'var(--teal)';
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
+    setTimeout(()=>t.classList.remove('show'),2800);
   }
 </script>
 </body>
