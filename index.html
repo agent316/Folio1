@@ -100,7 +100,7 @@
 
   /* ── BIO STATEMENT ── */
   .bio-statement {
-    padding: 180px 48px 86px;
+    padding: 100px 48px 72px;
     max-width: 960px;
     margin: 0 auto;
     text-align: center;
@@ -227,79 +227,138 @@
     background: none; border: none; cursor: pointer;
     padding: 8px; margin-right: -8px;
     -webkit-tap-highlight-color: transparent;
+    font-family: var(--font-body);
+    font-size: 22px; color: var(--warm-white);
+    align-items: center; justify-content: center;
   }
-  .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--warm-white); transition: all 0.3s; }
-  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav-hamburger .bar {
+    display: block; width: 24px; height: 1.5px;
+    background: var(--warm-white); transition: all 0.3s;
+  }
+  .nav-hamburger .bar { display: block; }
+  .nav-hamburger .x-icon { display: none; font-size: 22px; line-height: 1; }
+  .nav-hamburger.open .bar { display: none; }
+  .nav-hamburger.open .x-icon { display: block; }
 
   .nav-drawer {
     display: none; position: fixed;
-    top: 64px; left: 0; right: 0; bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: var(--black); z-index: 99;
-    flex-direction: column; padding: 32px 24px;
-    border-top: 0.5px solid var(--border); overflow-y: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 60px;
+    overflow-y: auto;
     transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  nav.nav-hidden ~ .nav-drawer { top: 0; }
   .nav-drawer.open { display: flex; }
   .nav-drawer a {
-    font-family: var(--font-mono); font-size: 14px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--gray); text-decoration: none;
-    padding: 20px 0; border-bottom: 0.5px solid var(--border); transition: color 0.2s;
+    font-family: var(--font-body);
+    font-size: clamp(36px, 10vw, 52px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    text-transform: lowercase;
+    color: var(--gray);
+    text-decoration: none;
+    padding: 10px 0;
+    transition: color 0.2s;
+    text-align: center;
+    width: 100%;
   }
-  .nav-drawer a:hover, .nav-drawer a.active { color: var(--orange); }
+  .nav-drawer a:hover, .nav-drawer a.active { color: var(--warm-white); }
+  .nav-drawer .drawer-icons {
+    display: flex; gap: 28px;
+    margin-top: 48px;
+  }
+  .nav-drawer .drawer-icons a {
+    font-size: 0; padding: 0; width: auto;
+    color: var(--gray);
+  }
+  .nav-drawer .drawer-icons a svg {
+    width: 24px; height: 24px;
+    stroke: currentColor; fill: none;
+    stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .nav-drawer .drawer-icons a:hover { color: var(--warm-white); }
 
   /* Touch: always show overlay */
   @media (hover: none) {
-    .masonry-item .overlay { opacity: 1; background: linear-gradient(to top, rgba(8,8,7,0.88) 0%, transparent 60%); }
+    .masonry-item .overlay { opacity: 1; background: linear-gradient(to top, rgba(8,8,7,0.92) 0%, rgba(8,8,7,0.1) 60%); }
     .masonry-item img { transform: none !important; }
     .masonry-item::after { display: none; }
   }
 
+  /* Large desktop 1400px+ */
   @media (min-width: 1400px) {
     nav, footer { padding-left: 64px; padding-right: 64px; }
     .bio-statement { max-width: 1200px; padding-left: 64px; padding-right: 64px; }
     .work-area { padding-left: 64px; padding-right: 64px; }
     .masonry { columns: 3; }
   }
+
+  /* Small desktop 901–1200px */
   @media (max-width: 1200px) {
     nav, footer { padding-left: 40px; padding-right: 40px; }
-    .bio-statement { padding: 60px 40px 48px; }
+    .bio-statement { padding: 120px 40px 56px; }
     .work-area { padding-left: 40px; padding-right: 40px; }
   }
+
+  /* Tablet portrait 601–900px */
   @media (max-width: 900px) {
     nav { padding: 0 24px; height: 60px; }
     body > nav + * { margin-top: 60px; }
-    .nav-drawer { top: 60px; }
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
-    .bio-statement { padding: 48px 24px 40px; }
-    .bio-statement p { font-size: clamp(16px, 4.2vw, 26px); }
+    .bio-statement { padding: 152px 24px 44px; }
+    .bio-statement p { font-size: clamp(18px, 4vw, 30px); line-height: 1.25; }
     .work-area { padding: 0 24px 56px; }
     footer { padding: 20px 24px; }
-    .masonry { columns: 2; column-gap: 10px; }
-    .masonry-item { margin-bottom: 10px; }
-    .wwm-strip { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .wwm-strip-cta { width: 100%; text-align: center; padding: 16px; display: block; }
+    .masonry { columns: 2; column-gap: 8px; }
+    .masonry-item { margin-bottom: 8px; }
+    .overlay { padding: 16px; }
+    .overlay-title { font-size: 15px; }
+    .overlay-tag { font-size: 9px; }
+    .wwm-strip { flex-direction: column; align-items: stretch; gap: 16px; }
+    .wwm-strip-cta { width: 100%; text-align: center; padding: 18px; display: block; font-size: 13px; }
+    .wwm-strip-text { font-size: 13px; }
   }
+
+  /* Mobile 481–600px */
   @media (max-width: 600px) {
-    .masonry { columns: 1; }
-    .bio-statement p { font-size: clamp(15px, 5vw, 20px); letter-spacing: 0.03em; }
+    .masonry { columns: 1; column-gap: 0; }
+    .masonry-item { margin-bottom: 6px; }
+    .bio-statement { padding: 144px 20px 36px; }
+    .bio-statement p { font-size: clamp(20px, 6vw, 28px); line-height: 1.2; }
+    .overlay { padding: 16px; }
     .overlay-title { font-size: 16px; }
   }
+
+  /* Mobile small up to 480px */
   @media (max-width: 480px) {
-    nav { height: 56px; padding: 0 20px; }
-    body > nav + * { margin-top: 56px; }
-    .nav-drawer { top: 56px; padding: 24px 20px; }
-    .bio-statement { padding: 28px 20px 24px; text-align: left; text-align-last: left; }
-    .bio-statement p { font-size: 16px; letter-spacing: 0.02em; line-height: 1.5; }
-    .work-area { padding: 0 20px 44px; }
-    footer { padding: 16px 20px; flex-direction: column; gap: 4px; text-align: center; }
-    .wwm-strip { margin-top: 28px; padding-top: 20px; gap: 12px; }
+    nav { height: 52px; padding: 0 18px; }
+    body > nav + * { margin-top: 52px; }
+    .nav-hamburger { padding: 6px; }
+    .bio-statement { padding: 136px 18px 32px; text-align: left; text-align-last: left; }
+    .bio-statement p { font-size: clamp(22px, 7vw, 30px); line-height: 1.15; letter-spacing: -0.01em; }
+    .work-area { padding: 0 18px 40px; }
+    .masonry { column-gap: 0; }
+    .masonry-item { margin-bottom: 4px; }
+    footer { padding: 16px 18px; flex-direction: column; gap: 4px; text-align: center; font-size: 11px; }
+    .wwm-strip { margin-top: 32px; padding-top: 24px; gap: 14px; }
+    .wwm-strip-eyebrow { font-size: 9px; }
     .wwm-strip-text { font-size: 13px; }
-    .empty-state { padding: 56px 0; }
+    .wwm-strip-cta { padding: 16px; font-size: 12px; }
+    .loading-state { padding: 60px 0; font-size: 13px; }
+    .empty-state { padding: 48px 0; font-size: 12px; }
+  }
+
+  /* Very small 360px and below */
+  @media (max-width: 360px) {
+    nav { padding: 0 16px; }
+    .bio-statement { padding: 128px 16px 28px; }
+    .bio-statement p { font-size: 20px; }
+    .work-area { padding: 0 16px 36px; }
+    footer { padding: 14px 16px; }
   }
 
   /* ── INTRO ANIMATION ── */
@@ -365,7 +424,10 @@
     </a>
   </div>
   <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="x-icon">×</span>
   </button>
 </nav>
 
@@ -375,16 +437,16 @@
   <a href="about.html" onclick="closeMenu()">about</a>
   <a href="start-a-project.html" onclick="closeMenu()">start a project</a>
   <a href="mailto:anyahurup@gmail.com" onclick="closeMenu()">contact</a>
-  <div style="display:flex;gap:24px;padding:24px 0 0;">
-    <a href="https://www.instagram.com/iampgee_/" target="_blank" rel="noopener" class="nav-icon" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
+  <div class="drawer-icons">
+    <a href="https://www.instagram.com/iampgee_/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
         <circle cx="12" cy="12" r="4.5"/>
-        <circle cx="17.5" cy="6.5" r="0.5" fill="var(--gray)" stroke="none"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
       </svg>
     </a>
-    <a href="mailto:anyahurup@gmail.com" class="nav-icon" aria-label="Email">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
+    <a href="mailto:anyahurup@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="4" width="20" height="16" rx="2"/>
         <polyline points="2,4 12,13 22,4"/>
       </svg>
