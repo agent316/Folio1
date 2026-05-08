@@ -241,41 +241,70 @@
   .nav-hamburger.open .x-icon { display: block; }
 
   .nav-drawer {
-    display: none; position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--black); z-index: 99;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--black); z-index: 99;
     padding: 80px 24px 60px;
     overflow-y: auto;
-    transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hidden by default — slides up from below */
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1),
+                opacity 0.4s ease;
+    pointer-events: none;
   }
-  .nav-drawer.open { display: flex; }
+  .nav-drawer.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
   .nav-drawer a {
     font-family: var(--font-body);
-    font-size: clamp(36px, 10vw, 52px);
+    font-size: 12px;
     font-weight: 300;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.04em;
     text-transform: lowercase;
     color: var(--gray);
     text-decoration: none;
-    padding: 10px 0;
-    transition: color 0.2s;
+    padding: 8px 0;
+    transition: color 0.2s, opacity 0.2s;
     text-align: center;
     width: 100%;
+    /* Each link fades+rises in staggered */
+    opacity: 0;
+    transform: translateY(16px);
+    transition: color 0.2s,
+                opacity 0.45s cubic-bezier(0.22, 0.68, 0, 1),
+                transform 0.45s cubic-bezier(0.22, 0.68, 0, 1);
   }
+  .nav-drawer.open a:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.18s; }
+  .nav-drawer.open a:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
+  .nav-drawer.open a:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.30s; }
+  .nav-drawer.open a:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.36s; }
   .nav-drawer a:hover, .nav-drawer a.active { color: var(--warm-white); }
   .nav-drawer .drawer-icons {
     display: flex; gap: 28px;
-    margin-top: 48px;
+    margin-top: 36px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s ease 0.44s, transform 0.4s cubic-bezier(0.22,0.68,0,1) 0.44s;
+  }
+  .nav-drawer.open .drawer-icons {
+    opacity: 1;
+    transform: translateY(0);
   }
   .nav-drawer .drawer-icons a {
     font-size: 0; padding: 0; width: auto;
     color: var(--gray);
+    opacity: 1; transform: none;
+    transition: color 0.2s;
   }
   .nav-drawer .drawer-icons a svg {
-    width: 24px; height: 24px;
+    width: 22px; height: 22px;
     stroke: currentColor; fill: none;
     stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
   }
@@ -436,8 +465,7 @@
   <a href="index.html" class="active" onclick="closeMenu()">work</a>
   <a href="about.html" onclick="closeMenu()">about</a>
   <a href="start-a-project.html" onclick="closeMenu()">start a project</a>
-  <a href="mailto:anyahurup@gmail.com" onclick="closeMenu()">contact</a>
-  <div class="drawer-icons">
+    <div class="drawer-icons">
     <a href="https://www.instagram.com/iampgee_/" target="_blank" rel="noopener" aria-label="Instagram">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -526,11 +554,11 @@
   function toggleMenu() {
     const h = document.getElementById('hamburger');
     const d = document.getElementById('nav-drawer');
+    const isOpen = d.classList.contains('open');
     h.classList.toggle('open');
     d.classList.toggle('open');
-    document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
-    if (d.classList.contains('open'))
-      document.getElementById('main-nav').classList.remove('nav-hidden');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+    if (!isOpen) document.getElementById('main-nav').classList.remove('nav-hidden');
   }
   function closeMenu() {
     document.getElementById('hamburger').classList.remove('open');
